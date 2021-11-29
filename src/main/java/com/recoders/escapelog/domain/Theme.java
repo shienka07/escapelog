@@ -1,14 +1,19 @@
-package com.escapelog.escapelog.domain;
+package com.recoders.escapelog.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import lombok.*;
+
+import javax.persistence.*;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Theme {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long no;
 
     private String themeName;
@@ -21,6 +26,7 @@ public class Theme {
 
     private String imageUrl;
 
+    @Enumerated(EnumType.STRING)
     private AreaType areaType;
 
     private String detailArea;
@@ -29,5 +35,7 @@ public class Theme {
 
     private Integer level;
 
+    @Column(columnDefinition = "TEXT")
     private String story;
+
 }

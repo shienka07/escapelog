@@ -1,9 +1,9 @@
-package com.escapelog.escapelog.domain;
+package com.recoders.escapelog.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
+//@Entity
 public class Recode {
 
     @Id @GeneratedValue

@@ -1,11 +1,11 @@
-package com.escapelog.escapelog.domain;
+package com.recoders.escapelog.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
-@Entity
+//@Entity
 public class Calendar {
 
     @Id

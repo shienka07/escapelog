@@ -1,10 +1,10 @@
-package com.escapelog.escapelog.domain;
+package com.recoders.escapelog.domain;
 
 import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
+//@Entity
 @Getter
 @Setter
 @Builder

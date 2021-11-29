@@ -1,8 +1,8 @@
-package com.escapelog.escapelog.domain;
+package com.recoders.escapelog.domain;
 
 import javax.persistence.*;
 
-@Entity
+//@Entity
 public class Image {
     @Id
     @GeneratedValue
