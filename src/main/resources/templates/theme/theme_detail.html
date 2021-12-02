@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap 4 Website Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+
+        .area-btn-group {
+            display: inline-grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+
+        .area-btn {
+            border: 1px solid black;
+            font-size: 0.1em;
+            margin: 0.5em;
+            width: 70px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .side-box {
+            min-width: 300px;
+            width: 30%;
+            position: fixed;
+            background-color: toamto;
+            min-height: 80vh;
+        }
+
+        .detail-box {
+            left: 30%;
+            border: 3px solid #555;
+            min-height: 80vh;
+            background-color: #eee;
+        }
+
+        .info-box {
+            display: grid;
+            justify-items: center;
+            align-content: center;
+            /* align-items: center; */
+            border: 3px solid #555;
+            /* transform: scale(0.9); */
+        }
+
+        .info-box label{
+            width: 100%;
+            display: grid;
+            justify-items: start;
+            align-content: left;
+            color:#84B4B8;
+            font-weight: 900;
+        }
+        .rating {
+            border: 1px solid #bbb;
+            background-color: #bbb;
+            border-radius: 100%;
+            margin-left: 2px;
+        }
+        .rating p{
+            width: 40px;
+            height: 40px;
+            font-size: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #84B4B8;
+            /* overflow: hidden; */
+            overflow-x: hidden;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- 네비게이션 GNB 메인 헤더자리 -->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top" style="height: 100px;">
+    <div class="collapse navbar-collapse justify-content-center" id="collapsibleNavbar">
+        <a class="navbar-brand" href="#">헤더가 들어갈 영역</a>
+    </div>
+</nav>
+<!-- 네이게이션 (메인 헤더) 끝!!!! -->
+
+
+<div class="container-fluit mt-3">
+    <div class="row mx-auto">
+        <!-- 좌측 카테고리 사이드바 -->
+        <div class="col-3 p-5 ml-3 side-box" style="border: 3px solid #555">
+            <h4>카테고리 영역</h4>
+
+        </div>
+        <!-- !!!!!!! 사이드바 끝 !!!!!!! -->
+
+
+        <!-- 본문 영역!!!! -->
+        <div class="col-8 detail-box">
+            <div class="form-row">
+                <h2 class="col-12 info-box">본문영역</h2>
+
+                <!-- 테마 이미지 영역!!!! -->
+                <div class="col-6 info-box">
+                    <div class="img-box">
+                        <img src="https://picsum.photos/400/300">
+                    </div>
+                    <!-- 테마 이미지 끝!! -->
+
+                    <!-- 테마 세부 정보 영역!! -->
+                </div>
+                <div class="col-6 info-box p-3">
+                    <label>비트포비아 강남 던전</label>
+                    <button type="button" class="btn btn-outline-dark btn-sm">바로가기</button>
+                    <h3>LOST KINGDOM : 잊혀진 전설</h3>
+                    <label>난이도</label>
+                    <p>★★★☆☆</p>
+                    <label>플레이타임</label>
+                    <p>60분</p>
+                    <label>평점</label>
+                    <div class="row">
+                        <div class="col-2 rating" style="display: flex;"><p>흙길</p></div>
+                        <div class="col-2 rating"><p>흙풀길</p></div>
+                        <div class="col-2 rating"><p>풀길</p></div>
+                        <div class="col-2 rating"><p>풀꽃길</p></div>
+                        <div class="col-2 rating"><p>꽃길</p></div>
+                    </div>
+                    <label>줄거리</label>
+                    <p>"전설 속의 왕국, 아틀란티스는 과연 존재하는가?
+                        가문 대대로 아틀란티스에 관한 고고학 연구를 지속하고 있는
+                        키스콥 가문의 고고학자인 당신은
+                        어느 날 발신인을 알 수 없는 편지를 받게 된다.
+
+                        편지에는 놀랍게도 아틀란티스의 위치를 알리는 실마리가 적혀 있었고.
+                        실마리를 따라 도착한 곳은 버뮤다 해협에 있는 한 무인도의 좁은 동굴이었다.
+
+                        그곳에 도착한 당신은 동굴 안을 좀 더 자세히 살펴보기로 하는데…"</p>
+                </div>
+            </div>
+            <!-- 테마 세부 정보 영역 끝! -->
+
+
+            <!-- 부트스트랩 모달!!!! -->
+            <button type="button" class="btn  btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
+                잘못된 정보가 있나요?
+            </button>
+
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">잘못된 정보가 있나요?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="custom-select">선택</label>
+                                <select class="custom-select">
+                                    <option value="">선택하세요</option>
+                                    <option value="1">폐업한 지점입니다.</option>
+                                    <option value="2">기타</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="ask">내용</label>
+                                <textarea class="form-control" id="ask" placeholder="내용을 입력하세요"></textarea>
+
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">돌아가기</button> -->
+                        <button type="button" class="btn btn-primary">제출하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 부트스트랩 모달 끝!!!!!!! -->
+
+    </div>
+
+
+</div>
+
+
+</div>
+
+</body>
+
+</html>
