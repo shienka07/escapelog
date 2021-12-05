@@ -12,10 +12,10 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class User {
 
-    @Id @GeneratedValue()
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long no;
 
-    private String id;
+    private String email;
 
     private String password;
 
@@ -23,8 +23,6 @@ public class User {
     private UserType userType;
 
     private String grade;
-
-    private String email;
 
     private boolean emailVerified;
 

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>Bootstrap 4 Website Example</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -136,35 +139,34 @@
         <div class="col-3 p-5 side-box">
             <h4>카테고리 선택</h4>
             <form class="form-inline" action="/action_page.php">
-                <input class="form-control mr-sm-2" type="text" placeholder="테마명으로 검색">
-                <button class="btn btn-dark" type="submit"><i class="fas fa-search"></i></button>
+                <input class="form-control mr-sm-2" type="text" placeholder="테마명으로 검색" id="keyword">
             </form>
             <hr />
             <div class="container-fluit area-box">
                 <div class="btn-group btn-group-toggle area-btn-group" data-toggle="buttons">
                     <label class="btn btn-outline-dark btn-sm area-btn">
-                        <input type="radio" name="area-radio" id="area-radio-1">전체보기
+                        <input type="radio" name="area-radio" id="area-radio-1" value="전체" checked="checked">전체보기
                     </label>
                     <label class="btn btn-outline-dark btn-sm area-btn">
-                        <input type="radio" name="area-radio" id="area-radio-2">홍대
+                        <input type="radio" name="area-radio" id="area-radio-2" value="홍대">홍대
                     </label>
                     <label class="btn btn-outline-dark btn-sm area-btn">
-                        <input type="radio" name="area-radio" id="area-radio-3">신촌
+                        <input type="radio" name="area-radio" id="area-radio-3" value="신촌">신촌
                     </label>
                     <label class="btn btn-outline-dark btn-sm area-btn">
-                        <input type="radio" name="area-radio" id="area-radio-4">강남
+                        <input type="radio" name="area-radio" id="area-radio-4" value="강남">강남
                     </label>
                     <label class="btn btn-outline-dark btn-sm area-btn">
-                        <input type="radio" name="area-radio" id="area-radio-5">건대
+                        <input type="radio" name="area-radio" id="area-radio-5" value="건대">건대
                     </label>
                     <label class="btn btn-outline-dark btn-sm area-btn">
-                        <input type="radio" name="area-radio" id="area-radio-6">서울-기타
+                        <input type="radio" name="area-radio" id="area-radio-6" value="기타">서울-기타
                     </label>
                     <label class="btn btn-outline-dark btn-sm area-btn">
-                        <input type="radio" name="area-radio" id="area-radio-7">경기
+                        <input type="radio" name="area-radio" id="area-radio-7" value="경기">경기
                     </label>
                     <label class="btn btn-outline-dark btn-sm area-btn">
-                        <input type="radio" name="area-radio" id="area-radio-8">인천
+                        <input type="radio" name="area-radio" id="area-radio-8" value="인천">인천
                     </label>
                 </div>
 
@@ -172,23 +174,23 @@
             <hr />
             <div class="form-check">
                 <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" value="">성공 도장 제외
+                    <input type="checkbox" class="form-check-input" name="stamp-checkbox">성공 도장 제외
                 </label>
             </div>
             <div class="form-check">
                 <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" value="">폴리스라인 제외
+                    <input type="checkbox" class="form-check-input" name="police-line-checkbox">폴리스라인 제외
                 </label>
             </div>
             <hr />
-            <button type="button" class="btn btn-dark">조회하기</button>
+            <button type="button" class="btn btn-dark" id="search-btn">조회하기</button>
             <hr />
 
 
 
             <!-- 부트스트랩 모달!!!! -->
             <button type="button" class="btn  btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
-                잘못된 정보가 있나요?
+                새로운 테마가 있나요?
             </button>
 
         </div>
@@ -198,36 +200,35 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">잘못된 정보가 있나요?</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">새로운 테마가 있나요?</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form id="feedback-form" th:object="${feedbackForm}">
                             <div class="form-group">
                                 <label for="theme-name" class="col-form-label">테마명:</label>
-                                <input type="text" class="form-control" id="theme-name">
+                                <input type="text" class="form-control" id="theme-name" th:field="*{newThemeName}">
                             </div>
                             <div class="form-group">
                                 <label for="sel1">지역 선택:</label>
-                                <select class="form-control" id="sel1">
-                                    <option>서울</option>
-                                    <option>경기</option>
-                                    <option>인천</option>
-                                    <option>제주</option>
+                                <select class="form-control" id="sel1" th:field="*{areaType}">
+                                    <option th:each="areaTypeValue : ${T(com.recoders.escapelog.domain.AreaType).values()}"
+                                            th:value="${areaTypeValue.name()}"
+                                            th:text="${areaTypeValue.getKrName()}">
                                 </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="message-text" class="col-form-label">내용:</label>
-                                <textarea class="form-control" id="message-text"></textarea>
+                                <textarea class="form-control" id="message-text" th:field="*{contents}"></textarea>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">돌아가기</button> -->
-                        <button type="button" class="btn btn-primary">제출하기</button>
+                        <button type="button" class="btn btn-primary" id="feedback-submit-btn">제출하기</button>
                     </div>
                 </div>
             </div>
@@ -241,63 +242,79 @@
 
         <!-- 테마 모아보기 리스트 -->
         <div class="col-8 list-box">
-            <div class="container">
+            <div class="container" id="theme-list">
                 <div class="row">
-                    <div class="theme-item">
-                        <a class="polaroid" href="#">
-                            <img src="https://picsum.photos/200/400?random=1">
-                            <p class="shop-cap">지점명</p>
-                            <div class="caption">테마이름이엄청길면어떡하나</div>
-                        </a>
+                    <div th:each="theme:${themeList}">
+                        <div class="theme-item">
+                            <a class="polaroid" href="#" th:href="@{/themes/}+${theme.no}">
+                                <img src="https://picsum.photos/200/400?random=1">
+                                <p class="shop-cap" th:text="${theme.shopName}">지점명</p>
+                                <div class="caption" th:text="${theme.themeName}">테마이름이엄청길면어떡하나</div>
+                            </a>
+                        </div>
                     </div>
-                    <div class="theme-item">
-                        <a class="polaroid" href="#">
-                            <img src="https://picsum.photos/200/400?random=2">
-                            <p class="shop-cap">지점명</p>
-                            <div class="caption">example02</div>
-                        </a>
-                    </div>
-                    <div class="theme-item">
-                        <a class="polaroid" href="#">
-                            <img src="https://picsum.photos/300/300?random=3">
-                            <p class="shop-cap">지점명</p>
-                            <div class="caption">example03</div>
-                        </a>
-                    </div>
-                    <div class="theme-item">
-                        <a class="polaroid" href="#">
-                            <img src="https://picsum.photos/200/300?random=4">
-                            <p class="shop-cap">지점명</p>
-                            <div class="caption">example04</div>
-                        </a>
-                    </div>
-                    <div class="theme-item">
-                        <a class="polaroid" href="#">
-                            <img src="https://picsum.photos/200/300?random=5">
-                            <p class="shop-cap">지점명</p>
-                            <div class="caption">example05</div>
-                        </a>
-                    </div>
-                    <div class="theme-item">
-                        <a class="polaroid" href="#">
-                            <img src="https://picsum.photos/200/300?random=6">
-                            <p class="shop-cap">지점명</p>
-                            <div class="caption">example06</div>
-                        </a>
-                    </div>
-
-
-
-
                 </div>
             </div>
         </div>
         <!-- 테마 리스트 끝! -->
     </div>
-
-
 </div>
 
+<script>
+    $(document).ready(function (){
+        $('#search-btn').click(function () {
+            let searchForm = {
+                keyword : $('#keyword').val().replace(/^\s+|\s+$/gm,''),
+                area : $('input[name=area-radio]:checked').val(),
+                successExclude : $("input:checkbox[name=stamp-checkbox]").is(":checked"),
+                closeExclude : $("input:checkbox[name=police-line-checkbox]").is(":checked")
+            };
+
+            $.ajax({
+                url : '/theme_search',
+                type : 'GET',
+                data : searchForm,
+            })
+                .done(function (fragment) {
+                    $('#theme-list').replaceWith(fragment);
+                });
+        });
+
+        $('#feedback-submit-btn').click(function () {
+
+            if ($('#theme-name').val().replace(/\s| /gi, "").length==0){
+                alert("테마명을 입력해주세요.");
+                return false;
+            }
+
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+            document.getElementById("theme-name").value = $('#theme-name').val().replace(/^\s+|\s+$/gm,'');
+            document.getElementById("message-text").value = $('#message-text').val().replace(/^\s+|\s+$/gm,'');
+
+            $.ajax({
+                url : '/feedback/add',
+                type : 'POST',
+                data : $('#feedback-form').serialize(),
+                beforeSend: function (xhr){
+                    xhr.setRequestHeader(header, token);
+                },
+                success : function(data){
+                    $('#exampleModal').modal("hide");
+                    alert("의견을 주셔서 감사합니다.");
+                    $("#sel1 option:eq(0)").prop("selected", true);
+                    document.getElementById("theme-name").value = null;
+                    document.getElementById("message-text").value = null;
+                },
+                error : function(request,status,error){
+                    console.log("code = "+ request.status + " error = " + error);
+                }
+            })
+        });
+    });
+
+</script>
 </body>
 
 </html>

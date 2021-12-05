@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <title>Bootstrap 4 Website Example</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -32,7 +35,7 @@
             min-width: 300px;
             width: 30%;
             position: fixed;
-            background-color: toamto;
+            background-color: tomato;
             min-height: 80vh;
         }
 
@@ -121,13 +124,22 @@
                     <!-- 테마 세부 정보 영역!! -->
                 </div>
                 <div class="col-6 info-box p-3">
-                    <label>비트포비아 강남 던전</label>
-                    <button type="button" class="btn btn-outline-dark btn-sm">바로가기</button>
-                    <h3>LOST KINGDOM : 잊혀진 전설</h3>
+                    <label id="shop-name" th:text="${themeInfo.shopName}">비트포비아 강남 던전</label>
+<!--                    <a id="shop-url-btn" th:href="@{${themeInfo.shopUrl}}">바로가기</a>-->
+                    <button type="button" th:onclick="'window.open(\''+ @{${themeInfo.shopUrl}} + '\')'" class="btn btn-outline-dark btn-sm">바로가기</button>
+                    <h3 th:text="${themeInfo.themeName}">LOST KINGDOM : 잊혀진 전설</h3>
                     <label>난이도</label>
-                    <p>★★★☆☆</p>
+                    <div th:switch="${themeInfo.level}">
+                        <p th:case="-1">-</p>
+                        <p th:case="1">★☆☆☆☆</p>
+                        <p th:case="2">★★☆☆☆</p>
+                        <p th:case="3">★★★☆☆</p>
+                        <p th:case="4">★★★★☆</p>
+                        <p th:case="5">★★★★★</p>
+                        <p th:case="*">★★★★★+</p>
+                    </div>
                     <label>플레이타임</label>
-                    <p>60분</p>
+                    <p th:text="${themeInfo.playTime}+분">60분</p>
                     <label>평점</label>
                     <div class="row">
                         <div class="col-2 rating" style="display: flex;"><p>흙길</p></div>
@@ -137,7 +149,7 @@
                         <div class="col-2 rating"><p>꽃길</p></div>
                     </div>
                     <label>줄거리</label>
-                    <p>"전설 속의 왕국, 아틀란티스는 과연 존재하는가?
+                    <p th:utext="${#strings.replace(themeInfo.story,nlString, '&lt;br /&gt;')}">"전설 속의 왕국, 아틀란티스는 과연 존재하는가?
                         가문 대대로 아틀란티스에 관한 고고학 연구를 지속하고 있는
                         키스콥 가문의 고고학자인 당신은
                         어느 날 발신인을 알 수 없는 편지를 받게 된다.
@@ -169,26 +181,25 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form id="feedback-form" th:object="${feedbackForm}">
                             <div class="form-group">
-                                <label for="custom-select">선택</label>
-                                <select class="custom-select">
-                                    <option value="">선택하세요</option>
-                                    <option value="1">폐업한 지점입니다.</option>
-                                    <option value="2">기타</option>
+                                <label>선택</label>
+                                <select class="custom-select" id="sel1" th:field="*{feedbackType}">
+                                    <option value="" default selected>피드백 종류를 선택해주세요.</option>
+                                    <option th:value="${T(com.recoders.escapelog.domain.FeedbackType).CLOSE}">폐업한 지점입니다.</option>
+                                    <option th:value="${T(com.recoders.escapelog.domain.FeedbackType).ETC}">기타</option>
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="ask">내용</label>
-                                <textarea class="form-control" id="ask" placeholder="내용을 입력하세요"></textarea>
-
+                                <textarea class="form-control" th:field="*{contents}" id="ask" placeholder="내용을 입력하세요"></textarea>
                             </div>
-
+                            <input type="hidden" id="feedback-theme-no" th:field="*{themeNo}">
                         </form>
                     </div>
                     <div class="modal-footer">
                         <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">돌아가기</button> -->
-                        <button type="button" class="btn btn-primary">제출하기</button>
+                        <button type="button" class="btn btn-primary" id="feedback-submit-btn">제출하기</button>
                     </div>
                 </div>
             </div>
@@ -202,7 +213,49 @@
 
 
 </div>
+<script>
+    $(document).ready(function (){
+        // $('#shop-url-btn').click(function () {
+        //     console.log($('#shop-url-btn')
+        // });
+        $('#feedback-submit-btn').click(function () {
 
+            if ($('#sel1 option:selected').val()==""){
+                alert("피드백 종류를 선택해주세요.");
+                return false;
+            }
+
+            if ($('#ask').val().replace(/\s| /gi, "").length==0){
+                alert("문의 내용을 입력해주세요.");
+                return false;
+            }
+
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+            document.getElementById("ask").value = $('#ask').val().replace(/^\s+|\s+$/gm,'');
+            document.getElementById("feedback-theme-no").value=[[${themeInfo.no}]]
+
+            $.ajax({
+                url : '/feedback/info',
+                type : 'POST',
+                data : $('#feedback-form').serialize(),
+                beforeSend: function (xhr){
+                    xhr.setRequestHeader(header, token);
+                },
+                success : function(data){
+                    $('#exampleModal').modal("hide");
+                    alert("의견을 주셔서 감사합니다.");
+                    $("#sel1 option:eq(0)").prop("selected", true);
+                    document.getElementById("ask").value = null;
+                },
+                error : function(request,status,error){
+                    console.log("code = "+ request.status + " error = " + error);
+                }
+            })
+        });
+    });
+</script>
 </body>
 
 </html>
