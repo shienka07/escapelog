@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common_layout.html}" th:with="activeTab='index', title='Welcome!'">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
 </head>
-<body>
 
+<body>
+<th:block layout:fragment="content">
+    <section>
+        <h2>안녕하세요!</h2>
+        <div>
+            <h2>page01. 배너가 들어갈 자리</h2>
+        </div>
+    </section>
+    <section>
+        <h2>page02. 탈출러에게 쓰는 편지</h2>
+    </section>
+    <section id="info">
+        <h2>page03. 홈페이지 소개</h2>
+    </section>
+</th:block>
 </body>
 </html>
