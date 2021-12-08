@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap 4 Website Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #84B4B8;
+            overflow-x: hidden;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- 네비게이션 GNB 메인 헤더자리 -->
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top" style="height: 100px;">
+        <div class="collapse navbar-collapse justify-content-center" id="collapsibleNavbar">
+            <a class="navbar-brand" href="#">헤더가 들어갈 영역</a>
+        </div>
+    </nav>
+    <!-- 네이게이션 (메인 헤더) 끝!!!! -->
+
+    <div class="container my-5 p-4 bg-light">
+        <h2>로그인</h2>
+        <form action="" class="is-validated">
+          <div class="form-group">
+            <label for="email">이메일:</label>
+            <input type="text" class="form-control valid" id="email" placeholder="이메일을 입력하세요.." name="email" required>
+            <div class="invalid-feedback">이메일을 입력해주세요.</div>
+          </div>
+          <div class="form-group">
+            <label for="pwd">비밀번호:</label>
+            <input type="password" class="form-control" id="pwd" placeholder="비밀번호를 입력하세요" name="pswd" required maxlength="">
+            <div class="invalid-feedback">비밀번호를 입력하세요</div>
+          </div>
+          
+          <button type="submit" class="btn btn-primary">로그인</button>
+        </form>
+      </div>
+
+
+
+</body>
+
+</html>
