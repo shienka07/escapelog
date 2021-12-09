@@ -22,7 +22,7 @@ public class ThemeService {
 
     private final ThemeRepository themeRepository;
 
-    @PostConstruct
+//    @PostConstruct
     @Transactional
     public void saveCsvThemeInfo() throws IOException {
         ClassPathResource resource = new ClassPathResource("csv/themes.csv");
@@ -85,6 +85,7 @@ public class ThemeService {
                     .themeName(themes.getThemeName())
                     .shopName(themes.getShopName())
                     .imageUrl(themes.getImageUrl())
+                    .openStatus(themes.getOpenStatus())
                     .build();
             themeList.add(ThemeDto.simpleForm(theme));
         }

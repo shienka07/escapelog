@@ -27,7 +27,7 @@
                         <!-- 테마 이미지 영역!!!! -->
                         <div class="col-6 info-box">
 <!--                            classappend 수정하기  (closed/ successed/ visited)-->
-                            <div class="img-box" th:classappend="closed">
+                            <div class="img-box" id="theme-img">
                                 <img src="https://picsum.photos/400/300">
                             </div>
                             <!-- 테마 이미지 끝!! -->
@@ -36,8 +36,7 @@
                         </div>
                         <div class="col-6 info-box p-3">
                             <label id="shop-name" th:text="${themeInfo.shopName}">비트포비아 강남 던전</label>
-                            <!--                    <a id="shop-url-btn" th:href="@{${themeInfo.shopUrl}}">바로가기</a>-->
-                            <button type="button" th:onclick="'window.open(\''+ @{${themeInfo.shopUrl}} + '\')'" class="btn btn-outline-dark btn-sm">바로가기</button>
+                            <button type="button" id="shop-url-btn" th:onclick="'window.open(\''+ @{${themeInfo.shopUrl}} + '\')'" class="btn btn-outline-dark btn-sm">바로가기</button>
                             <h3 th:text="${themeInfo.themeName}">LOST KINGDOM : 잊혀진 전설</h3>
                             <label>난이도</label>
                             <div class="level" th:switch="${themeInfo.level}">
@@ -123,6 +122,13 @@
 
 <script>
     $(document).ready(function (){
+
+        var openStatus = [[${themeInfo.openStatus}]];
+        if (!openStatus) {
+            $('#theme-img').addClass('closed');
+            $('#shop-url-btn').hide();
+        }
+
         $('#feedback-submit-btn').click(function () {
 
             if ($('#sel1 option:selected').val()==""){

@@ -27,13 +27,20 @@
                 <div class="col-8 list-box">
                     <div class="container" id="theme-list">
                         <div class="row">
-                            <div th:each="theme:${themeList}">
+                            <div th:each="theme,num:${themeList}">
                                 <!--  div class="theme-item" 뒤에  th:classappend="${ ? 'closed':''}" 폐점한 테마라면 classappend로 closed 붙이기 -->
                                 <!--                         th:classappend="${ ? 'successed':''}" 완료한 테마라면 classappend로 successed 붙이기 -->
                                 <!--                         th:classappend="${ ? 'visited':''}" 방문한 테마라면 classappend로 visited 붙이기 -->
-                                <div class="theme-item" th:classappend="closed">
+
+                                <div class="theme-item" th:id="theme-item+${num.index}">
+                                    <script>
+                                        var openStatus = [[${theme.openStatus}]];
+                                        if(!openStatus){
+                                            $('#theme-item'+[[${num.index}]]).addClass('closed');
+                                        }
+                                    </script>
                                     <a class="polaroid" href="#" th:href="@{/themes/}+${theme.no}">
-                                        <img src="https://picsum.photos/200/400?random=1">
+                                        <img th:src="'https://picsum.photos/200/400?random='+${theme.no}">
                                         <p class="shop-cap" th:text="${theme.shopName}">지점명</p>
                                         <div class="caption" th:text="${theme.themeName}">테마이름이엄청길면어떡하나</div>
                                     </a>
