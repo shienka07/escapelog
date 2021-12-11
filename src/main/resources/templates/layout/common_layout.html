@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title th:text="'Escape Log'"></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"/>
+    <!-- css / script -->
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="script" th:href="@{/js/common.js}">
+
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
+
+    <!--bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+And+White+Picture&family=Jua&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Black+And+White+Picture&family=Jua&family=Yeon+Sung&display=swap" rel="stylesheet">
+    <style>
+        /* header css */
+        header{
+            position: fixed;
+            top:0;
+            left:0;
+            width: 100%;
+            min-height: 100px;
+            z-index: 1;
+        }
+        header .navbar{
+            background-color: #474249;
+            /*height: 100px;*/
+        }
+        header .nav-item a{
+            font-size: 30px;
+            font-family: 'Jua', sans-serif;
+            color: #fff;
+            margin-left: 30px;
+        }
+        header .nav-item a:hover{
+            color:#E1DBCD;
+        }
+        header .nav-item a.active{
+            color:#E1DBCD;
+        }
+        /* header css 끝! */
+    </style>
+</head>
+
+<body>
+
+<!-- common header, content, footer -->
+<th:block th:include="fragments/common_header"></th:block>
+<section layout:fragment="content"></section>
+<th:block th:include="fragments/common_footer"></th:block>
+
+</body>
+</html>

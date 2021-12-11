@@ -1,0 +1,50 @@
+<header>
+
+    <nav class="navbar navbar-expand-md">
+        <a class="navbar-brand logo" href="#">
+            <img src='http://drive.google.com/uc?export=view&id=1FHLp6BHjGelj8cVeoCRvPtO0wwkgql14' alt="logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"><i class="fas fa-bars" style="color:white"></i></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}" th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}">홈</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/library}" th:classappend="${#httpServletRequest.getRequestURI() == '/library' ? 'active':''}">책장</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/themes}" th:classappend="${#httpServletRequest.getRequestURI() == '/themes' ? 'active':''}">테마</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{#info}" th:classappend="${#httpServletRequest.getRequestURI() == '#info' ? 'active':''}">소개</a>
+                </li>
+            </ul>
+        </div>
+
+        <div>
+            <ul class="navbar-nav">
+                <li sec:authorize="!isAuthenticated()" class="nav-item">
+                    <a th:href="@{/login}">로그인</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()" class="nav-item">
+                    <a th:href="@{/signup}">회원가입</a>
+                </li>
+
+                <li sec:authorize="isAuthenticated()" class="nav-item ml-5">
+                    <img src="https://picsum.photos/200/300"
+                         style="width: 50px; height: 50px; border-radius: 100px">
+                </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <a th:href="@{/mypage}">닉네임</a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <b>&emsp;회원등급</b><span>님 반갑습니다.</span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+</header>
