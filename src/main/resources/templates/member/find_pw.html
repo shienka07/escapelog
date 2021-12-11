@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <style>
+    .form-group{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 500px;
+      padding: 50px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container p-5">
+  <h2>비밀번호 찾기</h2>
+  <form>
+    <div class="form-group">
+      <label for="email">이메일 입력:</label>
+      <input type="email" class="form-control is-invalid" id="email" placeholder="이메일을 입력해주세요" name="email">
+      <div class="invalid-feedback">이메일을 입력해주세요.</div>
+      <button type="submit" class="btn btn-primary my-2">전송</button>
+    </div>
+
+    <div class="form-group mt-5">
+      <label for="code">인증 번호: </label>
+      <input type="text" class="form-control is-invalid" id="code" placeholder="전송받은 인증 번호를 입력해주세요" name="code">
+      <div class="invalid-feedback">인증 번호를 입력해주세요.</div>
+      <button type="submit" class="btn btn-primary my-2">완료</button>
+    </div>
+
+    <div class="form-group mt-5">
+      <label for="password">새 비밀번호: </label>
+      <input type="password" class="form-control is-invalid" id="password" placeholder="비밀번호 입력" name="password" minlength="8" maxlength="30">
+      <div class="invalid-feedback mb-4">비밀번호를 입력해주세요. (영어+숫자 조합 8-30자) </div>
+      <label for="password2">새 비밀번호 확인: </label>
+      <input type="password" class="form-control is-invalid" id="password2" placeholder="비밀번호 확인" name="password">
+      <div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
+      <button type="submit" class="btn btn-primary my-2">완료</button>
+    </div>
+  </form>
+</div>
+<script>
+  $("#password").on("focusout", function () {
+    if ($(this).val() != $("#password2").val()) {
+      $("#password2").removeClass("is-valid").addClass("is-invalid");
+    } else {
+      $("#password2").removeClass("is-invalid").addClass("is-valid");
+    }
+  });
+
+  $("#password2").on("keyup", function () {
+    if ($("#password").val() != $(this).val()) {
+      $(this).removeClass("is-valid").addClass("is-invalid");
+    } else {
+      $(this).removeClass("is-invalid").addClass("is-valid");
+    }
+  });
+
+  $("#email").on("keyup", function() {
+    var regEmail = /^((\w|[\-\.])+)@((\w|[\-\.])+)\.([A-Za-z]+)$/;
+    if (!regEmail.test($("#email").val())) {
+      $("#email").removeClass("is-valid").addClass("is-invalid");
+    } else{
+      $("#email").removeClass("is-invalid").addClass("is-valid");
+    }
+  });
+
+  $("#password").on("keyup", function() {
+    var regPwd = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/;
+    if (!regPwd.test($("#password").val())) {
+      $("#password").removeClass("is-valid").addClass("is-invalid");
+    } else{
+      $("#password").removeClass("is-invalid").addClass("is-valid");
+    }
+  });
+
+</script>
+</body>
+</html>
