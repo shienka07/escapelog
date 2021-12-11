@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
+  <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -23,67 +27,206 @@
 
 <div class="container p-5">
   <h2>비밀번호 찾기</h2>
-  <form>
+  <form name="find-pw-form" th:object="${findForm}" th:action="@{/change_pw}" th:method="post">
     <div class="form-group">
       <label for="email">이메일 입력:</label>
-      <input type="email" class="form-control is-invalid" id="email" placeholder="이메일을 입력해주세요" name="email">
-      <div class="invalid-feedback">이메일을 입력해주세요.</div>
-      <button type="submit" class="btn btn-primary my-2">전송</button>
+      <div class="alert alert-danger" id="email-check-result" style="display: none"></div>
+      <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="이메일을 입력해주세요" name="email">
+      <div class="invalid-feedback" id="email-fail-feedback"></div>
+      <div class="validationError" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+      <button type="button" id="email-check-btn" class="btn btn-primary my-2">다음</button>
+    </div>
+
+    <div class="form-group mt-5">
+      <label for="code">인증 번호 보내기 </label>
+      <button type="button" id="code-send-btn" class="btn btn-primary my-2">보내기</button>
     </div>
 
     <div class="form-group mt-5">
       <label for="code">인증 번호: </label>
-      <input type="text" class="form-control is-invalid" id="code" placeholder="전송받은 인증 번호를 입력해주세요" name="code">
-      <div class="invalid-feedback">인증 번호를 입력해주세요.</div>
-      <button type="submit" class="btn btn-primary my-2">완료</button>
+      <input type="text" class="form-control" id="code" placeholder="전송받은 인증 번호를 입력해주세요" name="code">
+      <button type="button" id="code-check-btn" class="btn btn-primary my-2">확인</button>
     </div>
 
     <div class="form-group mt-5">
-      <label for="password">새 비밀번호: </label>
-      <input type="password" class="form-control is-invalid" id="password" placeholder="비밀번호 입력" name="password" minlength="8" maxlength="30">
-      <div class="invalid-feedback mb-4">비밀번호를 입력해주세요. (영어+숫자 조합 8-30자) </div>
-      <label for="password2">새 비밀번호 확인: </label>
-      <input type="password" class="form-control is-invalid" id="password2" placeholder="비밀번호 확인" name="password">
-      <div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
-      <button type="submit" class="btn btn-primary my-2">완료</button>
+      <label for="pwd">새 비밀번호: </label>
+      <input type="password" class="form-control mb-4" id="pwd" th:field="*{password}" placeholder="영어+숫자 (8-30자)" name="pwd" minlength="8" maxlength="30">
+      <div class="invalid-feedback">비밀번호를 올바르게 입력해주세요. (영어+숫자 조합 8-30자) </div>
+      <div class="validationError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+
+      <label for="pwd2">새 비밀번호 확인: </label>
+      <input type="password" class="form-control" id="pwd2" placeholder="영어+숫자 (8-30자)" name="pwd2">
+      <div class="invalid-feedback" id="pwd2-fail-feedback">비밀번호가 일치하지 않습니다.</div>
+      <button type="button" id="find-pw-submit-btn" class="btn btn-primary my-2">변경하기</button>
     </div>
   </form>
 </div>
 <script>
-  $("#password").on("focusout", function () {
-    if ($(this).val() != $("#password2").val()) {
-      $("#password2").removeClass("is-valid").addClass("is-invalid");
-    } else {
-      $("#password2").removeClass("is-invalid").addClass("is-valid");
-    }
-  });
+  $(document).ready(function (){
 
-  $("#password2").on("keyup", function () {
-    if ($("#password").val() != $(this).val()) {
-      $(this).removeClass("is-valid").addClass("is-invalid");
-    } else {
-      $(this).removeClass("is-invalid").addClass("is-valid");
-    }
-  });
+    let emailFormatCheck = false;
+    let passwordFormatCheck = false;
 
-  $("#email").on("keyup", function() {
-    var regEmail = /^((\w|[\-\.])+)@((\w|[\-\.])+)\.([A-Za-z]+)$/;
-    if (!regEmail.test($("#email").val())) {
-      $("#email").removeClass("is-valid").addClass("is-invalid");
-    } else{
-      $("#email").removeClass("is-invalid").addClass("is-valid");
-    }
-  });
+    let emailCheck = false;
+    let codeSend = false;
+    let codeCheck = false;
+    let passwordConfirm = false;
 
-  $("#password").on("keyup", function() {
-    var regPwd = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/;
-    if (!regPwd.test($("#password").val())) {
-      $("#password").removeClass("is-valid").addClass("is-invalid");
-    } else{
-      $("#password").removeClass("is-invalid").addClass("is-valid");
-    }
-  });
 
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    $("#email").on("keyup", function() {
+      var regEmail = /^((\w|[\-\.])+)@((\w|[\-\.])+)\.([A-Za-z]+)$/;
+
+      if (!regEmail.test($("#email").val())) {
+        $("#email").removeClass("is-valid").addClass("is-invalid");
+        $("#email-fail-feedback").text("이메일을 올바르게 입력해주세요. (ex. escapelog@test.com) ")
+        emailFormatCheck = false;
+
+      } else{
+        $("#email").removeClass("is-invalid").addClass("is-valid");
+        emailFormatCheck = true;
+
+      }
+    });
+
+    $("#pwd").on("focusout", function () {
+
+      if ($('#pwd').val().replace(/^\s+|\s+$/gm,'').length==0){
+        return false;
+      }
+
+      if ($(this).val() != $("#pwd2").val()) {
+        passwordConfirm = false;
+        $("#pwd2").removeClass("is-valid").addClass("is-invalid");
+      } else {
+        passwordConfirm = true;
+        $("#pwd2").removeClass("is-invalid").addClass("is-valid");
+      }
+    });
+
+    $("#pwd").on("keyup", function() {
+      var regPwd = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/;
+      $("#pwd2").removeClass("is-valid").addClass("is-invalid");
+
+      if (!regPwd.test($("#pwd").val())) {
+        passwordFormatCheck = false;
+        $("#pwd").removeClass("is-valid").addClass("is-invalid");
+      } else{
+        passwordFormatCheck = true;
+        $("#pwd").removeClass("is-invalid").addClass("is-valid");
+      }
+    });
+
+    $("#pwd2").on("keyup", function () {
+
+      if ($("#pwd").val() != $(this).val()) {
+        passwordConfirm = false;
+        $(this).removeClass("is-valid").addClass("is-invalid");
+      } else {
+        passwordConfirm = true;
+        $(this).removeClass("is-invalid").addClass("is-valid");
+      }
+    });
+
+    $('#email-check-btn').click(function () {
+
+      if (!emailFormatCheck){
+        return false;
+      }
+
+      document.getElementById("email").value = $('#email').val().replace(/^\s+|\s+$/gm,'');
+
+      $.ajax({
+        url : '/check_email',
+        type : 'POST',
+        data : {'email':$('#email').val()},
+        dataType: 'json',
+        beforeSend: function (xhr){
+          xhr.setRequestHeader(header, token);
+        },
+        success : function(data){
+
+          console.log("이메일 인증ok");
+          if (!data.existenceResult || !data.verifiedResult){
+            $("#email").removeClass("is-valid").addClass("is-invalid");
+            $("#email-fail-feedback").text("");
+            document.getElementById("email-check-result").style.display = "";
+            $("#email-check-result").text(data.msg);
+          }else{
+            document.getElementById("email-check-result").style.display = "none";
+            $("#email").removeClass("is-invalid").addClass("is-valid");
+            emailCheck = true;
+          }
+
+        },
+        error : function(request,status,error){
+          console.log("code = "+ request.status + " error = " + error);
+        }
+      })
+    });
+
+    $('#code-send-btn').click(function () {
+      if (!emailCheck){
+        return false;
+      }
+
+      $.ajax({
+        url : '/send_code_email',
+        type : 'POST',
+        data : {'email':$('#email').val()},
+        dataType: 'json',
+        beforeSend: function (xhr){
+          xhr.setRequestHeader(header, token);
+        },
+        success : function(data){
+          codeSend =data.result;
+          console.log("이메일 전송");
+        },
+        error : function(request,status,error){
+          console.log("code = "+ request.status + " error = " + error);
+        }
+      })
+
+    });
+
+    $('#code-check-btn').click(function () {
+      if (!emailCheck || !codeSend){
+          return false;
+      }
+
+      $.ajax({
+        url : '/check_code',
+        type : 'POST',
+        data : {'email':$('#email').val(), 'code':$('#code').val()},
+        dataType: 'json',
+        beforeSend: function (xhr){
+          xhr.setRequestHeader(header, token);
+        },
+        success : function(data){
+          codeCheck =data.result;
+          if (codeCheck){
+            console.log("코드 인증ok");
+          }
+        },
+        error : function(request,status,error){
+          console.log("code = "+ request.status + " error = " + error);
+        }
+      })
+
+    });
+
+    $('#find-pw-submit-btn').click(function () {
+      if (!emailCheck || !codeSend || !codeCheck || !passwordFormatCheck || !passwordConfirm){
+        return false;
+      }
+      console.log()
+      $('form[name=find-pw-form]').submit();
+
+    });
+
+  });
 </script>
 </body>
 </html>

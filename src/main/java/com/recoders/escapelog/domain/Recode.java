@@ -9,8 +9,8 @@ public class Recode {
     @Id @GeneratedValue
     private Long no;
 
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
-    private User user;
+    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
+    private Member member;
 
     @ManyToOne(targetEntity = Theme.class, fetch = FetchType.LAZY)
     private Theme theme;

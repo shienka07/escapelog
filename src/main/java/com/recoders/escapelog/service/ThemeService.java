@@ -21,7 +21,7 @@ public class ThemeService {
 
     private final ThemeRepository themeRepository;
 
-    @PostConstruct
+//    @PostConstruct
     @Transactional
     public void saveCsvThemeInfo() throws IOException {
         ClassPathResource resource = new ClassPathResource("csv/themes.csv");

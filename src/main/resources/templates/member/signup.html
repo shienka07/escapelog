@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>Bootstrap 4 Website Example</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
         integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -41,76 +44,168 @@
     <div class="container my-5 p-4 bg-light">
         <h2>회원가입</h2>
 
-
-        <form action="#">
+        <form name="signup-form" th:object="${signupForm}" th:action="@{/signup}" th:method="post">
             <div class="form-group">
                 <label for="email">이메일:</label>
-              <input type="email" id="email" name="email" class="form-control is-invalid" placeholder="이메일 입력">
-              <button type="button" class="btn btn-dark btn-sm">중복체크</button>
-              <div class="valid-feedback">사용 가능한 이메일 입니다.</div>
-              <div class="invalid-feedback">이메일을 올바르게 입력해주세요. (ex. escapelog@test.com) </div>
+                <input type="email" id="email" name="email" th:field="*{email}" class="form-control" placeholder="이메일 입력">
+                <div class="invalid-feedback" id="email-fail-feedback"></div>
+                <div class="validationError" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
             </div>
-            <div class="form-group was-validated">
+            <div class="form-group">
                 <label for="nickname">닉네임</label>
-                <input type="text" id="nickname" name="nickname" class="form-control" placeholder="닉네임 입력" required maxlength="12" minlength="2">
-                <button type="button" class="btn btn-dark btn-sm">중복체크</button>
-                <div class="invalid-feedback">닉네임을 입력해주세요 (2-12자) </div>
+                <input type="text" id="nickname" name="nickname" th:field="*{nickname}" class="form-control" placeholder="닉네임 입력" minlength="2" maxlength="12">
+                <button type="button" id="nickname-duplicate-check-btn"  class="btn btn-dark btn-sm">중복체크</button>
+                <div class="valid-feedback" id="nickname-success-feedback"></div>
+                <div class="invalid-feedback" id="nickname-fail-feedback"></div>
+                <div class="validationError" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></div>
             </div>
 
             <div class="form-group">
                 <label for="pwd">비밀번호:</label>
-              <input type="password" id="pwd" name="pwd" class="form-control is-invalid" placeholder="비밀번호 입력" minlength="8" maxlength="30">
+                <input type="password" id="pwd" name="pwd" th:field="*{password}" class="form-control" placeholder="비밀번호 입력" minlength="8" maxlength="30">
+                <div class="invalid-feedback">비밀번호를 올바르게 입력해주세요. (영어+숫자 조합 8-30자) </div>
+                <div class="validationError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
               <div class="invalid-feedback">비밀번호를 입력해주세요. (영어+숫자 조합 8-30자) </div>
             </div>
             <div class="form-group">
                 <label for="pwd2">비밀번호 확인:</label>
-              <input type="password" id="pwd2" name="pwd2" class="form-control is-invalid" placeholder="비밀번호 확인" required>
-              <div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
+                <input type="password" id="pwd2" name="pwd2" class="form-control" placeholder="비밀번호 확인">
+                <div class="invalid-feedback" id="pwd2-fail-feedback">비밀번호가 일치하지 않습니다.</div>
             </div>
 
             <div class="text-center">
-              <button type="sumbit" class="btn btn-primary">Create account</button>
+              <button type="button" id="signup-submit-btn" class="btn btn-primary">Create account</button>
             </div>
             <!-- Register Form-->
         </form>
       </div>
+    <script>
 
-<script>
-    $("#pwd").on("focusout", function () {
-  if ($(this).val() != $("#pwd2").val()) {
-    $("#pwd2").removeClass("is-valid").addClass("is-invalid");
-  } else {
-    $("#pwd2").removeClass("is-invalid").addClass("is-valid");
-  }
-});
+        $(document).ready(function (){
 
-$("#pwd2").on("keyup", function () {
-  if ($("#pwd").val() != $(this).val()) {
-    $(this).removeClass("is-valid").addClass("is-invalid");
-  } else {
-    $(this).removeClass("is-invalid").addClass("is-valid");
-  }
-});
-    
-$("#email").on("keyup", function() { 
-    var regEmail = /^((\w|[\-\.])+)@((\w|[\-\.])+)\.([A-Za-z]+)$/;
-    if (!regEmail.test($("#email").val())) {
-        $("#email").removeClass("is-valid").addClass("is-invalid");
-    } else{
-        $("#email").removeClass("is-invalid").addClass("is-valid");
-    }
-});
+            let emailFormatCheck = false;
+            let nicknameFormatCheck = false;
+            let passwordFormatCheck = false;
 
-$("#pwd").on("keyup", function() {
-    var regPwd = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/;
-    if (!regPwd.test($("#pwd").val())) {
-        $("#pwd").removeClass("is-valid").addClass("is-invalid");
-    } else{
-        $("#pwd").removeClass("is-invalid").addClass("is-valid");
-    }
-});
+            let nicknameDuplicateCheck = false;
+            let passwordConfirm = false;
 
-</script>
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+
+            $("#email").on("keyup", function() {
+                var regEmail = /^((\w|[\-\.])+)@((\w|[\-\.])+)\.([A-Za-z]+)$/;
+
+                if (!regEmail.test($("#email").val())) {
+                    $("#email").removeClass("is-valid").addClass("is-invalid");
+                    $("#email-fail-feedback").text("이메일을 올바르게 입력해주세요. (ex. escapelog@test.com) ")
+                    emailFormatCheck = false;
+
+                } else{
+                    $("#email").removeClass("is-invalid").addClass("is-valid");
+                    emailFormatCheck = true;
+
+                }
+            });
+
+            $("#nickname").on("keyup", function() {
+                var regNickname = /^(?=.*[a-zA-Z가-힣])[a-zA-Z가-힣\d\s]{2,12}$/;
+                $("#nickname").removeClass("is-valid").addClass("is-invalid");
+                nicknameDuplicateCheck = false;
+
+                if (!regNickname.test($("#nickname").val())) {
+                    $("#nickname-fail-feedback").text("닉네임은 영어 또는 한글이 1자 이상 포함되어야 합니다.(2-12자)")
+                    nicknameFormatCheck = false;
+
+                } else{
+                    $("#nickname-fail-feedback").text("닉네임 중복을 확인하세요.")
+                    nicknameFormatCheck = true;
+                }
+            });
+
+            $("#pwd").on("keyup", function() {
+                var regPwd = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/;
+                $("#pwd2").removeClass("is-valid").addClass("is-invalid");
+
+                if (!regPwd.test($("#pwd").val())) {
+                    passwordFormatCheck = false;
+                    $("#pwd").removeClass("is-valid").addClass("is-invalid");
+                } else{
+                    passwordFormatCheck = true;
+                    $("#pwd").removeClass("is-invalid").addClass("is-valid");
+                }
+            });
+
+            $("#pwd").on("focusout", function () {
+
+                if ($('#pwd').val().replace(/^\s+|\s+$/gm,'').length==0){
+                    return false;
+                }
+
+                if ($(this).val() != $("#pwd2").val()) {
+                    passwordConfirm = false;
+                    $("#pwd2").removeClass("is-valid").addClass("is-invalid");
+                } else {
+                    passwordConfirm = true;
+                    $("#pwd2").removeClass("is-invalid").addClass("is-valid");
+                }
+            });
+
+            $("#pwd2").on("keyup", function () {
+
+                if ($("#pwd").val() != $(this).val()) {
+                    passwordConfirm = false;
+                    $(this).removeClass("is-valid").addClass("is-invalid");
+                } else {
+                    passwordConfirm = true;
+                    $(this).removeClass("is-invalid").addClass("is-valid");
+                }
+            });
+
+            $('#nickname-duplicate-check-btn').click(function () {
+                if (!nicknameFormatCheck){
+                    return false;
+                }
+
+                document.getElementById("nickname").value = $('#nickname').val().replace(/^\s+|\s+$/gm,'');
+
+                $.ajax({
+                    url : '/check_nickname',
+                    type : 'POST',
+                    data : {'nickname':$('#nickname').val()},
+                    dataType: 'json',
+                    beforeSend: function (xhr){
+                        xhr.setRequestHeader(header, token);
+                    },
+                    success : function(data){
+                        nicknameDuplicateCheck = data.duplicateResult;
+                        console.log(data.duplicateResult);
+                        if (data.duplicateResult){
+                            $("#nickname").removeClass("is-invalid").addClass("is-valid");
+                            $("#nickname-success-feedback").text("사용 가능한 닉네임입니다.");
+                        }else{
+                            $("#nickname").removeClass("is-valid").addClass("is-valid");
+                            $("#nickname-fail-feedback").text("사용 불가능한 닉네임입니다.");
+                        }
+                    },
+                    error : function(request,status,error){
+                        console.log("code = "+ request.status + " error = " + error);
+                    }
+                })
+            });
+
+            $('#signup-submit-btn').click(function () {
+                let check = nicknameDuplicateCheck && passwordFormatCheck && passwordConfirm;
+                if (!check){
+                    return false;
+                }
+                $('form[name=signup-form]').submit();
+            });
+
+        });
+
+    </script>
 
 </body>
 
