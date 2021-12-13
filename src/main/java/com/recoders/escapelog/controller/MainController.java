@@ -1,8 +1,12 @@
 package com.recoders.escapelog.controller;
 
 import com.google.gson.JsonObject;
+import com.recoders.escapelog.domain.Member;
+import com.recoders.escapelog.dto.ChangePwDto;
 import com.recoders.escapelog.dto.FindPwDto;
+import com.recoders.escapelog.dto.MemberDto;
 import com.recoders.escapelog.dto.SignupDto;
+import com.recoders.escapelog.security.CurrentMember;
 import com.recoders.escapelog.service.EmailService;
 import com.recoders.escapelog.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -52,6 +56,12 @@ public class MainController {
             return "member/signup";
         }
 
+        if (!signupForm.getPassword().equals(signupForm.getRePassword())){
+            FieldError fieldError = new FieldError("signupForm", "rePassword","비밀번호가 일치하지 않습니다.");
+            result.addError(fieldError);
+            return "member/signup";
+        }
+
         try {
             memberService.checkEmailDuplicate(signupForm.getEmail());
             memberService.processNewUser(signupForm);
@@ -62,7 +72,7 @@ public class MainController {
             return "member/signup";
         }
 
-        return "member/login";
+        return "redirect:/login";
     }
 
     @GetMapping("/login")
@@ -105,6 +115,31 @@ public class MainController {
     }
 
     @ResponseBody
+    @PostMapping("/send_check_token_email")
+    public String sendCheckTokenEmail(@CurrentMember Member member){
+        JsonObject object = new JsonObject();
+        try {
+            emailService.sendCheckEmail(member);
+            object.addProperty("result",true);
+        }catch (IllegalArgumentException e){
+            object.addProperty("result",false);
+        }
+        return object.toString();
+    }
+
+    @GetMapping("/email_check_token")
+    public String emailCheckToken(String token, String email, Model model){
+
+        try {
+            memberService.checkEmailToken(email, token);
+        }catch (IllegalArgumentException | NullPointerException e){
+            model.addAttribute("error", "wrong");
+        }
+
+        return "member/email_result";
+    }
+
+    @ResponseBody
     @PostMapping("/send_code_email")
     public String sendCodeEmail(String email){
         JsonObject object = new JsonObject();
@@ -124,17 +159,23 @@ public class MainController {
         try {
             boolean result = memberService.checkAuthenticationCode(email,code);
             object.addProperty("result",result);
-        }catch (IllegalArgumentException e){
+        }catch (IllegalArgumentException | NullPointerException e){
             object.addProperty("result",false);
         }
 
         return object.toString();
     }
 
-    @PostMapping("/change_pw")
+    @PostMapping("/find_change_pw")
     public String changPw(@Validated  @ModelAttribute("findForm")FindPwDto findForm, BindingResult result){
 
         if (result.hasErrors()){
+            return "member/find_pw";
+        }
+
+        if (!findForm.getNewPassword().equals(findForm.getRePassword())){
+            FieldError fieldError = new FieldError("findForm", "rePassword","비밀번호가 일치하지 않습니다.");
+            result.addError(fieldError);
             return "member/find_pw";
         }
 
@@ -145,5 +186,46 @@ public class MainController {
         }
 
         return "member/login";
+    }
+
+    @GetMapping("/user/mypage")
+    public String myPageMain(@CurrentMember Member member,Model model){
+        model.addAttribute("currentMember", MemberDto.memberMyPageInfo(member));
+        model.addAttribute("changeForm",new ChangePwDto());
+        return "member/mypage";
+    }
+
+    @ResponseBody
+    @PostMapping("/change_nickname")
+    public String changeNickname(@CurrentMember Member member, String nickname){
+
+        JsonObject object = new JsonObject();
+        try {
+            memberService.checkNicknameDuplicate(nickname);
+            memberService.changeUserNickname(member, nickname);
+            object.addProperty("duplicateResult", true);
+        }catch (IllegalArgumentException e){
+            object.addProperty("duplicateResult", false);
+        }
+        return object.toString();
+    }
+
+    @ResponseBody
+    @PostMapping("/change_pw")
+    public String changUserPw(@CurrentMember Member member, @Validated  @ModelAttribute("changeForm")ChangePwDto changeForm, BindingResult result,Model model){
+
+        JsonObject object = new JsonObject();
+
+        if (result.hasErrors() || !(changeForm.getNewPassword().equals(changeForm.getRePassword()))){
+            object.addProperty("changePwResult", false);
+            return object.toString();
+        }
+
+        if (!memberService.changeUserPassword(member, changeForm)){
+            object.addProperty("changePwResult", false);
+        }else{
+            object.addProperty("changePwResult", true);
+        }
+        return object.toString();
     }
 }

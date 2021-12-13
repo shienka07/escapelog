@@ -65,12 +65,12 @@
                 <input type="password" id="pwd" name="pwd" th:field="*{password}" class="form-control" placeholder="비밀번호 입력" minlength="8" maxlength="30">
                 <div class="invalid-feedback">비밀번호를 올바르게 입력해주세요. (영어+숫자 조합 8-30자) </div>
                 <div class="validationError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-              <div class="invalid-feedback">비밀번호를 입력해주세요. (영어+숫자 조합 8-30자) </div>
             </div>
             <div class="form-group">
                 <label for="pwd2">비밀번호 확인:</label>
-                <input type="password" id="pwd2" name="pwd2" class="form-control" placeholder="비밀번호 확인">
+                <input type="password" id="pwd2" name="pwd2" th:field="*{rePassword}" class="form-control" placeholder="비밀번호 확인">
                 <div class="invalid-feedback" id="pwd2-fail-feedback">비밀번호가 일치하지 않습니다.</div>
+                <div class="validationError" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}"></div>
             </div>
 
             <div class="text-center">
@@ -196,10 +196,17 @@
             });
 
             $('#signup-submit-btn').click(function () {
-                let check = nicknameDuplicateCheck && passwordFormatCheck && passwordConfirm;
+                let check = emailFormatCheck & passwordFormatCheck & passwordConfirm;
+
+                if(!nicknameDuplicateCheck){
+                    alert("닉네임 중복을 확인해주세요.");
+                    return false;
+                }
+
                 if (!check){
                     return false;
                 }
+
                 $('form[name=signup-form]').submit();
             });
 

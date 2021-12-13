@@ -27,7 +27,7 @@
 
 <div class="container p-5">
   <h2>비밀번호 찾기</h2>
-  <form name="find-pw-form" th:object="${findForm}" th:action="@{/change_pw}" th:method="post">
+  <form name="find-pw-form" th:object="${findForm}" th:action="@{/find_change_pw}" th:method="post">
     <div class="form-group">
       <label for="email">이메일 입력:</label>
       <div class="alert alert-danger" id="email-check-result" style="display: none"></div>
@@ -50,13 +50,15 @@
 
     <div class="form-group mt-5">
       <label for="pwd">새 비밀번호: </label>
-      <input type="password" class="form-control mb-4" id="pwd" th:field="*{password}" placeholder="영어+숫자 (8-30자)" name="pwd" minlength="8" maxlength="30">
+      <input type="password" class="form-control mb-4" id="pwd" th:field="*{newPassword}" placeholder="영어+숫자 (8-30자)" name="pwd" minlength="8" maxlength="30">
+      <div class="validationError" th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}"></div>
       <div class="invalid-feedback">비밀번호를 올바르게 입력해주세요. (영어+숫자 조합 8-30자) </div>
-      <div class="validationError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+
 
       <label for="pwd2">새 비밀번호 확인: </label>
-      <input type="password" class="form-control" id="pwd2" placeholder="영어+숫자 (8-30자)" name="pwd2">
+      <input type="password" class="form-control" id="pwd2"th:field="*{rePassword}" placeholder="영어+숫자 (8-30자)" name="pwd2">
       <div class="invalid-feedback" id="pwd2-fail-feedback">비밀번호가 일치하지 않습니다.</div>
+      <div class="validationError" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}"></div>
       <button type="button" id="find-pw-submit-btn" class="btn btn-primary my-2">변경하기</button>
     </div>
   </form>
@@ -221,7 +223,7 @@
       if (!emailCheck || !codeSend || !codeCheck || !passwordFormatCheck || !passwordConfirm){
         return false;
       }
-      console.log()
+
       $('form[name=find-pw-form]').submit();
 
     });

@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -13,11 +12,14 @@ import javax.validation.constraints.Pattern;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FindPwDto {
+public class ChangePwDto {
 
-    @Email(message = "이메일 형식이 아닙니다.")
     @NotBlank
-    private String email;
+    @Pattern(
+            regexp = "^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z\\d~!@#$%^&*()+|=].{7,29}$",
+            message="비밀번호를 정확하게 입력해주세요."
+    )
+    private String password;
 
     @NotBlank
     @Pattern(

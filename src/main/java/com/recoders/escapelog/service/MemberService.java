@@ -3,6 +3,7 @@ package com.recoders.escapelog.service;
 import com.recoders.escapelog.domain.GradeType;
 import com.recoders.escapelog.domain.Member;
 import com.recoders.escapelog.domain.MemberType;
+import com.recoders.escapelog.dto.ChangePwDto;
 import com.recoders.escapelog.dto.FindPwDto;
 import com.recoders.escapelog.dto.SignupDto;
 import com.recoders.escapelog.repository.MemberRepository;
@@ -52,7 +53,7 @@ public class MemberService implements UserDetailsService {
 
 
     public void checkNicknameDuplicate(String nickname){
-        Optional<Member> member = memberRepository.findByNickName(nickname);
+        Optional<Member> member = memberRepository.findByNickname(nickname);
         if(!member.isEmpty()){
             throw new IllegalArgumentException("nickname already exists");
         }
@@ -67,18 +68,11 @@ public class MemberService implements UserDetailsService {
     }
 
     @Transactional
-    public void changeUserPassword(FindPwDto findForm){
-        Member member = checkEmailExistence(findForm.getEmail());
-        member.setPassword(passwordEncoder.encode(findForm.getPassword()));
-        memberRepository.save(member);
-    }
-
-    @Transactional
     public Member processNewUser(SignupDto signUpDto){
 
         Member member = Member.builder()
                 .email(signUpDto.getEmail())
-                .nickName(signUpDto.getNickname())
+                .nickname(signUpDto.getNickname())
                 .password(passwordEncoder.encode(signUpDto.getPassword()))
                 .memberType(MemberType.ROLE_USER)
                 .gradeType(GradeType.LEVEL1)
@@ -88,6 +82,43 @@ public class MemberService implements UserDetailsService {
         memberRepository.save(member);
 
         return member;
+    }
+
+    @Transactional
+    public void checkEmailToken(String email, String token) {
+        Member member = checkEmailExistence(email);
+
+        if (!member.getEmailCheckToken().equals(token)){
+            throw new IllegalArgumentException("wrong token");
+        }
+
+        member.setEmailVerified(true);
+        memberRepository.save(member);
+
+    }
+
+    @Transactional
+    public void changeUserNickname(Member member, String nickname){
+        member.setNickname(nickname);
+        memberRepository.save(member);
+    }
+    @Transactional
+    public void changeUserPassword(FindPwDto findForm){
+        Member member = checkEmailExistence(findForm.getEmail());
+        member.setPassword(passwordEncoder.encode(findForm.getNewPassword()));
+        memberRepository.save(member);
+    }
+
+    @Transactional
+    public Boolean changeUserPassword(Member member, ChangePwDto changeForm){
+
+        boolean result = passwordEncoder.matches(changeForm.getPassword(),member.getPassword());
+        if (result){
+            member.setPassword(passwordEncoder.encode(changeForm.getRePassword()));
+            memberRepository.save(member);
+        }
+
+        return result;
     }
 
 

@@ -12,6 +12,7 @@ public class MemberDto {
     private String email;
     private String nickname;
     private GradeType gradeType;
+    private boolean emailVerified;
 
     public MemberDto(Long no, String email, String nickname, GradeType gradeType){
         this.no = no;
@@ -20,9 +21,22 @@ public class MemberDto {
         this.gradeType = gradeType;
     }
 
+    public MemberDto(Long no, String email, String nickname, GradeType gradeType, Boolean emailVerified){
+        this.no = no;
+        this.email = email;
+        this.nickname = nickname;
+        this.gradeType = gradeType;
+        this.emailVerified = emailVerified;
+    }
+
     public static MemberDto memberBasicInfo(Member member){
-        return new MemberDto(member.getNo(), member.getEmail(), member.getNickName(),
+        return new MemberDto(member.getNo(), member.getEmail(), member.getNickname(),
                 member.getGradeType());
+    }
+
+    public static MemberDto memberMyPageInfo(Member member){
+        return new MemberDto(member.getNo(), member.getEmail(), member.getNickname(),
+                member.getGradeType(), member.isEmailVerified());
     }
 
 

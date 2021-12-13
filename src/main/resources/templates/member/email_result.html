@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2 th:if="${error == null}">
+        <div class="check-title">회원님의 이메일이 인증되었습니다.</div>
+        <div>인증 확인을 위해 로그인이 되어 있다면 로그아웃 후 다시 로그인해 보세요.</div>
+        <br/>
+        <div class="item">
+            <a class="main-btn" th:href="@{/}">메인페이지로 이동</a>
+        </div>
+    </h2>
+    <p th:if="${error != null}" class="alert alert-danger" role="alert">이메일 확인 링크가 정확하지 않습니다.</p>
+</body>
+</html>

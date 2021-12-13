@@ -3,7 +3,6 @@ package com.recoders.escapelog.service;
 import com.recoders.escapelog.domain.Member;
 import com.recoders.escapelog.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,6 @@ import javax.mail.internet.MimeMessage;
 import java.util.*;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class EmailService {
 
@@ -85,7 +83,7 @@ public class EmailService {
             message.setText(content,true);
             mailSender.send(mimeMessage);
         } catch (MessagingException e ) {
-            log.error("이메일 전송 실패; ({})","escaperecoder@gmail.com");
+            e.printStackTrace();
         }
     }
 
@@ -123,7 +121,7 @@ public class EmailService {
             message.setText(content,true);
             mailSender.send(mimeMessage);
         } catch (MessagingException e ) {
-            log.error("이메일 전송 실패; ({})","escaperecoder@gmail.com");
+            e.printStackTrace();
         }
     }
 

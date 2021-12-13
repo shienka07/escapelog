@@ -23,7 +23,7 @@ public class Member {
 
     private String password;
 
-    private String nickName;
+    private String nickname;
 
     @Enumerated(EnumType.STRING)
     private MemberType memberType;

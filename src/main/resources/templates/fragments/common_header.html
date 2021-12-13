@@ -40,7 +40,7 @@
                          style="width: 50px; height: 50px; border-radius: 100px">
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item">
-                    <a th:href="@{/mypage}">닉네임</a>
+                    <a th:href="@{/user/mypage}">닉네임</a>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item">
                     <b>&emsp;회원등급</b><span>님 반갑습니다.</span>
