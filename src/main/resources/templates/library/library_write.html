@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function (){
+
+      $('#save-recode').click(function (){
+        let contents = $('#contents').val();
+
+        if(contents == ''){
+          alert('내용을 입력해주세요');
+          return false;
+        }
+
+        $('form[name=recode-dto]').submit()
+
+
+      });
+    });
+
+    // function form
+  </script>
+  <style>
+    ul.nav-pills {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      top: 20px;
+      position: fixed;
+    }
+
+    .container {
+      min-height: 100vh;
+    }
+
+    .theme-search {
+      max-height: 200px;
+      overflow-y: scroll;
+      /* 스크롤 기능!!!!!!! */
+    }
+  </style>
+</head>
+
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="1">
+<div class="container-fluid">
+  <div class="row">
+    <!-- 좌측 소메뉴 부분 -->
+    <nav class="col-sm-3 col-4" id="myScrollspy">
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          <a class="nav-link active" href="#section1">정보 입력</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#section2">후기 작성</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#section3">플레이어 정보</a>
+        </li>
+      </ul>
+    </nav>
+    <!-- 좌측 소메뉴 부분 끝!-->
+
+    <!-- 우측 정보 입력 부분 시작 -->
+    <div class="col-sm-9 col-8">
+      <form name="recode-dto" th:action="@{/recode}" th:object="${recodeDto}" method="post"  id="recodeForm" >
+        <!-- page1. 정보 입력 -->
+        <div id="section1" class="bg-light">
+          <div class="container p-5">
+            <div>
+              <h2>정보 입력</h2>
+              <label for="title"> 제목: </label>
+              <input type="text" th:field="*{title}" class="form-control mb-3" id="title" placeholder="제목"
+                     name="title">
+            </div>
+            <div class="my-3">
+              <label>테마 검색 : </label>
+              <div class="form-inline">
+                <form class="form-inline">
+                  <input class="form-control mr-sm-2" type="text" placeholder="테마명 또는 지점 검색">
+                  <button class="btn btn-success" type="submit">검색하기</button>
+                </form>
+              </div>
+
+              <div class="mt-4">
+                <p>검색 결과</p>
+                <ul class="list-group theme-search">
+                  <li class="list-group-item">
+                    결과 1
+                  </li>
+                  <li class="list-group-item">
+                    결과 2
+                  </li>
+                  <li class="list-group-item">
+                    결과 3
+                  </li>
+                  <li class="list-group-item">
+                    결과 4
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+            <a class="btn btn-danger btn-sm mb-4" data-toggle="modal" data-target="#themeModal">원하는 테마 정보가
+              없나요?</a>
+
+
+            <!-- 정보입력- 테마검색 모달 ! -->
+            <div class="modal fade" id="themeModal" tabindex="-1" role="dialog"
+                 aria-labelledby="themeModalLabel"
+                 aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="themeModalLabel">원하는 테마 정보가 없나요?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <div>
+                      <h3>테마 정보 직접 입력</h3>
+                      <div>
+                        <label> 지역: </label>
+                        <input type="text" class="form-control mb-3" placeholder="지역">
+                      </div>
+                      <div>
+                        <label> 테마명: </label>
+                        <input type="text" class="form-control mb-3" placeholder="테마명">
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    <button type="submit" class="btn btn-primary">테마 선택 완료</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 정보입력- 테마검색 모달 끝 ! -->
+
+            <div>
+              <label>탈출 여부: </label>
+            </div>
+            <div>
+              <div class="mb-4 form-check-inline">
+                <label class="form-check-label">
+                  <input type="radio" th:field="*{success}" class="form-check-input" name="success" th:value="true">탈출 성공
+                </label>
+                <label class="form-check-label">
+                  <input type="radio" th:field="*{success}" class="form-check-input" name="success" th:value="false">탈출 실패
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label>평점: </label>
+            </div>
+            <div>
+              <div class="mb-4 form-check-inline">
+                <label class="form-check-label">
+                  <input type="radio" th:field="*{rating}" class="form-check-input" name="rating"
+                         th:value="1">1
+                </label>
+                <label class="form-check-label">
+                  <input type="radio" th:field="*{rating}" class="form-check-input" name="rating"
+                         th:value="2">2 &emsp;
+                </label>
+                <label class="form-check-label">
+                  <input type="radio" th:field="*{rating}" class="form-check-input" name="rating"
+                         th:value="3">3 &emsp;
+                </label>
+                <label class="form-check-label">
+                  <input type="radio" th:field="*{rating}" class="form-check-input" name="rating"
+                         th:value="4">4 &emsp;
+                </label>
+                <label class="form-check-label">
+                  <input type="radio" th:field="*{rating}" class="form-check-input" name="rating"
+                         th:value="5">5 &emsp;
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label>탈출 시간: </label>
+            </div>
+            <div class="mb-4 form-check-inline">
+              <input type="number" th:field="*{breakTime.min}" min="0" max="99999">
+              <label>&nbsp;분&emsp;</label>
+              <input type="number" th:field="*{breakTime.sec}" min="0" max="99999">
+              <label>&nbsp;초</label>
+            </div>
+
+            <div>
+              <label>힌트 사용 : </label>
+            </div>
+            <div class="mb-4 form-check-inline">
+              <input type="number" th:field="*{hint}" min="0" max="99999">
+              <label>&nbsp;개</label>
+            </div>
+
+
+            <div>
+              <label>인원 : </label>
+            </div>
+            <div class="mb-4 form-check-inline">
+              <input type="number" th:field="*{playerNum}" min="0" max="8">
+              <label>&nbsp;명</label>
+            </div>
+
+            <br/>
+          </div>
+        </div>
+        <!-- page1. 정보 입력 끝! -->
+
+
+        <!-- page2. 후기 작성 -->
+        <div id="section2" class="bg-light">
+          <div class="container p-5">
+            <h2>후기 작성</h2>
+            <textarea class="form-control" name="contents" th:field="*{contents}" id="contents" rows="20"></textarea>
+            <form>
+              <div class="form-group mt-5">
+                <label for="image-file">이미지 업로드</label>
+                <input type="file" class="form-control-file" id="image-file">
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- page2. 후기 작성 끝! -->
+
+        <!-- page3. 플레이어 정보 -->
+        <div id="section3" class="bg-light">
+          <div class="container p-5">
+            <h2>플레이어 정보</h2>
+
+            <input type="button" class="btn btn-primary" value="추가" onclick="add_div()">
+            <div id="player" class="my-3 row">
+              <!--                            <input type="text" th:field="*{player.playerName}" id="p-name" name="p-name" class="form-control col-3"-->
+              <!--                                   placeholder="이름">-->
+              <!--                            <input type="text" th:field="*{player}" id="p-info" name="p-info" class="form-control col-9"-->
+              <!--                                   placeholder="정보">-->
+              <input type="button" th:action="@{/delete}" class="btn btn-danger btn-sm" value="삭제"
+                     onclick="remove_div(this)">
+            </div>
+            <div id="field"></div>
+
+
+            <script type="text/javascript">
+              function add_div() {
+                var div = document.createElement('div');
+
+                div.innerHTML = document.getElementById('player').innerHTML;
+                document.getElementById('field').appendChild(div);
+              }
+
+              function remove_div(obj) {
+                document.getElementById('field').removeChild(obj.parentNode);
+              }
+            </script>
+
+            <!-- page 3. 플레이어 정보 끝! -->
+            <hr/>
+            <!-- 최종 form 전송 버튼  -->
+            <input type="button" th:onclick="" class="btn btn-primary" id="save-recode" >글쓰기 완료</input>
+
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>

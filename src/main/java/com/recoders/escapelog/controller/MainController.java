@@ -17,17 +17,33 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import com.recoders.escapelog.domain.Recode;
+import com.recoders.escapelog.dto.RecodeDto;
+import com.recoders.escapelog.service.LibraryService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
+
+
+
 @RequiredArgsConstructor
 @Controller
 public class MainController {
 
+
     private final MemberService memberService;
     private final EmailService emailService;
+    private final LibraryService libraryService;
 
     @GetMapping("/")
     public String index(){
         return "index";
     }
+
 
     @GetMapping("/signup")
     public String signUpForm(Model model){
@@ -212,20 +228,67 @@ public class MainController {
 
     @ResponseBody
     @PostMapping("/change_pw")
-    public String changUserPw(@CurrentMember Member member, @Validated  @ModelAttribute("changeForm")ChangePwDto changeForm, BindingResult result,Model model){
+    public String changUserPw(@CurrentMember Member member, @Validated  @ModelAttribute("changeForm")ChangePwDto changeForm, BindingResult result,Model model) {
 
         JsonObject object = new JsonObject();
 
-        if (result.hasErrors() || !(changeForm.getNewPassword().equals(changeForm.getRePassword()))){
+        if (result.hasErrors() || !(changeForm.getNewPassword().equals(changeForm.getRePassword()))) {
             object.addProperty("changePwResult", false);
             return object.toString();
         }
 
-        if (!memberService.changeUserPassword(member, changeForm)){
+        if (!memberService.changeUserPassword(member, changeForm)) {
             object.addProperty("changePwResult", false);
-        }else{
+        } else {
             object.addProperty("changePwResult", true);
         }
         return object.toString();
+    }
+
+    //책장 목록
+    @GetMapping("/library")
+    public String library(Model model) {
+        List<Recode> recodeList = libraryService.getRecodeList();
+        model.addAttribute("recodeList",recodeList);
+        return "library/library_list";
+    }
+
+
+    //글쓰기 페이지
+    @GetMapping("/recode")
+    public String recode(Model model){
+        model.addAttribute("recodeDto", new RecodeDto());
+        return "library/library_write";
+    }
+
+    //글쓰기 보내기
+    @PostMapping("/recode")
+    public String write(RecodeDto recodeDto){
+        libraryService.saveRecode(recodeDto);
+        return "redirect:/library";
+    }
+
+
+    //글 읽기 페이지
+    @GetMapping("/read/{no}")
+    public String read(){
+        return null;
+    }
+
+    //글 수정
+    @PostMapping("/read/{no}")
+    public String modify(){
+        return null;
+    }
+
+    //글 삭제하기
+    @PostMapping("/delete/{no}")
+    public String delete(){
+        return null;
+    }
+
+    @PostMapping("/library/search")
+    public String search(){
+        return null;
     }
 }
