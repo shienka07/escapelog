@@ -121,5 +121,22 @@ public class MemberService implements UserDetailsService {
         return result;
     }
 
+    @Transactional
+    public Member getNicknameMember(String nickname) {
+        Optional<Member> optionalMember = memberRepository.findByNickname(nickname);
+
+        if(optionalMember.isEmpty()){
+            throw new IllegalArgumentException("wrong nickname");
+        }
+
+        return optionalMember.get();
+    }
+
+    @Transactional
+    public Object getMember(Member member) {
+
+        return memberRepository.getById(member.getNo());
+    }
+
 
 }

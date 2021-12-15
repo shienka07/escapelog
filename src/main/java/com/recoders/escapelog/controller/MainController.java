@@ -247,24 +247,26 @@ public class MainController {
 
     //책장 목록
     @GetMapping("/library")
-    public String library(Model model) {
-        List<Recode> recodeList = libraryService.getRecodeList();
+    public String library(Model model, @CurrentMember Member member) {
+        List<Recode> recodeList = libraryService.getMemberRecodeList(member.getNickname());
         model.addAttribute("recodeList",recodeList);
+        model.addAttribute("member",memberService);
         return "library/library_list";
     }
 
 
     //글쓰기 페이지
     @GetMapping("/recode")
-    public String recode(Model model){
+    public String recode(Model model, @CurrentMember Member member){
         model.addAttribute("recodeDto", new RecodeDto());
+        model.addAttribute("member", member);
         return "library/library_write";
     }
 
     //글쓰기 보내기
     @PostMapping("/recode")
-    public String write(RecodeDto recodeDto){
-        libraryService.saveRecode(recodeDto);
+    public String write(RecodeDto recodeDto, @CurrentMember Member member){
+        libraryService.saveRecode(member, recodeDto);
         return "redirect:/library";
     }
 

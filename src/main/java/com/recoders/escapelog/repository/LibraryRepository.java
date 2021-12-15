@@ -11,4 +11,6 @@ public interface LibraryRepository extends JpaRepository<Recode, Long> {
 
     List<Recode> findAll();
 
+    List<Recode> findByMember_NicknameOrderByRegdateDesc(String nickname);
+
 }

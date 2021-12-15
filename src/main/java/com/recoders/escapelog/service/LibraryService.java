@@ -1,5 +1,6 @@
 package com.recoders.escapelog.service;
 
+import com.recoders.escapelog.domain.Member;
 import com.recoders.escapelog.domain.Recode;
 import com.recoders.escapelog.dto.RecodeDto;
 import com.recoders.escapelog.repository.LibraryRepository;
@@ -18,8 +19,9 @@ public class LibraryService {
     private final LibraryRepository libraryRepository;
 
 
-    public void saveRecode(RecodeDto recodeDto){
+    public void saveRecode(Member member, RecodeDto recodeDto){
         Recode recode = Recode.builder()
+                .member(member)
                 .title(recodeDto.getTitle())
                 .contents(recodeDto.getContents())
                 .rating(recodeDto.getRating())
@@ -43,6 +45,25 @@ public class LibraryService {
                     .title(recodes.getTitle())
                     .regdate(recodes.getRegdate())
                     .theme(recodes.getTheme())
+                    .build();
+
+            recodeList.add(recode);
+        }
+
+        return recodeList;
+    }
+
+    @Transactional
+    public List<Recode> getMemberRecodeList(String nickname) {
+        List<Recode> recodeEntities = libraryRepository.findByMember_NicknameOrderByRegdateDesc(nickname);
+        List<Recode> recodeList = new ArrayList<>();
+
+        for(Recode recodes : recodeEntities) {
+            Recode recode = Recode.builder()
+                    .no(recodes.getNo())
+                    .title(recodes.getTitle())
+                    .regdate(recodes.getRegdate())
+//                    .theme(recodes.getTheme())
                     .build();
 
             recodeList.add(recode);
