@@ -1,17 +1,28 @@
 package com.recoders.escapelog.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 
-@Embeddable
-public class Question {
+@Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class Feedback {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long no;
 
+    @Enumerated(EnumType.STRING)
     private AreaType areaType;
 
+    @Enumerated(EnumType.STRING)
+    private FeedbackType feedbackType;
+
     @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
-    private Member member;
+    private Member user;
 
     @ManyToOne(targetEntity = Theme.class, fetch = FetchType.LAZY)
     private Theme theme;

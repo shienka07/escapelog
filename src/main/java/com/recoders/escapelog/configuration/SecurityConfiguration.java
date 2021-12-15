@@ -32,7 +32,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .mvcMatchers("/user/**","/send_check_token_email","/change_nickname","/change_pw").authenticated()
                 .mvcMatchers("/","/signup","/login","/doLogin","/doLogout",
                         "/check_nickname","/find_pw","/check_email","/send_code_email","/check_code","/find_change_pw","/email_check_token",
-                        "/library", "/recode").permitAll()
+                        "/library", "/recode",
+                        "/themes","/themes/{no}","/theme_search","/feedback/add","/feedback/info").permitAll()
 
                 .anyRequest().authenticated()
 
@@ -50,6 +51,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/doLogout")
                 .logoutSuccessUrl("/login")
                 .invalidateHttpSession(true);
+
+
     }
 
     @Override

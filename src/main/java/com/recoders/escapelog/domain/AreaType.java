@@ -5,7 +5,7 @@ public enum AreaType {
     CHUNGCHEONGNAM("충남"), DAEJEON("대전"), JEOLLABUK("전북"), JEOLLANAM("전남"), GWANGJU("광주"),
     GYEONGSANGBUK("경북"), GYEONGSANGNAM("경남"), DEAGU("대구"), BUSAN("부산"), JEJU("제주");
 
-    final private String krName;
+    private final  String krName;
 
     private AreaType(String name){
         krName = name;

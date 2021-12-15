@@ -1,0 +1,100 @@
+<div class="p-5 side-box">
+    <h4>카테고리 선택</h4>
+    <form class="form-inline">
+        <!--   엔터 입력 막기 위한 hidden 태그-->
+        <input hidden="hidden" />
+        <input class="form-control mr-sm-2" type="text" placeholder="테마명으로 검색" id="keyword">
+    </form>
+    <hr />
+    <div class="container-fluit area-box">
+        <div class="btn-group btn-group-toggle area-btn-group" data-toggle="buttons">
+            <label class="btn btn-outline-dark btn-sm area-btn">
+                <input type="radio" name="area-radio" id="area-radio-1" value="전체" checked="checked">전체보기
+            </label>
+            <label class="btn btn-outline-dark btn-sm area-btn">
+                <input type="radio" name="area-radio" id="area-radio-2" value="홍대">홍대
+            </label>
+            <label class="btn btn-outline-dark btn-sm area-btn">
+                <input type="radio" name="area-radio" id="area-radio-3" value="신촌">신촌
+            </label>
+            <label class="btn btn-outline-dark btn-sm area-btn">
+                <input type="radio" name="area-radio" id="area-radio-4" value="강남">강남
+            </label>
+            <label class="btn btn-outline-dark btn-sm area-btn">
+                <input type="radio" name="area-radio" id="area-radio-5" value="건대">건대
+            </label>
+            <label class="btn btn-outline-dark btn-sm area-btn">
+                <input type="radio" name="area-radio" id="area-radio-6" value="기타">서울-기타
+            </label>
+            <label class="btn btn-outline-dark btn-sm area-btn">
+                <input type="radio" name="area-radio" id="area-radio-7" value="경기">경기
+            </label>
+            <label class="btn btn-outline-dark btn-sm area-btn">
+                <input type="radio" name="area-radio" id="area-radio-8" value="인천">인천
+            </label>
+        </div>
+
+    </div>
+    <hr />
+    <div class="form-check">
+        <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" name="stamp-checkbox">성공 도장 제외
+        </label>
+    </div>
+    <div class="form-check">
+        <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" name="police-line-checkbox">폴리스라인 제외
+        </label>
+    </div>
+    <hr />
+    <button type="button" class="btn btn-dark" id="search-btn">조회하기</button>
+    <hr />
+
+
+
+    <!-- 부트스트랩 모달!!!! -->
+    <button type="button" class="btn  btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
+        새로운 테마가 있나요?
+    </button>
+
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">새로운 테마가 있나요?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="feedback-form" th:object="${feedbackForm}">
+                    <div class="form-group">
+                        <label for="theme-name" class="col-form-label">테마명:</label>
+                        <input type="text" class="form-control" id="theme-name" th:field="*{newThemeName}">
+                    </div>
+                    <div class="form-group">
+                        <label for="sel1">지역 선택:</label>
+                        <select class="form-control" id="sel1" th:field="*{areaType}">
+                            <option th:each="areaTypeValue : ${T(com.recoders.escapelog.domain.AreaType).values()}"
+                                    th:value="${areaTypeValue.name()}"
+                                    th:text="${areaTypeValue.getKrName()}">
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">내용:</label>
+                        <textarea class="form-control" id="message-text" th:field="*{contents}"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="feedback-submit-btn">제출하기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/theme_list.js}"></script>

@@ -58,6 +58,16 @@
 			<version>${querydsl.version}</version>
 		</dependency>
 
+		<!-- QueryDSL -->
+		<dependency> <groupId>com.querydsl</groupId>
+			<artifactId>querydsl-apt</artifactId>
+			<version>${querydsl.version}</version>
+			<scope>provided</scope> </dependency>
+		<dependency> <groupId>com.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>${querydsl.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -79,12 +89,12 @@
 			<scope>test</scope>
 		</dependency>
 
-
 		<!-- thymeleaf layout -->
 		<dependency>
 			<groupId>nz.net.ultraq.thymeleaf</groupId>
 			<artifactId>thymeleaf-layout-dialect</artifactId>
 		</dependency>
+
 		<!-- Valid Annotation -->
 		<dependency>
 			<groupId>org.hibernate</groupId>

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,6 @@ import java.util.List;
 public class LibraryService {
 
     private final LibraryRepository libraryRepository;
-
 
     public void saveRecode(Member member, RecodeDto recodeDto){
         Recode recode = Recode.builder()
@@ -29,6 +29,7 @@ public class LibraryService {
                 .hint(recodeDto.getHint())
                 .success(recodeDto.getSuccess())
                 .playerNum(recodeDto.getPlayerNum())
+                .regdate(LocalDateTime.now())
                 .build();
 
         libraryRepository.save(recode);

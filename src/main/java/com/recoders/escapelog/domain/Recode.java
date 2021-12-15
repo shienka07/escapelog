@@ -17,7 +17,7 @@ import java.util.List;
 @Data
 public class Recode {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long no;
 
     @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
@@ -51,9 +51,4 @@ public class Recode {
 
     private Long viewCount;
 
-
-    @Builder
-    public Recode() {
-        regdate = LocalDateTime.now();
-    }
 }
