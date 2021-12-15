@@ -6,6 +6,10 @@ import com.recoders.escapelog.repository.LibraryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @RequiredArgsConstructor
 @Service
@@ -26,6 +30,25 @@ public class LibraryService {
                 .build();
 
         libraryRepository.save(recode);
+    }
+
+    @Transactional
+    public List<Recode> getRecodeList() {
+
+        List<Recode> recodeEntities = libraryRepository.findAll();
+        List<Recode> recodeList = new ArrayList<>();
+
+        for(Recode recodes : recodeEntities) {
+            Recode recode = Recode.builder()
+                    .title(recodes.getTitle())
+                    .regdate(recodes.getRegdate())
+                    .theme(recodes.getTheme())
+                    .build();
+
+            recodeList.add(recode);
+        }
+
+        return recodeList;
     }
 
 

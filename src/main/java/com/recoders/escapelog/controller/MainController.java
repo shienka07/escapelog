@@ -1,5 +1,6 @@
 package com.recoders.escapelog.controller;
 
+import com.recoders.escapelog.domain.Recode;
 import com.recoders.escapelog.dto.RecodeDto;
 import com.recoders.escapelog.service.LibraryService;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -22,8 +25,10 @@ public class MainController {
 
     //책장 목록
     @GetMapping("/library")
-    public String library() {
-        return null;
+    public String library(Model model) {
+        List<Recode> recodeList = libraryService.getRecodeList();
+        model.addAttribute("recodeList",recodeList);
+        return "library/library_list";
     }
 
 
