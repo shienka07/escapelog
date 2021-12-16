@@ -75,6 +75,11 @@ public class ThemeService {
         return themeList;
     }
 
+    public List<Theme> searchThemeKeyword(String keyword){
+        List<Theme> themeList = themeRepository.searchThemeKeyword(keyword);
+        return themeList;
+    }
+
     public List<ThemeDto> getThemeList(List<Theme> entities) {
         List<ThemeDto> themeList = new ArrayList<>();
 

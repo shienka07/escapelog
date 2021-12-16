@@ -12,7 +12,7 @@ public class RecodeDto {
     @NotNull
     private String title;
 
-    private Theme theme;
+    private Long themeNo;
 
     private String contents;
 

@@ -58,7 +58,7 @@ public class MainController {
         }catch (IOException e){
             return "index";
         }
-        return "theme/theme_list";
+        return "redirect:/themes";
     }
 
     @GetMapping("/signup")
@@ -276,6 +276,7 @@ public class MainController {
     public String recode(Model model, @CurrentMember Member member){
         model.addAttribute("recodeDto", new RecodeDto());
         model.addAttribute("member", member);
+        model.addAttribute("feedbackForm", new FeedbackDto());
         return "library/library_write";
     }
 
@@ -337,6 +338,13 @@ public class MainController {
         model.addAttribute("themeList",themeService.getThemeList(themeService.searchTheme(searchForm)));
         return "theme/theme_list :: #theme-list";
     }
+
+    @GetMapping("/recode/theme_search")
+    public String themeSearchModal(@RequestParam String keyword,Model model){
+        model.addAttribute("themeList",themeService.getThemeList(themeService.searchThemeKeyword(keyword)));
+        return "library/library_write :: #theme-list";
+    }
+
 
     @ResponseBody
     @PostMapping("/feedback/add")

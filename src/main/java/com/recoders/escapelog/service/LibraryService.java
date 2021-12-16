@@ -2,8 +2,10 @@ package com.recoders.escapelog.service;
 
 import com.recoders.escapelog.domain.Member;
 import com.recoders.escapelog.domain.Recode;
+import com.recoders.escapelog.domain.Theme;
 import com.recoders.escapelog.dto.RecodeDto;
 import com.recoders.escapelog.repository.LibraryRepository;
+import com.recoders.escapelog.repository.ThemeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -18,10 +21,18 @@ import java.util.List;
 public class LibraryService {
 
     private final LibraryRepository libraryRepository;
+    private final ThemeRepository themeRepository;
 
     public void saveRecode(Member member, RecodeDto recodeDto){
+
+        Theme theme = null;
+        if(recodeDto.getThemeNo() != null){
+            theme = themeRepository.findById(recodeDto.getThemeNo()).get();
+        }
+
         Recode recode = Recode.builder()
                 .member(member)
+                .theme(theme)
                 .title(recodeDto.getTitle())
                 .contents(recodeDto.getContents())
                 .rating(recodeDto.getRating())

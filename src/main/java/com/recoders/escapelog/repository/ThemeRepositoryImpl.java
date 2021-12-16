@@ -16,6 +16,16 @@ public class ThemeRepositoryImpl implements ThemeRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
+    public List<Theme> searchThemeKeyword(String keyword){
+        String searchKeyword = "%"+keyword+"%";
+        return queryFactory
+                .selectFrom(theme)
+                .where(theme.themeName.like(searchKeyword)
+                        .or(theme.shopName.like(searchKeyword)))
+                .fetch();
+    }
+
+    @Override
     public List<Theme> searchTheme(String keyword,AreaType areaType, String detailArea, Boolean closeExclude){
         String searchKeyword = "%"+keyword+"%";
         return queryFactory

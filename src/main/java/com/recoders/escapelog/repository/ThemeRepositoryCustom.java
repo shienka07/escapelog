@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ThemeRepositoryCustom {
     List<Theme> searchTheme(String keyword, AreaType areaType, String detailArea, Boolean closeExclude);
+    List<Theme> searchThemeKeyword(String keyword);
 }
