@@ -1,0 +1,143 @@
+.side-box{
+    /*position: fixed;*/
+    /*width: 280px;*/
+    /*height: 90vh;*/
+    /*margin: 10px;*/
+    /*padding: 5px;*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*align-items: center;*/
+    /*font-family: 'Noto Sans KR', sans-serif;*/
+    position: fixed;
+    right: 100px;
+    width: 280px;
+    height: 90vh;
+    margin: 10px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Noto Sans KR', sans-serif;
+    align-items: center;
+}
+.area-box{
+    display: flex;
+    max-width: 270px;
+}
+.btn-group{
+    position: relative;
+    display: -ms-inline-flexbox;
+    display: flex;
+    vertical-align: middle;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-radius: 5px;
+}
+.area-btn{
+    font-size: 4pt;
+    max-width: 50px;
+    padding:1px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin:3px;
+}
+.btn-group>.btn:not(:last-child):not(.dropdown-toggle),
+.btn-group>.btn:not(:first-child){
+    border-radius: 5px;
+    width: 65px;
+}
+.btn-group{
+    margin: 2px;
+    padding: 1px;
+    font-size: 4pt;
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.btn-group>.btn:not(:last-child):not(.dropdown-toggle), .btn-group>.btn:not(:first-child) {
+    margin-left: 0;
+}
+.btn-outline-dark {
+    color: #937B69;
+    border-color: #937B69;
+}
+.btn-outline-dark:not(:disabled):not(.disabled).active,
+.btn-outline-dark:not(:disabled):not(.disabled):hover,
+.btn-outline-dark:not(:disabled):not(.disabled).active,
+.btn-outline-dark:not(:disabled):not(.disabled):hover,
+.show>.btn-outline-dark.dropdown-toggle {
+    color: #474249;
+    background-color: #EEC86F;
+    border-color: #EEC86F;
+}
+.btn-dark {
+    color: #474249;
+    background-color: #EEC86F;
+    border-color: #EEC86F;
+    font-size: 10pt;
+}
+.btn-dark:hover{
+    color: #fff;
+    background-color: #937B69;
+    border-color: #937B69;
+}
+#keyword{
+    border-radius: 20px;
+    background-color: #fff;
+    border: 1px solid #937B69;
+
+    background-image: url(https://cdn1.iconfinder.com/data/icons/hawcons/32/698627-icon-111-search-256.png);
+    background-position: 5px center;
+    background-size: 30px;
+    background-repeat: no-repeat;
+
+    text-indent: 60px;
+}
+input::placeholder{
+    font-size: 10pt;
+}
+.form-check-label b{
+    font-size: 10pt;
+    color:#937B69;
+}
+.side-box h5{
+    font-weight: 800;
+    color:#937B69;
+    padding-top: 40px;
+    padding-bottom: 10px;
+}
+hr{
+    width: 90%;
+    margin:20px;
+}
+.form-check{
+    align-items: center;
+}
+.form-box {
+    width: 100%;
+    padding-left: 30px;
+}
+.add-box {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+.add-btn{
+    font-size: 10pt;
+    color:#937B69;
+}
+
+#search-btn,
+#feedback-submit-btn{
+    height: 40px;
+    width: 200px;
+    color: #937B69;
+    background-color: #EEC86F;
+    border-color: #EEC86F;
+}
+#search-btn:hover,
+#feedback-submit-btn:hover{
+    color: #fff;
+    background-color: #937B69;
+    border-color: #937B69;
+}

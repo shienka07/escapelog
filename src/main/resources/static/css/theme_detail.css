@@ -1,0 +1,117 @@
+.info-box {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+}
+
+.info-box label{
+    width: 100%;
+    display: grid;
+    justify-items: start;
+    color:#84B4B8;
+    font-weight: 900;
+}
+.info-box .level p{
+    font-family: 'Yeon Sung', cursive;
+    font-size: 22pt;
+}
+
+
+.img-box.visited::after{
+    content: "";
+    left: 0;
+    top: 0;
+    height: 450px;
+    width: 550px;
+    background-image: url("http://drive.google.com/uc?export=view&id=1krx2-t-YO7QNcSxE9R3gYEYOTSlELW2N");
+    background-repeat : no-repeat;
+    background-size : auto;
+    position:absolute;
+    z-index: 1;
+}
+
+
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    justify-content: center;
+}
+.detail-box {
+    display: flex;
+    padding: 20px;
+    background-color: #eee;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 5px 5px 5px 5px rgba(100, 100, 100, 0.2);
+    margin: 20px;
+}
+.col-6.image-box {
+    display: flex;
+    max-width: 500px;
+    min-height: 600px;
+    justify-content: center;
+    align-items: center;
+}
+.image-box.closed::after {
+    content: "";
+    top: 0;
+    height: 650px;
+    width: 550px;
+    background-image: url(http://drive.google.com/uc?export=view&id=1kTXuV2zSZ_rgAdxOCLOjHpkoxeJZEohx);
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    pointer-events: none;
+}
+.form-row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -5px;
+    margin-left: -5px;
+    justify-content: center;
+}
+
+.info-box {
+    max-width: 500px;
+    min-height: 600px;
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    /* align-items: center; */
+    /*border: 3px solid #555;*/
+    /* transform: scale(0.9); */
+}
+.info-box.success::after {
+    content: "";
+    left: -50px;
+    top: 0;
+    height: 600px;
+    width: 500px;
+    background-image: url(http://drive.google.com/uc?export=view&id=1rmkOJjk_fLQu7TEe4P48IA95aR5-Zebp);
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    pointer-events: none;
+}
+.rating {
+    display: flex;
+    height: 60px;
+    width: 60px;
+    background-color: #bbb;
+     border-radius: 100%;
+    margin-left: 8px;
+    flex-direction: column;
+    font-size: 8pt;
+    align-items: center;
+    justify-content: center;
+}
+.rating::after{
+    content: '';
+    background-color: #D78E6D;
+}

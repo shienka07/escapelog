@@ -4,11 +4,12 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/common_layout.html}" th:with="activeTab='theme'">
 <head>
-    <link rel="stylesheet" th:href="@{/css/theme.css}">
+    <link rel="stylesheet" type="text/css" href="/css/theme.css">
+    <link rel="stylesheet" th:href="@{/css/theme/side_bar.css}">
     <link rel="script" th:href="@{/js/theme_list.js}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
 </head>
 
@@ -20,18 +21,11 @@
         <div class="container-fluit mt-3">
             <div class="row">
 
-                <!-- 테마 사이드바 레이아웃 -->
-                <th:block th:include="layout/theme_sidebar"></th:block>
-
                 <!-- 테마 모아보기 리스트 -->
                 <div class="col-8 list-box">
                     <div class="container" id="theme-list">
                         <div class="row">
-                            <div th:each="theme,num:${themeList}">
-                                <!--  div class="theme-item" 뒤에  th:classappend="${ ? 'closed':''}" 폐점한 테마라면 classappend로 closed 붙이기 -->
-                                <!--                         th:classappend="${ ? 'successed':''}" 완료한 테마라면 classappend로 successed 붙이기 -->
-                                <!--                         th:classappend="${ ? 'visited':''}" 방문한 테마라면 classappend로 visited 붙이기 -->
-
+                            <div class="tape" th:each="theme,num:${themeList}">
                                 <div class="theme-item" th:id="theme-item+${num.index}">
                                     <script>
                                         var openStatus = [[${theme.openStatus}]];
@@ -39,19 +33,42 @@
                                             $('#theme-item'+[[${num.index}]]).addClass('closed');
                                         }
                                     </script>
+<!---------------------- 성공 도장 위치 : class="polaroid" 에서 'success' 추가 ==> [class="polaroid success"] --------->
+<!---------------------- 방문 도장 위치 : class="polaroid" 에서 'visit' 추가 ==> [class="polaroid visit"] --------->
                                     <a class="polaroid" href="#" th:href="@{/themes/}+${theme.no}">
-                                        <img th:src="'https://picsum.photos/200/400?random='+${theme.no}">
-                                        <p class="shop-cap" th:text="${theme.shopName}">지점명</p>
-                                        <div class="caption" th:text="${theme.themeName}">테마이름이엄청길면어떡하나</div>
+                                        <div class="img-box">
+                                            <img th:src="'https://picsum.photos/200/400?random='+${theme.no}">
+                                        </div>
+                                        <div class="caption-box">
+                                            <p th:text="${theme.shopName}">지점명</p>
+                                            <h4 th:text="${theme.themeName}">테마이름이엄청길면어떡하나</h4>
+                                        </div>
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-1"></div>
                 <!-- 테마 리스트 끝! -->
+
+                <!-- 테마 사이드바 레이아웃 -->
+                <div class="col-3">
+                    <th:block th:include="layout/theme_sidebar"></th:block>
+                </div>
             </div>
         </div>
+
+        <div>
+            <span id="topBtn"><i class="fas fa-arrow-circle-up fa-3x"></i></span>
+        </div>
+        <script>
+            var topEle = $('#topBtn');
+            var delay = 1000;
+            topEle.on('click', function() {
+                $('html, body').stop().animate({scrollTop: 0}, delay);
+            });
+        </script>
 
 
     </section>

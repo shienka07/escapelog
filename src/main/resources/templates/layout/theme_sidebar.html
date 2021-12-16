@@ -1,15 +1,18 @@
-<div class="p-5 side-box">
-    <h4>카테고리 선택</h4>
+<!--    <div class="col-4">-->
+
+<div class="side-box">
+    <h5>카테고리 선택</h5>
     <form class="form-inline">
         <!--   엔터 입력 막기 위한 hidden 태그-->
         <input hidden="hidden" />
         <input class="form-control mr-sm-2" type="text" placeholder="테마명으로 검색" id="keyword">
     </form>
+
     <hr />
     <div class="container-fluit area-box">
         <div class="btn-group btn-group-toggle area-btn-group" data-toggle="buttons">
             <label class="btn btn-outline-dark btn-sm area-btn">
-                <input type="radio" name="area-radio" id="area-radio-1" value="전체" checked="checked">전체보기
+                <input type="radio" name="area-radio" id="area-radio-1" value="전체">전체보기
             </label>
             <label class="btn btn-outline-dark btn-sm area-btn">
                 <input type="radio" name="area-radio" id="area-radio-2" value="홍대">홍대
@@ -36,26 +39,29 @@
 
     </div>
     <hr />
-    <div class="form-check">
-        <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" name="stamp-checkbox">성공 도장 제외
-        </label>
-    </div>
-    <div class="form-check">
-        <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" name="police-line-checkbox">폴리스라인 제외
-        </label>
+    <div class="form-box">
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" name="stamp-checkbox"><b>&emsp;성공 도장 제외</b>
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" name="police-line-checkbox"><b>&emsp;폴리스라인 제외</b>
+            </label>
+        </div>
     </div>
     <hr />
-    <button type="button" class="btn btn-dark" id="search-btn">조회하기</button>
-    <hr />
-
+    <button type="button" class="btn btn-dark" id="search-btn"><b>조회하기</b></button>
+    </p>
 
 
     <!-- 부트스트랩 모달!!!! -->
-    <button type="button" class="btn  btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
-        새로운 테마가 있나요?
-    </button>
+    <div class="add-box">
+        <button type="button" class="btn add-btn" data-toggle="modal" data-target="#exampleModal">
+            새로운 테마가 있나요?
+        </button>
+    </div>
 
 </div>
 
@@ -91,10 +97,11 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="feedback-submit-btn">제출하기</button>
+                <button type="button" class="btn btn-primary" id="feedback-submit-btn"><b>제출하기</b></button>
             </div>
         </div>
     </div>
 </div>
 
+<!--    </div>-->
 <script th:src="@{/js/theme_list.js}"></script>
