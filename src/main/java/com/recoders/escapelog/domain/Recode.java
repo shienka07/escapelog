@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @Data
 public class Recode {
