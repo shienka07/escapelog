@@ -9,7 +9,9 @@ import com.recoders.escapelog.dto.SignupDto;
 import com.recoders.escapelog.security.CurrentMember;
 import com.recoders.escapelog.service.EmailService;
 import com.recoders.escapelog.service.MemberService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -312,9 +314,14 @@ public class MainController {
     }
 
     @GetMapping("/themes")
-    public String themeList(Model model){
-        List<ThemeDto> themeList = themeService.getThemeList(themeService.getAllThemeEntities());
-        model.addAttribute("themeList",themeList);
+    public String themeList(@CurrentMember Member member, Model model){
+
+        if (member!=null){
+            model.addAttribute("themeList", themeService.getAllThemeList(member));
+        }else {
+            List<ThemeDto> themeList = themeService.getThemeList(themeService.getAllThemeEntities());
+            model.addAttribute("themeList",themeList);
+        }
         model.addAttribute("feedbackForm", new FeedbackDto());
         return "theme/theme_list";
     }
@@ -333,9 +340,14 @@ public class MainController {
     }
 
     @GetMapping("/theme_search")
-    public String themeSearch(@RequestParam Map<String, Object> searchForm, Model model){
+    public String themeSearch(@CurrentMember Member member, @RequestParam Map<String, Object> searchForm, Model model){
 
-        model.addAttribute("themeList",themeService.getThemeList(themeService.searchTheme(searchForm)));
+        if (member!=null){
+            model.addAttribute("themeList",themeService.searchTheme(member,searchForm));
+        }else{
+            model.addAttribute("themeList",themeService.getThemeList(themeService.searchTheme(searchForm)));
+        }
+
         return "theme/theme_list :: #theme-list";
     }
 

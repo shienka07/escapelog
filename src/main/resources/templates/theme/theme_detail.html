@@ -153,7 +153,7 @@
             var header = $("meta[name='_csrf_header']").attr("content");
 
             document.getElementById("ask").value = $('#ask').val().replace(/^\s+|\s+$/gm,'');
-            document.getElementById("feedback-theme-no").value=[[${themeInfo.no}]]
+            document.getElementById("feedback-theme-no").value=[[${themeInfo.themeNo}]]
 
             $.ajax({
                 url : '/feedback/info',

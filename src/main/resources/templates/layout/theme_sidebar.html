@@ -1,5 +1,5 @@
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <!--    <div class="col-4">-->
-
 <div class="side-box">
     <h5>카테고리 선택</h5>
     <form class="form-inline">
@@ -12,7 +12,7 @@
     <div class="container-fluit area-box">
         <div class="btn-group btn-group-toggle area-btn-group" data-toggle="buttons">
             <label class="btn btn-outline-dark btn-sm area-btn">
-                <input type="radio" name="area-radio" id="area-radio-1" value="전체">전체보기
+                <input type="radio" name="area-radio" id="area-radio-1" value="전체" checked>전체보기
             </label>
             <label class="btn btn-outline-dark btn-sm area-btn">
                 <input type="radio" name="area-radio" id="area-radio-2" value="홍대">홍대
@@ -40,7 +40,7 @@
     </div>
     <hr />
     <div class="form-box">
-        <div class="form-check">
+        <div class="form-check" sec:authorize="isAuthenticated()">
             <label class="form-check-label">
                 <input type="checkbox" class="form-check-input" name="stamp-checkbox"><b>&emsp;성공 도장 제외</b>
             </label>

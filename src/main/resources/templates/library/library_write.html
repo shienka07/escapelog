@@ -195,7 +195,7 @@
                                             <div class="mt-4" id="theme-search-result">
                                                 <p>검색 결과</p>
                                                 <ul id="theme-list" class="list-group theme-search">
-                                                    <li class="list-group-item list-group-item-action" th:each="theme,num:${themeList}" th:value="${theme.no}" th:text="${theme.themeName}+'/'+${theme.shopName}">
+                                                    <li class="list-group-item list-group-item-action" th:each="theme,num:${themeList}" th:value="${theme.themeNo}" th:text="${theme.themeName}+'/'+${theme.shopName}">
                                                     </li>
                                                 </ul>
                                             </div>
