@@ -57,7 +57,7 @@
 
 
     <!-- 부트스트랩 모달!!!! -->
-    <div class="add-box">
+    <div class="add-box" sec:authorize="isAuthenticated()">
         <button type="button" class="btn add-btn" data-toggle="modal" data-target="#exampleModal">
             새로운 테마가 있나요?
         </button>

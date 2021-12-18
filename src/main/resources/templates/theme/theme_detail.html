@@ -2,6 +2,7 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/common_layout.html}" th:with="activeTab='theme'">
 <head>
     <link th:href="@{/css/theme_detail.css}" rel="stylesheet"/>
@@ -51,22 +52,18 @@
                             <label>평점</label>
 
                             <div class="row">
-                                <div class="col-2 rating">
-                                    <span>흙길</span>
-                                    <span>글 수</span>
+                                <div class="col-2 rating btn" th:each="rating:${themeInfo.ratingMap}" th:id="rating-btn+${rating.key}" th:value="${rating.key}">
+
+                                    <th:block th:switch="${rating.key}">
+                                        <span th:case="1">흙길</span>
+                                        <span th:case="2">흙풀길</span>
+                                        <span th:case="3">풀길</span>
+                                        <span th:case="4">풀꽃길</span>
+                                        <span th:case="5">꽃길</span>
+                                    </th:block>
+                                    <span th:text="${rating.value}"></span>
+
                                 </div>
-                                <div class="col-2 rating">
-                                    <span>흙풀길</span>
-                                    <span>글 수</span></div>
-                                <div class="col-2 rating">
-                                    <span>풀길</span>
-                                    <span>글 수</span></div>
-                                <div class="col-2 rating">
-                                    <span>풀꽃길</span>
-                                    <span>글 수</span></div>
-                                <div class="col-2 rating">
-                                    <span>꽃길</span>
-                                    <span>글 수</span></div>
                             </div>
                             <label>줄거리</label>
                             <p th:utext="${#strings.replace(themeInfo.story,nlString, '&lt;br /&gt;')}">"전설 속의 왕국, 아틀란티스는 과연 존재하는가?
@@ -83,7 +80,7 @@
 
 
                     <!-- 부트스트랩 모달!!!! -->
-                    <button type="button" class="btn  btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
+                    <button sec:authorize="isAuthenticated()" type="button" class="btn  btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
                         잘못된 정보가 있나요?
                     </button>
 
@@ -113,7 +110,7 @@
                                         <label for="ask">내용</label>
                                         <textarea class="form-control" th:field="*{contents}" id="ask" placeholder="내용을 입력하세요"></textarea>
                                     </div>
-                                    <input type="hidden" id="feedback-theme-no" th:field="*{themeNo}">
+                                    <input type="hidden" id="feedback-theme-no" th:field="*{themeNo}" th:value="${themeInfo.themeNo}">
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -126,6 +123,31 @@
 
             </div>
         </div>
+
+
+
+        <!-------------  후기 test --------------->
+
+        <div class="container review-box" style="min-height: 500px; background-color: #eee; padding: 20px;">
+            <div class="container row" id="theme-review-list">
+                <div class="col-6" style="border: 1px solid tomato" th:each="review:${themeReviewList}">
+                    <p th:text="${review.rating}">꽃길</p>
+                    <th:block th:if="${review.secret}==false">
+                        <h4 th:text="${review.title}">후기 제목</h4>
+                        <span th:text="${review.nickname}">닉네임</span>
+                        <p th:text="${review.regdate}">등록날짜</p>
+                        <p th:text="${review.success}">탈출여부</p>
+                        <p th:text="${review.contents}">후기 내용이 이곳에 들어갑니다! 한 줄이나 두 줄 정도로 자르면 될까?</p>
+                    </th:block>
+                    <th:block th:if="${review.secret}==true">
+                        <span>시크뤼이잇</span>
+                    </th:block>
+                </div>
+            </div>
+
+
+            <!-------------  후기 test --------------->
+
         </div>
 
 <script>
@@ -136,6 +158,22 @@
             $('#theme-img').addClass('closed');
             $('#shop-url-btn').hide();
         }
+
+        $("body").on("click", "[id^=rating-btn]", function(event) {
+
+            let themeNo = [[${themeInfo.themeNo}]];
+            let filterRating =$(this).attr('value');
+
+            $.ajax({
+                url : '/review_filter',
+                type : 'GET',
+                data : {themeNo: themeNo, rating: filterRating},
+            })
+                .done(function (fragment) {
+                    $('#theme-review-list').replaceWith(fragment);
+                });
+
+        });
 
         $('#feedback-submit-btn').click(function () {
 

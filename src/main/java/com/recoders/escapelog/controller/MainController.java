@@ -333,10 +333,17 @@ public class MainController {
             model.addAttribute("themeInfo", themeService.getThemeInfo(no));
             model.addAttribute("nlString",System.getProperty("line.separator"));
             model.addAttribute("feedbackForm", new FeedbackDto());
+            model.addAttribute("themeReviewList", libraryService.getReviewList(libraryService.getAllReviewEntities(no)));
         }catch (IllegalArgumentException e){
             return "redirect:/themes";
         }
         return "theme/theme_detail";
+    }
+
+    @GetMapping("/review_filter")
+    public String themeReviewFilter(Long themeNo, Integer rating, Model model){
+        model.addAttribute("themeReviewList", libraryService.getReviewList(libraryService.getReviewFilterEntities(themeNo,rating)));
+        return "theme/theme_detail :: #theme-review-list";
     }
 
     @GetMapping("/theme_search")
@@ -360,16 +367,16 @@ public class MainController {
 
     @ResponseBody
     @PostMapping("/feedback/add")
-    public String feedBackNewTheme(FeedbackDto feedbackForm){
-        feedbackService.saveNewThemeFeedback(feedbackForm);
+    public String feedBackNewTheme(@CurrentMember Member member, FeedbackDto feedbackForm){
+        feedbackService.saveNewThemeFeedback(member,feedbackForm);
         return "theme/theme_list";
     }
 
     @ResponseBody
     @PostMapping("/feedback/info")
-    public String feedBackThemeInfo(FeedbackDto feedbackForm){
+    public String feedBackThemeInfo(@CurrentMember Member member, FeedbackDto feedbackForm){
         try{
-            feedbackService.saveThemeInfoFeedback(feedbackForm);
+            feedbackService.saveThemeInfoFeedback(member,feedbackForm);
         }catch (IllegalArgumentException e){
             return "redirect:/themes";
         }

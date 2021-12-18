@@ -22,7 +22,7 @@ public class ThemeDto {
     private boolean openStatus;
     private String shopUrl;
     private String story;
-
+    private Map<Integer,Integer> ratingMap;
 
     public ThemeDto(Long no, String themeName, String shopName, String imageUrl, Boolean openStatus) {
         this.themeNo = no;
@@ -37,9 +37,9 @@ public class ThemeDto {
     }
 
 
-    public static ThemeDto detailForm(Theme theme){
+    public static ThemeDto detailForm(Theme theme,Map<Integer, Integer> ratingMap){
         return new ThemeDto(theme.getNo(), theme.getThemeName(), theme.getShopName(), theme.getImageUrl()
-                    ,theme.getPlayTime(),theme.getLevel(), theme.getOpenStatus(), theme.getShopUrl(), theme.getStory());
+                    ,theme.getPlayTime(),theme.getLevel(), theme.getOpenStatus(), theme.getShopUrl(), theme.getStory(), ratingMap);
     }
 
 }

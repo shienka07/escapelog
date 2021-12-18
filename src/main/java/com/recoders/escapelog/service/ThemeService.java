@@ -24,6 +24,7 @@ import java.util.*;
 public class ThemeService {
 
     private final ThemeRepository themeRepository;
+    private final LibraryRepository libraryRepository;
 
     @Transactional
     public void saveCsvThemeInfo() throws IOException {
@@ -136,7 +137,17 @@ public class ThemeService {
         if (optionalTheme.isEmpty()){
             throw new IllegalArgumentException("wrong theme no");
         }
-        return ThemeDto.detailForm(optionalTheme.get());
+
+        return ThemeDto.detailForm(optionalTheme.get(),getThemeRatingCnt(no));
     }
+
+    public Map<Integer, Integer> getThemeRatingCnt(Long themeNo){
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i=1; i<=5; i++){
+            map.put(i, libraryRepository.countRecodeRating(themeNo, i));
+        }
+        return map;
+    }
+
 
 }

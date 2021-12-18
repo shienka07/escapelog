@@ -84,6 +84,32 @@ public class LibraryService {
         return recodeList;
     }
 
+    public List<Recode> getAllReviewEntities(Long themeNo){
+        return libraryRepository.findByThemeNoOrderByRegdateDesc(themeNo);
+    }
+
+    public List<Recode> getReviewFilterEntities(Long themeNo, Integer rating){
+        return libraryRepository.findByThemeNoAndRatingOrderByRegdateDesc(themeNo, rating);
+    }
+    public List<RecodeDto> getReviewList(List<Recode> entities){
+
+        List<RecodeDto> recodeList = new ArrayList<>();
+
+        for(Recode recodes : entities){
+            Recode recode = Recode.builder()
+                    .member(recodes.getMember())
+                    .secret(recodes.isSecret())
+                    .title(recodes.getTitle())
+                    .contents(recodes.getContents())
+                    .regdate(recodes.getRegdate())
+                    .success(recodes.getSuccess())
+                    .rating(recodes.getRating())
+                    .build();
+            recodeList.add(RecodeDto.reviewForm(recode));
+        }
+
+        return recodeList;
+    }
 
 
 }

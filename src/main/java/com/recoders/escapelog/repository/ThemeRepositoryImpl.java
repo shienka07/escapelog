@@ -1,8 +1,6 @@
 package com.recoders.escapelog.repository;
 
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.JPAExpressions;
 import com.recoders.escapelog.domain.*;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -11,9 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
-import java.util.Map;
 
-import static com.recoders.escapelog.domain.QTheme.theme;
 
 @RequiredArgsConstructor
 public class ThemeRepositoryImpl implements ThemeRepositoryCustom {
