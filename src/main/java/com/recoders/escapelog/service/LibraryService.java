@@ -97,6 +97,11 @@ public class LibraryService {
         return recode;
     }
 
+    @Transactional
+    public void deleteRecode(Long no){
+        libraryRepository.deleteByNo(no);
+    }
+
 
 
 }

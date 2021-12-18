@@ -308,8 +308,12 @@ public class MainController {
 
     //글 삭제하기
     @PostMapping("/delete/{no}")
-    public String delete(){
-        return null;
+    public String delete(@PathVariable Long no, Model model){
+
+        libraryService.deleteRecode(no);
+        model.addAttribute("recodeResult", true);
+
+        return "redirect:/library";
     }
 
     @PostMapping("/library/search")
