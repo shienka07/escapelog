@@ -14,13 +14,14 @@
 <div class="container p-5">
     <h2>책장 (글 목록) </h2>
     <ul class="row" th:each="recode : ${recodeList}">
-        <a href="@{'/library_detail' + ${library.no}}" class="list-group-item col-4">
+        <a th:href="@{'/read/' + ${recode.no}}" class="list-group-item col-4">
             <input type="checkbox" name="book">
             <div>
                 <img src="https://picsum.photos/200/300">
                 <h4 th:text="${recode.title}"></h4>
-                <p th:text="${recode.regdate}"></p>
-                <!--            <h6 th:text="${recode.theme.themeName}"></h6>-->
+                <p th:if="${recode.regdate != null}"
+                   th:text="${#temporals.format(recode.regdate,'yyyy.MM.dd HH:mm')}"></p>
+                <h6 th:if="${recode.theme != null}" th:text="${recode.theme.themeName}"></h6>
             </div>
 
         </a>

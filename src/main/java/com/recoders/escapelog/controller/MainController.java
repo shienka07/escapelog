@@ -266,9 +266,10 @@ public class MainController {
     public String library(Model model, @CurrentMember Member member) {
         List<Recode> recodeList = libraryService.getMemberRecodeList(member.getNickname());
         model.addAttribute("recodeList",recodeList);
-        model.addAttribute("member",memberService);
+        model.addAttribute("member", member);
         return "library/library_list";
     }
+
 
 
     //글쓰기 페이지
@@ -290,8 +291,13 @@ public class MainController {
 
     //글 읽기 페이지
     @GetMapping("/read/{no}")
-    public String read(){
-        return null;
+    public String read(@PathVariable Long no, Model model, @CurrentMember Member member){
+
+        Recode readRecode = libraryService.getRecode(no);
+        model.addAttribute("recode", readRecode);
+        model.addAttribute("member", member);
+
+        return "library/library_detail";
     }
 
     //글 수정

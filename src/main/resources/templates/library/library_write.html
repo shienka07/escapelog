@@ -23,7 +23,11 @@
             }
 
             $('#save-recode').click(function () {
+                let
+
+
                 let contents = $('#contents').val();
+
 
                 if (contents == '') {
                     alert('내용을 입력해주세요');
@@ -308,7 +312,7 @@
                                 <input type="number" th:field="*{breakTime.min}" min="0" max="99999">
                                 <label>&nbsp;분&emsp;</label>
                                 <input type="number" th:field="*{breakTime.sec}" min="0" max="99999">
-                                <label>&nbsp;초</label>
+                                <label>&nbsp;초 </label>
                             </div>
 
                             <div>
@@ -324,7 +328,7 @@
                                 <label>인원 : </label>
                             </div>
                             <div class="mb-4 form-check-inline">
-                                <input type="number" th:field="*{playerNum}" min="0" max="8">
+                                <input type="number" th:field="*{playerNum}" min="1" max="8" tabindex="1">
                                 <label>&nbsp;명</label>
                             </div>
 
@@ -361,8 +365,7 @@
                                 <!--                                   placeholder="이름">-->
                                 <!--                            <input type="text" th:field="*{player}" id="p-info" name="p-info" class="form-control col-9"-->
                                 <!--                                   placeholder="정보">-->
-                                <input type="button" th:action="@{/delete}" class="btn btn-danger btn-sm" value="삭제"
-                                       onclick="remove_div(this)">
+                                <input type="button" class="btn btn-danger btn-sm" value="삭제" onclick="remove_div(this)">
                             </div>
                             <div id="field"></div>
 

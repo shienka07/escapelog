@@ -1,28 +1,31 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-  <style>
-      .contents{
-          border: 2px solid black;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-      }
-      .theme-img img{
-          max-width: 400px;
-      }
-      .btn-box{
-          display: inline;
-          align-items: center;
-      }
-  </style>
+    <style>
+        .contents {
+            border: 2px solid black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .theme-img img {
+            max-width: 400px;
+        }
+
+        .btn-box {
+            display: inline;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
 
@@ -34,44 +37,60 @@
                 <!-- 업로드한 이미지 -->
                 <img src="https://picsum.photos/200/300">
                 <p>테마명</p>
+                <p id="recode-theme" th:if="${recode.theme != null}" th:text="${recode.theme.themeName}"></p>
             </div>
             <div>
                 <p>평점</p>
+                <p id="recode-rating" th:if="${recode.rating != null}" th:text="${recode.rating}"></p>
             </div>
             <div>
                 <p>지점</p>
+                <p id="recode-shop-name" th:if="${recode.theme != null}" th:text="${recode.theme.shopName}"></p>
             </div>
             <div>
                 <p>힌트 사용 개수</p>
+                <p id="recode-hint" th:if="${recode.hint != null}" th:text="${recode.hint}"></p>
             </div>
             <div>
                 <p>방문 날짜</p>
+                <p id="recode-regdate" th:if="${recode.regdate != null}"
+                   th:text="${#temporals.format(recode.regdate,'yyyy.MM.dd HH:mm')}"></p>
             </div>
             <div>
                 <p>플레이어 정보</p>
+                <!--                <div id="player-check" th:if="${recode.playerCheck}=='true'">-->
+                <!--                    <div id="player-num" th:text="${recode.playerNum}"></div>-->
+                <!--                </div>-->
+
             </div>
             <div>
                 <p>탈출 시간</p>
+                <span id="time-min" th:if="${recode.breakTime != null}" th:text="${recode.breakTime.min}"></span>
+                <span id="time-sec" th:if="${recode.breakTime != null}" th:text="${recode.breakTime.sec}"></span>
             </div>
             <div>
                 <p>탈출여부</p>
+                <p id="recode-success" th:if="${recode.success != null}" th:text="${recode.success} ? '성공' : '실패'"></p>
             </div>
 
         </div>
         <div class="col-6 contents">
             <div>
                 <h3>제목</h3>
+                <p id="recode-title" th:text="${recode.title}"></p>
             </div>
             <div>
                 <p>내용</p>
+                <span th:utext="${#strings.replace(recode.contents, recode.nlString,'&lt;br /&gt;')}"></span>
             </div>
         </div>
-    </div>  
+    </div>
 </div>
 <div class="btn-box">
     <button class="btn btn-primary">이전 책</button>
-    <button class="btn btn-primary">다음 책</button><br/>
-    <button class="btn btn-primary my-3">책장으로 돌아가기</button>
+    <button class="btn btn-primary">다음 책</button>
+    <br/>
+    <a th:href="@{/library}" class="btn btn-primary my-3">책장으로 돌아가기</a>
 </div>
 
 </body>

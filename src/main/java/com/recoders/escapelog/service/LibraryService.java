@@ -40,7 +40,7 @@ public class LibraryService {
                 .hint(recodeDto.getHint())
                 .success(recodeDto.getSuccess())
                 .playerNum(recodeDto.getPlayerNum())
-                .regdate(LocalDateTime.now())
+                .regdate(LocalDateTime.now().withNano(0))
                 .build();
 
         libraryRepository.save(recode);
@@ -75,13 +75,26 @@ public class LibraryService {
                     .no(recodes.getNo())
                     .title(recodes.getTitle())
                     .regdate(recodes.getRegdate())
-//                    .theme(recodes.getTheme())
+                    .theme(recodes.getTheme())
                     .build();
 
             recodeList.add(recode);
         }
 
         return recodeList;
+    }
+
+    @Transactional
+    public Recode getRecode(Long no) {
+        Optional<Recode> optionalRecode = libraryRepository.findById(no);
+
+        if(optionalRecode.isEmpty()){
+            throw new IllegalArgumentException("wrong recode no");
+        }
+
+        Recode recode = optionalRecode.get();
+        recode.setNlString(System.getProperty("line.separator").toString());
+        return recode;
     }
 
 
