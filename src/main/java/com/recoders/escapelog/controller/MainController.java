@@ -320,10 +320,8 @@ public class MainController {
     public String search(Model model, @CurrentMember Member member, @RequestParam(value = "keyword") String keyword){
 
         List<Recode> searchRecodeList = libraryService.searchRecode(keyword);
-        model.addAttribute("member", member);
-//        model.addAttribute("recode", libraryService);
+        model.addAttribute("member", memberService.getMember(member));
         model.addAttribute("searchRecodeList",searchRecodeList);
-
 
         return "redirect:/library";
     }

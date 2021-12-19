@@ -52,6 +52,6 @@ public class Recode {
 
     private Long viewCount;
 
-//    private boolean secret;
+    private Boolean secret;
 
 }

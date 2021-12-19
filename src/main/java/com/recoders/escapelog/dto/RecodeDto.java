@@ -26,4 +26,5 @@ public class RecodeDto {
 
     private Integer playerNum;
 
+    private Boolean secret;
 }

@@ -384,6 +384,19 @@
                             </script>
 
                             <!-- page 3. 플레이어 정보 끝! -->
+                            <div>
+                                <div class="mb-4 form-check-inline">
+                                    <label class="form-check-label">
+                                        <input type="radio" th:field="*{secret}" class="form-check-input"
+                                               name="secret" th:value="true">공개
+                                    </label>
+                                    <label class="form-check-label">
+                                        <input type="radio" th:field="*{secret}" class="form-check-input"
+                                               name="secret" th:value="false">비공개
+                                    </label>
+                                </div>
+                            </div>
+
                             <hr/>
                             <!-- 최종 form 전송 버튼  -->
                             <input type="button" th:onclick="" class="btn btn-primary" id="save-recode">글쓰기 완료</input>

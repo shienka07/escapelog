@@ -28,6 +28,7 @@
                 <p th:if="${recode.regdate != null}"
                    th:text="${#temporals.format(recode.regdate,'yyyy.MM.dd HH:mm')}"></p>
                 <h6 th:if="${recode.theme != null}" th:text="${recode.theme.themeName}"></h6>
+                <p th:text="${recode.secret} ? '공개' : '비공개'" ></p>
             </div>
 
         </a>
