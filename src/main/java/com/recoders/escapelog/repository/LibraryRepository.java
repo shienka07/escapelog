@@ -14,4 +14,6 @@ public interface LibraryRepository extends JpaRepository<Recode, Long> {
 
     Optional<Recode> deleteByNo(Long no);
 
+    List<Recode> findByTheme_ThemeNameContaining(String keyword);
+
 }

@@ -102,6 +102,29 @@ public class LibraryService {
         libraryRepository.deleteByNo(no);
     }
 
+    @Transactional
+    public List<Recode> searchRecode(String keyword) {
+        List<Recode> recodeEntities = libraryRepository.findByTheme_ThemeNameContaining(keyword);
+        List<Recode> searchRecodeList = new ArrayList<>();
+
+        if (recodeEntities.isEmpty()) {
+            return searchRecodeList;
+        }
+
+        for(Recode recodes : recodeEntities) {
+            Recode recode = Recode.builder()
+                    .no(recodes.getNo())
+                    .title(recodes.getTitle())
+                    .regdate(recodes.getRegdate())
+                    .theme(recodes.getTheme())
+                    .build();
+
+            searchRecodeList.add(recode);
+        }
+
+        return searchRecodeList;
+    }
+
 
 
 }

@@ -316,9 +316,16 @@ public class MainController {
         return "redirect:/library";
     }
 
-    @PostMapping("/library/search")
-    public String search(){
-        return null;
+    @GetMapping("/library_search")
+    public String search(Model model, @CurrentMember Member member, @RequestParam(value = "keyword") String keyword){
+
+        List<Recode> searchRecodeList = libraryService.searchRecode(keyword);
+        model.addAttribute("member", member);
+//        model.addAttribute("recode", libraryService);
+        model.addAttribute("searchRecodeList",searchRecodeList);
+
+
+        return "redirect:/library";
     }
 
     @GetMapping("/themes")

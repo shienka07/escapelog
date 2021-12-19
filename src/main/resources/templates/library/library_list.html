@@ -13,6 +13,12 @@
 
 <div class="container p-5">
     <h2>책장 (글 목록) </h2>
+    <div class="search">
+        <form method="get" id="search-recode" th:action="@{/library_search}">
+            <input type="text" id="recode-search" name="keyword" placeholder="검색할 테마를 입력해주세요">
+            <button>검색하기</button>
+        </form>
+    </div>
     <ul class="row" th:each="recode : ${recodeList}">
         <a th:href="@{'/read/' + ${recode.no}}" class="list-group-item col-4">
             <input type="checkbox" name="book">
