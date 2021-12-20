@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface LibraryRepository extends JpaRepository<Recode, Long> {
 
-    List<Recode> findByMember_NicknameOrderByRegdateDesc(String nickname);
+    List<Recode> findByMember_LibraryNameOrderByRegdateDesc(String libraryName);
 
     Optional<Recode> deleteByNo(Long no);
 

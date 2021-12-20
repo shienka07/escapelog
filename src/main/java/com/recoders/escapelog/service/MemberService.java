@@ -123,7 +123,7 @@ public class MemberService implements UserDetailsService {
 
 
     @Transactional
-    public Object getMember(Member member) {
+    public Member getMember(Member member) {
 
         return memberRepository.getById(member.getNo());
     }
@@ -132,6 +132,17 @@ public class MemberService implements UserDetailsService {
     public void saveLibraryName(Member member, String libraryName){
         member.setLibraryName(libraryName);
         memberRepository.save(member);
+    }
+
+    @Transactional
+    public Member getLibraryMember(String libraryName) {
+        Optional<Member> optionalMember = memberRepository.findByLibraryName(libraryName);
+
+        if(optionalMember.isEmpty()){
+            throw new IllegalArgumentException("wrong libraryName");
+        }
+
+        return optionalMember.get();
     }
 
 }

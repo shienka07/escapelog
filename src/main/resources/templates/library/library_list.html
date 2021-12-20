@@ -20,21 +20,22 @@
         </form>
     </div>
     <ul class="row" th:each="recode : ${recodeList}">
-        <a th:href="@{'/read/' + ${recode.no}}" class="list-group-item col-4">
-            <input type="checkbox" name="book">
-            <div>
-                <img src="https://picsum.photos/200/300">
-                <h4 th:text="${recode.title}"></h4>
-                <p th:if="${recode.regdate != null}"
-                   th:text="${#temporals.format(recode.regdate,'yyyy.MM.dd HH:mm')}"></p>
-                <h6 th:if="${recode.theme != null}" th:text="${recode.theme.themeName}"></h6>
-                <p th:text="${recode.secret} ? '공개' : '비공개'" ></p>
-            </div>
-
-        </a>
+        <div th:if="${currentMember.no == libraryMember.no} or ${recode.secret}==true">
+            <a th:href="@{'/read/' + ${recode.no}}" class="list-group-item col-4">
+            <input type="checkbox" name="book" th:if="${currentMember.no == libraryMember.no}">
+                <div>
+                    <img src="https://picsum.photos/200/300">
+                    <h4 th:text="${recode.title}"></h4>
+                    <p th:if="${recode.regdate != null}"
+                       th:text="${#temporals.format(recode.regdate,'yyyy.MM.dd HH:mm')}"></p>
+                    <h6 th:if="${recode.theme != null}" th:text="${recode.theme.themeName}"></h6>
+                    <p th:text="${recode.secret} == true ? '공개' : '비공개'" ></p>
+                </div>
+            </a>
+        </div>
     </ul>
 
-    <div class="container my-3">
+    <div class="container my-3" th:if="${currentMember.no == libraryMember.no}" >
         <a th:href="@{/recode}" class="btn btn-dark" id="recode">글쓰기</a>
         <button class="btn btn-danger" id="delete" data-toggle="modal" data-target="#checkModal">삭제하기</button>
     </div>

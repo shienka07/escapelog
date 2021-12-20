@@ -261,7 +261,7 @@ public class MainController {
         return object.toString();
     }
 
-    //책장 목록
+    //책장
     @GetMapping("/library")
     public String library(Model model, @CurrentMember Member member){
         if(member.getLibraryName()==null){
@@ -277,8 +277,10 @@ public class MainController {
     public String memberLibrary(@PathVariable String libraryName, Model model, @CurrentMember Member member) {
 
         List<Recode> MemberRecodeList = libraryService.getMemberRecodeList(libraryName);
+        Member libraryMember = memberService.getLibraryMember(libraryName);
+        model.addAttribute("libraryMember", libraryMember);
         model.addAttribute("recodeList",MemberRecodeList);
-        model.addAttribute("member", member);
+        model.addAttribute("currentMember", memberService.getMember(member));
         return "library/library_list";
     }
 
@@ -313,8 +315,13 @@ public class MainController {
     public String read(@PathVariable Long no, Model model, @CurrentMember Member member){
 
         Recode readRecode = libraryService.getRecode(no);
+//        Member libraryMember = memberService.getLibraryMember(libraryName);
+        Member currentMember = memberService.getMember(member);
+
         model.addAttribute("recode", readRecode);
-        model.addAttribute("member", member);
+//        model.addAttribute("libraryMember", libraryMember);
+        model.addAttribute("currentMember", currentMember);
+
 
         return "library/library_detail";
     }

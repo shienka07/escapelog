@@ -38,6 +38,7 @@ public class LibraryService {
                 .rating(recodeDto.getRating())
                 .breakTime(recodeDto.getBreakTime())
                 .hint(recodeDto.getHint())
+                .secret(recodeDto.getSecret())
                 .success(recodeDto.getSuccess())
                 .playerNum(recodeDto.getPlayerNum())
                 .regdate(LocalDateTime.now().withNano(0))
@@ -66,8 +67,8 @@ public class LibraryService {
     }
 
     @Transactional
-    public List<Recode> getMemberRecodeList(String nickname) {
-        List<Recode> recodeEntities = libraryRepository.findByMember_NicknameOrderByRegdateDesc(nickname);
+    public List<Recode> getMemberRecodeList(String libraryName) {
+        List<Recode> recodeEntities = libraryRepository.findByMember_LibraryNameOrderByRegdateDesc(libraryName);
         List<Recode> recodeList = new ArrayList<>();
 
         for(Recode recodes : recodeEntities) {
@@ -76,6 +77,7 @@ public class LibraryService {
                     .title(recodes.getTitle())
                     .regdate(recodes.getRegdate())
                     .theme(recodes.getTheme())
+                    .secret(recodes.getSecret())
                     .build();
 
             recodeList.add(recode);
