@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    input:invalid {
+        border: 3px solid red;
+    }
+</style>
+<body>
+
+<div>
+    <form th:action="@{/setLibrary}" method="post" name="libraryName-form">
+        <h3>책장이름을 입력해주세요</h3>
+        <span>책장이름은 변경할 수 없으니 신중하게 입력해주세요</span>
+        <input type="text" name="libraryName" id="library-name" oninput="handleOnInput(this)" placeholder="영어와 숫자만 입력가능합니다.">
+    </form>
+
+</div>
+<script>
+
+    function handleOnInput(e)  {
+        e.value = e.value.replace(/[^A-Za-z0-9]/ig, '')
+    }
+</script>
+
+</body>
+</html>

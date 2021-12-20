@@ -263,12 +263,31 @@ public class MainController {
 
     //책장 목록
     @GetMapping("/library")
-    public String library(Model model, @CurrentMember Member member) {
-        List<Recode> recodeList = libraryService.getMemberRecodeList(member.getNickname());
-        model.addAttribute("recodeList",recodeList);
+    public String library(Model model, @CurrentMember Member member){
+        if(member.getLibraryName()==null){
+            return "library/library_name";
+        }
+
+        return memberLibrary(member.getLibraryName(), model, member);
+
+    }
+
+
+    @GetMapping("/library/{libraryName}")
+    public String memberLibrary(@PathVariable String libraryName, Model model, @CurrentMember Member member) {
+
+        List<Recode> MemberRecodeList = libraryService.getMemberRecodeList(libraryName);
+        model.addAttribute("recodeList",MemberRecodeList);
         model.addAttribute("member", member);
         return "library/library_list";
     }
+
+    @PostMapping("/setLibrary")
+    public String saveLibraryName(@RequestParam(value = "libraryName") String libraryName, Model model, @CurrentMember Member member){
+        memberService.saveLibraryName(member, libraryName);
+        return "redirect:/";
+    }
+
 
 
 

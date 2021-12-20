@@ -121,16 +121,6 @@ public class MemberService implements UserDetailsService {
         return result;
     }
 
-    @Transactional
-    public Member getNicknameMember(String nickname) {
-        Optional<Member> optionalMember = memberRepository.findByNickname(nickname);
-
-        if(optionalMember.isEmpty()){
-            throw new IllegalArgumentException("wrong nickname");
-        }
-
-        return optionalMember.get();
-    }
 
     @Transactional
     public Object getMember(Member member) {
@@ -138,5 +128,10 @@ public class MemberService implements UserDetailsService {
         return memberRepository.getById(member.getNo());
     }
 
+    @Transactional
+    public void saveLibraryName(Member member, String libraryName){
+        member.setLibraryName(libraryName);
+        memberRepository.save(member);
+    }
 
 }

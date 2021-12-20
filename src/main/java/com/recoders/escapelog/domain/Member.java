@@ -39,5 +39,7 @@ public class Member {
 
     private String authenticationCode;
 
+    private String libraryName;
+
 
 }
