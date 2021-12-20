@@ -23,16 +23,38 @@
             }
 
             $('#save-recode').click(function () {
-                // let
 
-
+                let title = $('#title').val();
+                let success = $('input:radio[name=success]').is(':checked');
+                let rating = $('input:radio[name=rating]').is(':checked');
                 let contents = $('#contents').val();
+                let secret = $('input:radio[name=secret]').is(':checked');
 
+                if (title == '') {
+                    alert('제목을 입력해주세요');
+                    return false;
+                }
+
+                if (success == false) {
+                    alert('탈출여부를 선택해주세요');
+                    return false;
+                }
+
+                if (rating == false) {
+                    alert('평점을 선택해주세요');
+                    return false;
+                }
 
                 if (contents == '') {
                     alert('내용을 입력해주세요');
                     return false;
                 }
+
+                if (secret == false) {
+                    alert('공개여부를 선택해주세요');
+                    return false;
+                }
+
 
                 $('form[name=recode-dto]').submit()
 
@@ -109,8 +131,6 @@
                 })
             });
         });
-
-        // function form
     </script>
     <style>
         ul.nav-pills {
@@ -160,7 +180,9 @@
                     <div class="container p-5">
                         <div>
                             <h2>정보 입력</h2>
-                            <label for="title"> 제목: </label>
+                            <p style="color: tomato"> * 는 필수 입력란 입니다.</p>
+                            <label style="color: tomato">*</label>
+                            <label for="title">제목: </label>
                             <input type="text" th:field="*{title}" class="form-control mb-3" id="title" placeholder="제목"
                                    name="title">
                         </div>
@@ -262,45 +284,47 @@
                             <!-- 정보입력- 테마검색 모달 끝 ! -->
 
                             <div>
+                                <label style="color: tomato">*</label>
                                 <label>탈출 여부: </label>
                             </div>
                             <div>
                                 <div class="mb-4 form-check-inline">
                                     <label class="form-check-label">
                                         <input type="radio" th:field="*{success}" class="form-check-input"
-                                               name="success" th:value="true">탈출 성공
+                                               name="success" value="true">탈출 성공
                                     </label>
                                     <label class="form-check-label">
                                         <input type="radio" th:field="*{success}" class="form-check-input"
-                                               name="success" th:value="false">탈출 실패
+                                               name="success" value="false">탈출 실패
                                     </label>
                                 </div>
                             </div>
 
                             <div>
+                                <label style="color: tomato">*</label>
                                 <label>평점: </label>
                             </div>
                             <div>
                                 <div class="mb-4 form-check-inline">
                                     <label class="form-check-label">
                                         <input type="radio" th:field="*{rating}" class="form-check-input" name="rating"
-                                               th:value="1">1
+                                               value="1">1
                                     </label>
                                     <label class="form-check-label">
                                         <input type="radio" th:field="*{rating}" class="form-check-input" name="rating"
-                                               th:value="2">2 &emsp;
+                                               value="2">2 &emsp;
                                     </label>
                                     <label class="form-check-label">
                                         <input type="radio" th:field="*{rating}" class="form-check-input" name="rating"
-                                               th:value="3">3 &emsp;
+                                               value="3">3 &emsp;
                                     </label>
                                     <label class="form-check-label">
                                         <input type="radio" th:field="*{rating}" class="form-check-input" name="rating"
-                                               th:value="4">4 &emsp;
+                                               value="4">4 &emsp;
                                     </label>
                                     <label class="form-check-label">
                                         <input type="radio" th:field="*{rating}" class="form-check-input" name="rating"
-                                               th:value="5">5 &emsp;
+                                               value="5">5 &emsp;
                                     </label>
                                 </div>
                             </div>
@@ -341,6 +365,7 @@
                     <!-- page2. 후기 작성 -->
                     <div id="section2" class="bg-light">
                         <div class="container p-5">
+                            <span style="color: tomato">*</span>
                             <h2>후기 작성</h2>
                             <textarea class="form-control" name="contents" th:field="*{contents}" id="contents"
                                       rows="20"></textarea>
@@ -388,11 +413,11 @@
                                 <div class="mb-4 form-check-inline">
                                     <label class="form-check-label">
                                         <input type="radio" th:field="*{secret}" class="form-check-input"
-                                               name="secret" th:value="true">공개
+                                               name="secret" value="true">공개
                                     </label>
                                     <label class="form-check-label">
                                         <input type="radio" th:field="*{secret}" class="form-check-input"
-                                               name="secret" th:value="false">비공개
+                                               name="secret" value="false">비공개
                                     </label>
                                 </div>
                             </div>
