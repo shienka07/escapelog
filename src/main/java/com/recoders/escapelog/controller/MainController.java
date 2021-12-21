@@ -2,10 +2,7 @@ package com.recoders.escapelog.controller;
 
 import com.google.gson.JsonObject;
 import com.recoders.escapelog.domain.Member;
-import com.recoders.escapelog.dto.ChangePwDto;
-import com.recoders.escapelog.dto.FindPwDto;
-import com.recoders.escapelog.dto.MemberDto;
-import com.recoders.escapelog.dto.SignupDto;
+import com.recoders.escapelog.dto.*;
 import com.recoders.escapelog.security.CurrentMember;
 import com.recoders.escapelog.service.EmailService;
 import com.recoders.escapelog.service.MemberService;
@@ -18,13 +15,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.recoders.escapelog.domain.Recode;
-import com.recoders.escapelog.dto.RecodeDto;
 import com.recoders.escapelog.service.LibraryService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.recoders.escapelog.dto.FeedbackDto;
-import com.recoders.escapelog.dto.ThemeDto;
 import com.recoders.escapelog.service.FeedbackService;
 import com.recoders.escapelog.service.ThemeService;
 
@@ -322,10 +316,24 @@ public class MainController {
     }
 
     //글 수정
-    @PostMapping("/read/{no}")
-    public String modify(){
-        return null;
+    @GetMapping("/edit/{no}")
+    public String edit(@PathVariable Long no, Model model, @CurrentMember Member member){
+
+        model.addAttribute("editRecode", libraryService.getRecode(no));
+        model.addAttribute("member", memberService.getMember(member));
+        model.addAttribute("editDto", new EditDto());
+        model.addAttribute("feedbackForm", new FeedbackDto());
+        return "library/library_edit";
     }
+
+    @PostMapping("/modify/{no}")
+    public String modify(@PathVariable Long no, EditDto editDto, @CurrentMember Member member){
+
+        libraryService.updateRecode(no, member, editDto);
+
+        return "redirect:/library";
+    }
+
 
     //글 삭제하기
     @PostMapping("/delete/{no}")

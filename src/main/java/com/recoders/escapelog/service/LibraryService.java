@@ -3,6 +3,7 @@ package com.recoders.escapelog.service;
 import com.recoders.escapelog.domain.Member;
 import com.recoders.escapelog.domain.Recode;
 import com.recoders.escapelog.domain.Theme;
+import com.recoders.escapelog.dto.EditDto;
 import com.recoders.escapelog.dto.RecodeDto;
 import com.recoders.escapelog.repository.LibraryRepository;
 import com.recoders.escapelog.repository.ThemeRepository;
@@ -99,6 +100,7 @@ public class LibraryService {
         return recode;
     }
 
+
     @Transactional
     public void deleteRecode(Long no){
         libraryRepository.deleteByNo(no);
@@ -128,6 +130,12 @@ public class LibraryService {
         return searchRecodeList;
     }
 
+    @Transactional
+    public Recode updateRecode(Long no, Member member, EditDto editDto){
+        Recode recode = libraryRepository.findByNo(no).get();
+        recode.update(editDto);
+        return recode;
+    }
 
 
 }

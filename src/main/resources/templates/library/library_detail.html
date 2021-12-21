@@ -53,10 +53,9 @@
                 </div>
 
                 <div>
-                    <p>플레이어 정보</p>
-                    <!--                <div id="player-check" th:if="${recode.playerCheck}=='true'">-->
-                    <!--                    <div id="player-num" th:text="${recode.playerNum}"></div>-->
-                    <!--                </div>-->
+                    <p>플레이 인원 </p>
+                    <p id="recode-num" th:if="${recode.playerNum != null}" th:text="${recode.playerNum}"></p>
+                    <p id="recode-num-null" th:if="${recode.playerNum == null}">-</p>
 
                 </div>
                 <div>
@@ -67,7 +66,7 @@
                 </div>
                 <div>
                     <p>탈출여부</p>
-                    <p id="recode-success" th:if="${recode.success != null}" th:text="${recode.success} ? '성공' : '실패'"></p>
+                    <p id="recode-success" th:text="${recode.success} ? '성공' : '실패'"></p>
                 </div>
 
             </div>
@@ -94,6 +93,9 @@
                 <input type="hidden" name="delete-recode" value="delete">
                 <button id="recode-delete">삭제</button>
             </form>
+            <a th:href="@{'/edit/'+${recode.no}}">
+                <button>수정</button>
+            </a>
         </div>
         <button class="btn btn-primary">이전 책</button>
         <button class="btn btn-primary">다음 책</button>

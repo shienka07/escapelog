@@ -16,7 +16,5 @@ public interface LibraryRepository extends JpaRepository<Recode, Long> {
 
     List<Recode> findByMember_LibraryNameAndTheme_ThemeNameContaining(String libraryName, String keyword);
 
-
-
-
+    Optional<Recode> findByNo(Long no);
 }

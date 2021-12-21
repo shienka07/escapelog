@@ -1,12 +1,12 @@
 package com.recoders.escapelog.domain;
 
+import com.recoders.escapelog.dto.EditDto;
 import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 @Getter
@@ -53,5 +53,21 @@ public class Recode {
     private Long viewCount;
 
     private Boolean secret;
+
+
+
+    public void update(EditDto editDto) {
+        this.theme = editDto.getTheme();
+        this.title = editDto.getTitle();
+        this.contents = editDto.getContents();;
+        this.rating = editDto.getRating();
+        this.breakTime = editDto.getBreakTime();
+        this.hint = editDto.getHint();
+        this.success = editDto.getSuccess();
+        this.playerNum = editDto.getPlayerNum();
+        this.secret = editDto.getSecret();
+
+    }
+
 
 }
