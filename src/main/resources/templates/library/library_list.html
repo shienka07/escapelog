@@ -14,7 +14,7 @@
 <div class="container p-5">
     <h2>책장 (글 목록) </h2>
     <div class="search">
-        <form method="get" id="search-recode" th:action="@{/library_search}">
+        <form method="get" id="search-recode" th:action="@{'/library_search/' + ${libraryMember.libraryName}}">
             <input type="text" id="recode-search" name="keyword" placeholder="검색할 테마를 입력해주세요">
             <button>검색하기</button>
         </form>

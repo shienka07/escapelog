@@ -105,23 +105,24 @@ public class LibraryService {
     }
 
     @Transactional
-    public List<Recode> searchRecode(String keyword) {
-        List<Recode> recodeEntities = libraryRepository.findByTheme_ThemeNameContaining(keyword);
+    public List<Recode> searchRecode(String libraryName, String keyword) {
+        List<Recode> searchEntities = libraryRepository.findByMember_LibraryNameAndTheme_ThemeNameContaining(libraryName, keyword);
         List<Recode> searchRecodeList = new ArrayList<>();
 
-        if (recodeEntities.isEmpty()) {
+        if (searchEntities.isEmpty()) {
             return searchRecodeList;
         }
 
-        for(Recode recodes : recodeEntities) {
-            Recode recode = Recode.builder()
-                    .no(recodes.getNo())
-                    .title(recodes.getTitle())
-                    .regdate(recodes.getRegdate())
-                    .theme(recodes.getTheme())
+        for(Recode searchRecode : searchEntities) {
+            Recode search = Recode.builder()
+                    .no(searchRecode.getNo())
+                    .title(searchRecode.getTitle())
+                    .regdate(searchRecode.getRegdate())
+                    .theme(searchRecode.getTheme())
+                    .secret(searchRecode.getSecret())
                     .build();
 
-            searchRecodeList.add(recode);
+            searchRecodeList.add(search);
         }
 
         return searchRecodeList;

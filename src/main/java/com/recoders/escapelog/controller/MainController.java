@@ -277,15 +277,15 @@ public class MainController {
     public String memberLibrary(@PathVariable String libraryName, Model model, @CurrentMember Member member) {
 
         List<Recode> MemberRecodeList = libraryService.getMemberRecodeList(libraryName);
-        Member libraryMember = memberService.getLibraryMember(libraryName);
-        model.addAttribute("libraryMember", libraryMember);
+
+        model.addAttribute("libraryMember", memberService.getLibraryMember(libraryName));
         model.addAttribute("recodeList",MemberRecodeList);
         model.addAttribute("currentMember", memberService.getMember(member));
         return "library/library_list";
     }
 
     @PostMapping("/setLibrary")
-    public String saveLibraryName(@RequestParam(value = "libraryName") String libraryName, Model model, @CurrentMember Member member){
+    public String saveLibraryName(@RequestParam(value = "libraryName") String libraryName, @CurrentMember Member member){
         memberService.saveLibraryName(member, libraryName);
         return "redirect:/";
     }
@@ -297,7 +297,7 @@ public class MainController {
     @GetMapping("/recode")
     public String recode(Model model, @CurrentMember Member member){
         model.addAttribute("recodeDto", new RecodeDto());
-        model.addAttribute("member", member);
+        model.addAttribute("member", memberService.getMember(member));
         model.addAttribute("feedbackForm", new FeedbackDto());
         return "library/library_write";
     }
@@ -314,13 +314,8 @@ public class MainController {
     @GetMapping("/read/{no}")
     public String read(@PathVariable Long no, Model model, @CurrentMember Member member){
 
-        Recode readRecode = libraryService.getRecode(no);
-//        Member libraryMember = memberService.getLibraryMember(libraryName);
-        Member currentMember = memberService.getMember(member);
-
-        model.addAttribute("recode", readRecode);
-//        model.addAttribute("libraryMember", libraryMember);
-        model.addAttribute("currentMember", currentMember);
+        model.addAttribute("recode", libraryService.getRecode(no));
+        model.addAttribute("currentMember", memberService.getMember(member));
 
 
         return "library/library_detail";
@@ -342,15 +337,18 @@ public class MainController {
         return "redirect:/library";
     }
 
-    @GetMapping("/library_search")
-    public String search(Model model, @CurrentMember Member member, @RequestParam(value = "keyword") String keyword){
+    @GetMapping("/library_search/{libraryName}")
+    public String search(@PathVariable String libraryName, Model model, @CurrentMember Member member, @RequestParam(value = "keyword") String keyword){
 
-        List<Recode> searchRecodeList = libraryService.searchRecode(keyword);
-        model.addAttribute("member", memberService.getMember(member));
-        model.addAttribute("searchRecodeList",searchRecodeList);
+        List<Recode> searchRecodeList = libraryService.searchRecode(libraryName, keyword);
 
-        return "redirect:/library";
+        model.addAttribute("recodeList",searchRecodeList);
+        model.addAttribute("libraryMember", memberService.getLibraryMember(libraryName));
+        model.addAttribute("currentMember", memberService.getMember(member));
+
+        return "library/library_list";
     }
+
 
     @GetMapping("/themes")
     public String themeList(Model model){
