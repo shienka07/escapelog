@@ -28,8 +28,8 @@
     </style>
 </head>
 <body>
-<div th:if="${currentMember.no == recode.member.no} or ${recode.secret}==true">
-    <div class="container p-5">
+<div>
+    <div class="container p-5" th:if="${currentMember.no == recode.member.no} or ${recode.secret}==true">
         <h2>책 펼쳐보기</h2>
         <div class="row">
             <div class="col-6 bg-light">
@@ -87,7 +87,8 @@
             </div>
         </div>
     </div>
-    <div class="btn-box">
+    <div class="btn-box" th:if="${currentMember.no != recode.member.no} and ${recode.secret}==false">
+        <p> 비공개 글입니다 </p>
         <div th:if="${currentMember.no == recode.member.no}">
             <form id="recode-delete-form" th:action="@{'/delete/'+${recode.no}}" method="post">
                 <input type="hidden" name="delete-recode" value="delete">
@@ -102,10 +103,6 @@
         <br/>
         <a th:href="@{'/library/' + ${recode.member.libraryName}}" class="btn btn-primary my-3">책장으로 돌아가기</a>
     </div>
-</div>
-<div th:if="${currentMember.no != recode.member.no} and ${recode.secret}==false">
-    <p> 비공개 글입니다 </p>
-    <a th:href="@{'/library/' + ${recode.member.libraryName}}" class="btn btn-primary my-3">책장으로 돌아가기</a>
 </div>
 </body>
 </html>
