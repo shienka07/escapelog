@@ -6,7 +6,9 @@ import com.recoders.escapelog.dto.*;
 import com.recoders.escapelog.security.CurrentMember;
 import com.recoders.escapelog.service.EmailService;
 import com.recoders.escapelog.service.MemberService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -361,9 +363,14 @@ public class MainController {
 
 
     @GetMapping("/themes")
-    public String themeList(Model model){
-        List<ThemeDto> themeList = themeService.getThemeList(themeService.getAllThemeEntities());
-        model.addAttribute("themeList",themeList);
+    public String themeList(@CurrentMember Member member, Model model){
+
+        if (member!=null){
+            model.addAttribute("themeList", themeService.getAllThemeList(member));
+        }else {
+            List<ThemeDto> themeList = themeService.getThemeList(themeService.getAllThemeEntities());
+            model.addAttribute("themeList",themeList);
+        }
         model.addAttribute("feedbackForm", new FeedbackDto());
         return "theme/theme_list";
     }
@@ -375,16 +382,28 @@ public class MainController {
             model.addAttribute("themeInfo", themeService.getThemeInfo(no));
             model.addAttribute("nlString",System.getProperty("line.separator"));
             model.addAttribute("feedbackForm", new FeedbackDto());
+            model.addAttribute("themeReviewList", libraryService.getReviewList(libraryService.getAllReviewEntities(no)));
         }catch (IllegalArgumentException e){
             return "redirect:/themes";
         }
         return "theme/theme_detail";
     }
 
-    @GetMapping("/theme_search")
-    public String themeSearch(@RequestParam Map<String, Object> searchForm, Model model){
+    @GetMapping("/review_filter")
+    public String themeReviewFilter(Long themeNo, Integer rating, Model model){
+        model.addAttribute("themeReviewList", libraryService.getReviewList(libraryService.getReviewFilterEntities(themeNo,rating)));
+        return "theme/theme_detail :: #theme-review-list";
+    }
 
-        model.addAttribute("themeList",themeService.getThemeList(themeService.searchTheme(searchForm)));
+    @GetMapping("/theme_search")
+    public String themeSearch(@CurrentMember Member member, @RequestParam Map<String, Object> searchForm, Model model){
+
+        if (member!=null){
+            model.addAttribute("themeList",themeService.searchTheme(member,searchForm));
+        }else{
+            model.addAttribute("themeList",themeService.getThemeList(themeService.searchTheme(searchForm)));
+        }
+
         return "theme/theme_list :: #theme-list";
     }
 
@@ -397,16 +416,16 @@ public class MainController {
 
     @ResponseBody
     @PostMapping("/feedback/add")
-    public String feedBackNewTheme(FeedbackDto feedbackForm){
-        feedbackService.saveNewThemeFeedback(feedbackForm);
+    public String feedBackNewTheme(@CurrentMember Member member, FeedbackDto feedbackForm){
+        feedbackService.saveNewThemeFeedback(member,feedbackForm);
         return "theme/theme_list";
     }
 
     @ResponseBody
     @PostMapping("/feedback/info")
-    public String feedBackThemeInfo(FeedbackDto feedbackForm){
+    public String feedBackThemeInfo(@CurrentMember Member member, FeedbackDto feedbackForm){
         try{
-            feedbackService.saveThemeInfoFeedback(feedbackForm);
+            feedbackService.saveThemeInfoFeedback(member,feedbackForm);
         }catch (IllegalArgumentException e){
             return "redirect:/themes";
         }

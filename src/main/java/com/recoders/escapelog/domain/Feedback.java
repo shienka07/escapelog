@@ -22,7 +22,7 @@ public class Feedback {
     private FeedbackType feedbackType;
 
     @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
-    private Member user;
+    private Member member;
 
     @ManyToOne(targetEntity = Theme.class, fetch = FetchType.LAZY)
     private Theme theme;

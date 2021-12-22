@@ -4,7 +4,8 @@ $(document).ready(function (){
             keyword : $('#keyword').val().replace(/^\s+|\s+$/gm,''),
             area : $('input[name=area-radio]:checked').val(),
             successExclude : $("input:checkbox[name=stamp-checkbox]").is(":checked"),
-            closeExclude : $("input:checkbox[name=police-line-checkbox]").is(":checked")
+            closeExclude : $("input:checkbox[name=police-line-checkbox]").is(":checked"),
+            stampExclude : $("input:checkbox[name=stamp-checkbox]").is(":checked")
         };
 
         $.ajax({

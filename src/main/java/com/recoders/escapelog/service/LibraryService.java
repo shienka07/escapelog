@@ -24,10 +24,10 @@ public class LibraryService {
     private final LibraryRepository libraryRepository;
     private final ThemeRepository themeRepository;
 
-    public void saveRecode(Member member, RecodeDto recodeDto){
+    public void saveRecode(Member member, RecodeDto recodeDto) {
 
         Theme theme = null;
-        if(recodeDto.getThemeNo() != null){
+        if (recodeDto.getThemeNo() != null) {
             theme = themeRepository.findById(recodeDto.getThemeNo()).get();
         }
 
@@ -54,7 +54,7 @@ public class LibraryService {
         List<Recode> recodeEntities = libraryRepository.findAll();
         List<Recode> recodeList = new ArrayList<>();
 
-        for(Recode recodes : recodeEntities) {
+        for (Recode recodes : recodeEntities) {
             Recode recode = Recode.builder()
                     .title(recodes.getTitle())
                     .regdate(recodes.getRegdate())
@@ -72,7 +72,7 @@ public class LibraryService {
         List<Recode> recodeEntities = libraryRepository.findByMember_LibraryNameOrderByRegdateDesc(libraryName);
         List<Recode> recodeList = new ArrayList<>();
 
-        for(Recode recodes : recodeEntities) {
+        for (Recode recodes : recodeEntities) {
             Recode recode = Recode.builder()
                     .no(recodes.getNo())
                     .title(recodes.getTitle())
@@ -91,7 +91,7 @@ public class LibraryService {
     public Recode getRecode(Long no) {
         Optional<Recode> optionalRecode = libraryRepository.findById(no);
 
-        if(optionalRecode.isEmpty()){
+        if (optionalRecode.isEmpty()) {
             throw new IllegalArgumentException("wrong recode no");
         }
 
@@ -102,7 +102,7 @@ public class LibraryService {
 
 
     @Transactional
-    public void delete(Long no){
+    public void delete(Long no) {
         libraryRepository.deleteByNo(no);
     }
 
@@ -115,7 +115,7 @@ public class LibraryService {
             return searchRecodeList;
         }
 
-        for(Recode searchRecode : searchEntities) {
+        for (Recode searchRecode : searchEntities) {
             Recode search = Recode.builder()
                     .no(searchRecode.getNo())
                     .title(searchRecode.getTitle())
@@ -131,11 +131,40 @@ public class LibraryService {
     }
 
     @Transactional
-    public Recode updateRecode(Long no, Member member, EditDto editDto){
+    public Recode updateRecode(Long no, Member member, EditDto editDto) {
         Recode recode = libraryRepository.findByNo(no).get();
         recode.update(editDto);
         return recode;
     }
 
+    public List<Recode> getAllReviewEntities(Long themeNo) {
+        return libraryRepository.findByThemeNoOrderByRegdateDesc(themeNo);
+    }
+
+    public List<Recode> getReviewFilterEntities(Long themeNo, Integer rating) {
+        return libraryRepository.findByThemeNoAndRatingOrderByRegdateDesc(themeNo, rating);
+    }
+
+    public List<RecodeDto> getReviewList(List<Recode> entities) {
+
+        List<RecodeDto> recodeList = new ArrayList<>();
+
+        for (Recode recodes : entities) {
+            Recode recode = Recode.builder()
+                    .member(recodes.getMember())
+                    .secret(recodes.getSecret())
+                    .title(recodes.getTitle())
+                    .contents(recodes.getContents())
+                    .regdate(recodes.getRegdate())
+                    .success(recodes.getSuccess())
+                    .rating(recodes.getRating())
+                    .build();
+            recodeList.add(RecodeDto.reviewForm(recode));
+        }
+
+        return recodeList;
+
+    }
 
 }
+

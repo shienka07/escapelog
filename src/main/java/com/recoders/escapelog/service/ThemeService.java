@@ -1,8 +1,11 @@
 package com.recoders.escapelog.service;
 
 import com.recoders.escapelog.domain.AreaType;
+import com.recoders.escapelog.domain.Member;
 import com.recoders.escapelog.domain.Theme;
 import com.recoders.escapelog.dto.ThemeDto;
+import com.recoders.escapelog.dto.ThemeRecodeDto;
+import com.recoders.escapelog.repository.LibraryRepository;
 import com.recoders.escapelog.repository.ThemeRepository;
 import com.recoders.escapelog.repository.ThemeRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +24,8 @@ import java.util.*;
 public class ThemeService {
 
     private final ThemeRepository themeRepository;
-    
+    private final LibraryRepository libraryRepository;
+
     @Transactional
     public void saveCsvThemeInfo() throws IOException {
         ClassPathResource resource = new ClassPathResource("csv/themes.csv");
@@ -57,6 +61,11 @@ public class ThemeService {
         return themeRepository.findAll();
     }
 
+    public List<Theme> searchThemeKeyword(String keyword){
+        List<Theme> themeList = themeRepository.searchThemeKeyword(keyword);
+        return themeList;
+    }
+
     public List<Theme> searchTheme(Map<String, Object> searchForm){
         String keyword = searchForm.get("keyword").toString();
         String areaName = searchForm.get("area").toString();
@@ -75,8 +84,34 @@ public class ThemeService {
         return themeList;
     }
 
-    public List<Theme> searchThemeKeyword(String keyword){
-        List<Theme> themeList = themeRepository.searchThemeKeyword(keyword);
+    public List<ThemeRecodeDto> searchTheme(Member member, Map<String, Object> searchForm){
+        String keyword = searchForm.get("keyword").toString();
+        String areaName = searchForm.get("area").toString();
+        AreaType areaType = null;
+        String detailArea = "";
+        List<ThemeRecodeDto> themeList;
+        Boolean closeExclude = searchForm.get("closeExclude").equals("true");
+        Boolean stampExclude = searchForm.get("stampExclude").equals("true");
+
+        if (AreaType.nameOf(areaName) != null){
+            areaType = AreaType.nameOf(areaName);
+        }else if(!areaName.equals("전체")){
+            detailArea = areaName;
+        }
+
+        if (stampExclude){
+            themeList = themeRepository.searchThemeStampExclude(member, keyword, areaType, detailArea, closeExclude);
+
+        }else{
+            themeList = themeRepository.searchTheme(member, keyword, areaType, detailArea, closeExclude);
+        }
+        Collections.shuffle(themeList);
+        return themeList;
+    }
+
+    public List<ThemeRecodeDto> getAllThemeList(Member member){
+        List<ThemeRecodeDto> themeList = themeRepository.findAllTheme(member);
+        Collections.shuffle(themeList);
         return themeList;
     }
 
@@ -102,7 +137,17 @@ public class ThemeService {
         if (optionalTheme.isEmpty()){
             throw new IllegalArgumentException("wrong theme no");
         }
-        return ThemeDto.detailForm(optionalTheme.get());
+
+        return ThemeDto.detailForm(optionalTheme.get(),getThemeRatingCnt(no));
     }
+
+    public Map<Integer, Integer> getThemeRatingCnt(Long themeNo){
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i=1; i<=5; i++){
+            map.put(i, libraryRepository.countRecodeRating(themeNo, i));
+        }
+        return map;
+    }
+
 
 }
