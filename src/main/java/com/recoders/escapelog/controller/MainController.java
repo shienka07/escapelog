@@ -298,8 +298,9 @@ public class MainController {
 
     //글쓰기 보내기
     @PostMapping("/recode")
-    public String write(RecodeDto recodeDto, @CurrentMember Member member){
+    public String write(RecodeDto recodeDto, Model model, @CurrentMember Member member){
         libraryService.saveRecode(member, recodeDto);
+        model.addAttribute("recodeResult", true);
         return "redirect:/library";
     }
 
@@ -339,11 +340,12 @@ public class MainController {
     @PostMapping("/delete/{no}")
     public String delete(@PathVariable Long no, Model model){
 
-        libraryService.deleteRecode(no);
-        model.addAttribute("recodeResult", true);
+        libraryService.delete(no);
+        model.addAttribute("deleteResult", true);
 
         return "redirect:/library";
     }
+    
 
     @GetMapping("/library_search/{libraryName}")
     public String search(@PathVariable String libraryName, Model model, @CurrentMember Member member, @RequestParam(value = "keyword") String keyword){

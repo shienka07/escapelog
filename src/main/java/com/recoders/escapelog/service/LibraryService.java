@@ -102,7 +102,7 @@ public class LibraryService {
 
 
     @Transactional
-    public void deleteRecode(Long no){
+    public void delete(Long no){
         libraryRepository.deleteByNo(no);
     }
 
