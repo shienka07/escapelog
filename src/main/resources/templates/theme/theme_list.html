@@ -28,19 +28,8 @@
                             <div class="tape" th:each="theme,num:${themeList}">
                                 <div class="theme-item" th:classappend="${theme.openStatus}==false ? 'closed' : ''">
                                     <!---------------------- 성공 도장 위치 : class="polaroid" 에서 'success' 추가 ==> [class="polaroid success"] --------->
-                                    <!---------------------- 방문 도장 위치 : class="polaroid" 에서 'visit' 추가 ==> [class="polaroid visit"] --------->
-                                    <a sec:authorize="isAnonymous()" class="polaroid" href="#" th:href="@{/themes/}+${theme.themeNo}">
-                                        <div class="img-box">
-                                            <img th:src="'https://picsum.photos/200/400?random='+${theme.themeNo}">
-                                        </div>
-                                        <div class="caption-box">
-                                            <p th:text="${theme.shopName}">지점명</p>
-                                            <h4 th:text="${theme.themeName}">테마이름이엄청길면어떡하나</h4>
-                                        </div>
-                                    </a>
-
-                                    <a sec:authorize="isAuthenticated()" class="polaroid" href="#" th:href="@{/themes/}+${theme.themeNo}"
-                                       th:classappend="|${theme.success==true ? 'success' : ''} ${theme.success==false ? 'visit' : ''}|">
+                                    <a class="polaroid" href="#" th:href="@{/themes/}+${theme.themeNo}"
+                                       th:classappend="${#authorization.getAuthentication() != null and #authorization.expression('isAuthenticated()')} and ${theme.success==true}? success">
                                         <div class="img-box">
                                             <img th:src="'https://picsum.photos/200/400?random='+${theme.themeNo}">
                                         </div>
