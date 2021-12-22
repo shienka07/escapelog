@@ -50,7 +50,7 @@
                             <label>플레이타임</label>
                             <p th:text="${themeInfo.playTime}+분">60분</p>
                             <label>평점</label>
-
+                            <button id="rating-btn0" type="button" value="0">전체</button>
                             <div class="row">
                                 <div class="col-2 rating btn" th:each="rating:${themeInfo.ratingMap}" th:id="rating-btn+${rating.key}" th:value="${rating.key}">
 
@@ -124,30 +124,24 @@
             </div>
         </div>
 
-
-
-        <!-------------  후기 test --------------->
-
         <div class="container review-box" style="min-height: 500px; background-color: #eee; padding: 20px;">
-            <div class="container row" id="theme-review-list">
-                <div class="col-6" style="border: 1px solid tomato" th:each="review:${themeReviewList}">
-                    <p th:text="${review.rating}">꽃길</p>
-                    <th:block th:if="${review.secret}==false">
-                        <h4 th:text="${review.title}">후기 제목</h4>
-                        <span th:text="${review.nickname}">닉네임</span>
-                        <p th:text="${review.regdate}">등록날짜</p>
-                        <p th:text="${review.success}">탈출여부</p>
-                        <p th:text="${review.contents}">후기 내용이 이곳에 들어갑니다! 한 줄이나 두 줄 정도로 자르면 될까?</p>
-                    </th:block>
-                    <th:block th:if="${review.secret}==true">
-                        <span>시크뤼이잇</span>
-                    </th:block>
-                </div>
-            </div>
-
-
-            <!-------------  후기 test --------------->
-
+           <a th:each="review:${themeReviewList}" th:classappend="${review.secret}==true ? 'secret' : ''" th:href="@{'/read/'+${review.no}}" >
+               <div class="container row" id="theme-review-list">
+                   <div class="col-6" style="border: 1px solid tomato">
+                       <p th:text="${review.rating}">꽃길</p>
+                       <th:block th:if="${review.secret}==false">
+                           <h4 th:text="${review.title}">후기 제목</h4>
+                           <span th:text="${review.nickname}">닉네임</span>
+                           <p th:text="${review.regdate}">등록날짜</p>
+                           <p th:text="${review.success}">탈출여부</p>
+                           <p th:text="${review.contents}">후기 내용이 이곳에 들어갑니다! 한 줄이나 두 줄 정도로 자르면 될까?</p>
+                       </th:block>
+                       <th:block th:if="${review.secret}==true">
+                           <span>시크뤼이잇</span>
+                       </th:block>
+                   </div>
+               </div>
+           </a>
         </div>
 
 <script>

@@ -142,6 +142,7 @@ public class LibraryService {
     }
 
     public List<Recode> getReviewFilterEntities(Long themeNo, Integer rating) {
+
         return libraryRepository.findByThemeNoAndRatingOrderByRegdateDesc(themeNo, rating);
     }
 
@@ -152,6 +153,7 @@ public class LibraryService {
         for (Recode recodes : entities) {
             Recode recode = Recode.builder()
                     .member(recodes.getMember())
+                    .no(recodes.getNo())
                     .secret(recodes.getSecret())
                     .title(recodes.getTitle())
                     .contents(recodes.getContents())

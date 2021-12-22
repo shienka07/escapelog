@@ -40,8 +40,10 @@ public class RecodeDto {
 
     private LocalDate regdate;
 
+    private Long no;
 
-    public RecodeDto(String nickname, boolean secret, String title, String contents, LocalDate regdate, Boolean success, Integer rating) {
+    public RecodeDto(Long no, String nickname, boolean secret, String title, String contents, LocalDate regdate, Boolean success, Integer rating) {
+        this.no = no;
         this.nickname = nickname;
         this.secret = secret;
         this.title = title;
@@ -52,7 +54,7 @@ public class RecodeDto {
     }
 
     public static RecodeDto reviewForm(Recode recode){
-        return new RecodeDto(recode.getMember().getNickname(),recode.getSecret(),recode.getTitle(), recode.getContents(),
+        return new RecodeDto(recode.getNo(),recode.getMember().getNickname(),recode.getSecret(),recode.getTitle(), recode.getContents(),
                 recode.getRegdate().toLocalDate(),recode.getSuccess(),recode.getRating());
     }
 

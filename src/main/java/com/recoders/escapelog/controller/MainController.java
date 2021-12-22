@@ -391,7 +391,12 @@ public class MainController {
 
     @GetMapping("/review_filter")
     public String themeReviewFilter(Long themeNo, Integer rating, Model model){
-        model.addAttribute("themeReviewList", libraryService.getReviewList(libraryService.getReviewFilterEntities(themeNo,rating)));
+        if (rating == 0){
+            model.addAttribute("themeReviewList", libraryService.getReviewList(libraryService.getAllReviewEntities(themeNo)));
+        }else{
+            model.addAttribute("themeReviewList", libraryService.getReviewList(libraryService.getReviewFilterEntities(themeNo,rating)));
+        }
+
         return "theme/theme_detail :: #theme-review-list";
     }
 
