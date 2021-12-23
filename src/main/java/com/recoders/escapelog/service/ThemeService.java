@@ -4,16 +4,13 @@ import com.recoders.escapelog.domain.AreaType;
 import com.recoders.escapelog.domain.Member;
 import com.recoders.escapelog.domain.Theme;
 import com.recoders.escapelog.dto.ThemeDto;
-import com.recoders.escapelog.dto.ThemeRecodeDto;
 import com.recoders.escapelog.repository.LibraryRepository;
-import com.recoders.escapelog.repository.ThemeRepository;
 import com.recoders.escapelog.repository.ThemeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -50,6 +47,7 @@ public class ThemeService {
                     .playTime(Integer.parseInt(arr[6]))
                     .openStatus(arr[7].equals("TRUE")?true:false)
                     .story(arr[8].replaceAll("<br>",System.getProperty("line.separator")))
+                    .imageUrl("") //TODO - 임시로 빈문자열 입력
                     .build();
 
             themeList.add(theme);
@@ -84,12 +82,12 @@ public class ThemeService {
         return themeList;
     }
 
-    public List<ThemeRecodeDto> searchTheme(Member member, Map<String, Object> searchForm){
+    public List<ThemeDto> searchTheme(Member member, Map<String, Object> searchForm){
         String keyword = searchForm.get("keyword").toString();
         String areaName = searchForm.get("area").toString();
         AreaType areaType = null;
         String detailArea = "";
-        List<ThemeRecodeDto> themeList;
+        List<ThemeDto> themeList;
         Boolean closeExclude = searchForm.get("closeExclude").equals("true");
         Boolean stampExclude = searchForm.get("stampExclude").equals("true");
 
@@ -109,8 +107,8 @@ public class ThemeService {
         return themeList;
     }
 
-    public List<ThemeRecodeDto> getAllThemeList(Member member){
-        List<ThemeRecodeDto> themeList = themeRepository.findAllTheme(member);
+    public List<ThemeDto> getAllThemeList(Member member){
+        List<ThemeDto> themeList = themeRepository.findAllTheme(member);
         Collections.shuffle(themeList);
         return themeList;
     }

@@ -123,7 +123,7 @@
                                                   placeholder="내용을 입력하세요"></textarea>
                                     </div>
                                     <input type="hidden" id="feedback-theme-no" th:field="*{themeNo}"
-                                           th:value="${themeInfo.themeNo}">
+                                           th:value="${themeInfo.getNo}">
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -145,6 +145,7 @@
                     <div class="col-6" style="border: 1px solid tomato">
                         <p th:text="${review.rating}">꽃길</p>
                         <th:block th:if="${review.secret}==false">
+                            <h4 th:text="${review.title}">후기 제목</h4>
                             <h4 th:text="${review.title}">후기 제목</h4>
                             <span th:text="${review.nickname}">닉네임</span>
                             <p th:text="${review.regdate}">등록날짜</p>
@@ -171,7 +172,7 @@
 
                 $("body").on("click", "[id^=rating-btn]", function (event) {
 
-                    let themeNo = [[${themeInfo.themeNo}]];
+                    let themeNo = [[${themeInfo.no}]];
                     let filterRating = $(this).attr('value');
 
                     $.ajax({
@@ -201,7 +202,7 @@
                     var header = $("meta[name='_csrf_header']").attr("content");
 
                     document.getElementById("ask").value = $('#ask').val().replace(/^\s+|\s+$/gm, '');
-                    document.getElementById("feedback-theme-no").value = [[${themeInfo.themeNo}]]
+                    document.getElementById("feedback-theme-no").value = [[${themeInfo.no}]]
 
                     $.ajax({
                         url: '/feedback/info',

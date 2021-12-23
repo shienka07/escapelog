@@ -2,7 +2,6 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/common_layout.html}" th:with="activeTab='theme'">
 <head>
     <link rel="stylesheet" type="text/css" href="/css/theme.css">
@@ -12,8 +11,91 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
-</head>
+    <script th:inline="javascript">
+        let currentUrl = window.location.protocol
+            + "//" + window.location.host
+            + window.location.pathname;
 
+        let themeList = [[${themeList}]];
+        let checkU = [[${checkU}]];
+        let totalCount = 0;
+
+        $(document).ready(function () {
+            setThemeList();
+
+            $('#more-btn').click(function () {
+                setThemeList();
+            });
+
+            $('#search-btn').click(function () {
+
+                let searchForm = {
+                    keyword : $('#keyword').val().replace(/^\s+|\s+$/gm,''),
+                    area : $('input[name=area-radio]:checked').val(),
+                    successExclude : $("input:checkbox[name=stamp-checkbox]").is(":checked"),
+                    closeExclude : $("input:checkbox[name=police-line-checkbox]").is(":checked"),
+                    stampExclude : $("input:checkbox[name=stamp-checkbox]").is(":checked")
+                };
+
+                $.ajax({
+                    url : '/theme_search',
+                    type : 'GET',
+                    data : searchForm,
+                    success : function(data){
+                        $('#theme-list').children().remove();
+                        themeList = data;
+                        totalCount = 0;
+                        setThemeList();
+                    },
+                    error : function(request,status,error){
+                        console.log("code = "+ request.status + " error = " + error);
+                    }
+                })
+            });
+
+        });
+
+        function setThemeList(){
+            let count = 0;
+            let themeInfo;
+            for (let i = totalCount ; i<totalCount+12 && i<themeList.length ; i++) {
+                themeInfo = themeList[i];
+                addThemeItem(i, themeInfo);
+                addPoliceLineClass(i,themeInfo.openStatus);
+                addStampClass(i, themeInfo.success);
+                count++;
+            }
+            totalCount += count;
+        }
+
+        function addThemeItem(index, theme) {
+            var list = $("#theme-list");
+            list.append('<div class="col-4"><div class="tape">'+'<div class="theme-item" id="theme-item'+index+'">'
+                +'<a class="polaroid" href="'+currentUrl+'/'+theme.no+'" id="polaroid'+index+'">'
+                + '<div class="img-box">'+'<img src="https://picsum.photos/200/400?random='+theme.no+'">' +'</div>'
+                + '<div class="caption-box">'+'<p>'+theme.shopName+'</p>'+'<h4>'+theme.themeName+'</h4>'+'</div>'
+                +'</a></div></div></div>');
+        }
+
+        function addPoliceLineClass(index, openStatus){
+            if (!openStatus){
+                let id = '#theme-item'+index;
+                $(id).addClass('closed');
+            }
+        }
+
+        function addStampClass(index, success){
+            if (checkU && success){
+                let id = '#polaroid'+index;
+                $(id).addClass('success');
+            }
+        }
+
+
+
+    </script>
+
+</head>
 <body>
 <th:block layout:fragment="content">
     <section>
@@ -23,29 +105,16 @@
 
                 <!-- 테마 모아보기 리스트 -->
                 <div class="col-8 list-box">
-                    <div class="container" id="theme-list">
-                        <div class="row">
-                            <div class="tape" th:each="theme,num:${themeList}">
-                                <div class="theme-item" th:classappend="${theme.openStatus}==false ? 'closed' : ''">
-                                    <!---------------------- 성공 도장 위치 : class="polaroid" 에서 'success' 추가 ==> [class="polaroid success"] --------->
-                                    <a class="polaroid" href="#" th:href="@{/themes/}+${theme.themeNo}"
-                                       th:classappend="${#authorization.getAuthentication() != null and #authorization.expression('isAuthenticated()')} and ${theme.success==true}? success">
-                                        <div class="img-box">
-                                            <img th:src="'https://picsum.photos/200/400?random='+${theme.themeNo}">
-                                        </div>
-                                        <div class="caption-box">
-                                            <p th:text="${theme.shopName}">지점명</p>
-                                            <h4 th:text="${theme.themeName}">테마이름이엄청길면어떡하나</h4>
-                                        </div>
-                                    </a>
 
-                                </div>
-                            </div>
-                        </div>
+                    <div class="container row" id="theme-list">
+
                     </div>
+                    <button id="more-btn" type="button" class="btn btn-dark"> more</button>
+
                 </div>
                 <div class="col-1"></div>
                 <!-- 테마 리스트 끝! -->
+
 
                 <!-- 테마 사이드바 레이아웃 -->
                 <div class="col-3">
@@ -60,7 +129,7 @@
         <script>
             var topEle = $('#topBtn');
             var delay = 1000;
-            topEle.on('click', function() {
+            topEle.on('click', function () {
                 $('html, body').stop().animate({scrollTop: 0}, delay);
             });
         </script>

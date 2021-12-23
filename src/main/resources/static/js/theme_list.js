@@ -1,22 +1,4 @@
 $(document).ready(function (){
-    $('#search-btn').click(function () {
-        let searchForm = {
-            keyword : $('#keyword').val().replace(/^\s+|\s+$/gm,''),
-            area : $('input[name=area-radio]:checked').val(),
-            successExclude : $("input:checkbox[name=stamp-checkbox]").is(":checked"),
-            closeExclude : $("input:checkbox[name=police-line-checkbox]").is(":checked"),
-            stampExclude : $("input:checkbox[name=stamp-checkbox]").is(":checked")
-        };
-
-        $.ajax({
-            url : '/theme_search',
-            type : 'GET',
-            data : searchForm,
-        })
-            .done(function (fragment) {
-                $('#theme-list').replaceWith(fragment);
-            });
-    });
 
     $('#feedback-submit-btn').click(function () {
 
