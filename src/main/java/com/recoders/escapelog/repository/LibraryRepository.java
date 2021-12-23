@@ -24,6 +24,8 @@ public interface LibraryRepository extends JpaRepository<Recode, Long> {
     @Query("SELECT COUNT(r.no) FROM Recode r WHERE r.theme.no = :themeNo AND r.rating = :rating")
     int countRecodeRating(@Param("themeNo")Long no, @Param("rating") Integer rating);
 
+    int countRecodeByThemeNo(Long themeNo);
+
     List<Recode> findByThemeNoOrderByRegdateDesc(Long themeNo);
 
     List<Recode> findByThemeNoAndRatingOrderByRegdateDesc(Long themeNo, Integer rating);

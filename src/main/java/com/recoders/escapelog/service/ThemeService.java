@@ -137,8 +137,9 @@ public class ThemeService {
         if (optionalTheme.isEmpty()){
             throw new IllegalArgumentException("wrong theme no");
         }
+        int totalRatingNum = libraryRepository.countRecodeByThemeNo(no);
 
-        return ThemeDto.detailForm(optionalTheme.get(),getThemeRatingCnt(no));
+        return ThemeDto.detailForm(optionalTheme.get(),totalRatingNum,getThemeRatingCnt(no));
     }
 
     public Map<Integer, Integer> getThemeRatingCnt(Long themeNo){
