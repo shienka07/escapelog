@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>지도</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="map" style="background-color: #84B4B8; display: flex;">
+    <div class="map-left" style="background-color: #eec86f; width: 30%;">
+        <div style="background-color: #adcdf1;">
+            <span>Target :</span>
+            <span>서울</span><br/>
+
+            <span>visit</span>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 25%;"
+                     aria-valuenow="25"
+                     aria-valuemin="0" aria-valuemax="100">25%
+                </div>
+            </div>
+
+            <span>success</span>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 25%;"
+                     aria-valuenow="25"
+                     aria-valuemin="0" aria-valuemax="100">25%
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="map-center" style="background-color: white; width: 47%;">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <div style="margin:auto;">
+                <h3>방탈출 지도</h3>
+            </div>
+        </div>
+       
+    </div>
+    <div class="map-right" style="background-color: #E1DBCD; width:33%;">
+        <div class="container" style="background-color: #f8d2f6;">
+
+            <div class="row">
+                <div class="col-md-3"></div>
+                <span class="col-md-6">전국의 방탈출</span>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <p class="col-md-4">1234</p>
+                <div class="col-md-4"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4"></div>
+                <p class="col-md-11">현재 진행상황</p>
+            </div>
+            <div class="row">
+                <dic class="col-md-1">○</dic>
+                <div class="col-md-3">visited</div>
+                <div class="col-md-2">24</div>
+                <div class="col-md-2">16%</div>
+                <div class="col-md-2"></div>
+                <hr>
+            </div>
+            <div class="row">
+                <dic class="col-md-1">○</dic>
+                <div class="col-md-3">successed</div>
+                <div class="col-md-2">17</div>
+                <div class="col-md-2">14%</div>
+                <div class="col-md-2"></div>
+                <hr>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
