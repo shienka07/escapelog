@@ -4,7 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.recoders.escapelog.domain.*;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.recoders.escapelog.dto.ThemeRecodeDto;
+import com.recoders.escapelog.dto.ThemeDto;
 import lombok.RequiredArgsConstructor;
 import org.thymeleaf.util.StringUtils;
 
@@ -13,18 +13,19 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class ThemeRepositoryImpl implements ThemeRepositoryCustom {
+
     private final JPAQueryFactory queryFactory;
     private final QTheme theme = QTheme.theme;
     private final QRecode recode = QRecode.recode;
 
     @Override
-    public List<ThemeRecodeDto> findAllTheme(Member member){
+    public List<ThemeDto> findAllTheme(Member member){
 
-        List<ThemeRecodeDto> list = queryFactory
-                .selectDistinct(Projections.bean(ThemeRecodeDto.class,theme.no.as("themeNo"), theme.themeName, theme.shopName, theme.imageUrl,
+        List<ThemeDto> list = queryFactory
+                .selectDistinct(Projections.bean(ThemeDto.class,theme.no, theme.themeName, theme.shopName, theme.imageUrl,
                         theme.openStatus, recode.success))
                 .from(theme)
-                .leftJoin(recode).on(recode.member.no.eq(member.getNo()).and(theme.no.eq(recode.theme.no)))
+                .leftJoin(recode).on(recode.member.no.eq(member.getNo()).and(theme.no.eq(recode.theme.no))).fetchJoin()
                 .groupBy(theme.no)
                 .fetch();
 
@@ -33,12 +34,12 @@ public class ThemeRepositoryImpl implements ThemeRepositoryCustom {
     }
 
     @Override
-    public List<ThemeRecodeDto> searchTheme(Member member,String keyword,AreaType areaType, String detailArea, Boolean closeExclude){
+    public List<ThemeDto> searchTheme(Member member,String keyword,AreaType areaType, String detailArea, Boolean closeExclude){
 
         String searchKeyword = "%"+keyword+"%";
 
-        List<ThemeRecodeDto> list = queryFactory
-                .selectDistinct(Projections.bean(ThemeRecodeDto.class,theme.no.as("themeNo"), theme.themeName, theme.shopName, theme.imageUrl,
+        List<ThemeDto> list = queryFactory
+                .selectDistinct(Projections.bean(ThemeDto.class,theme.no, theme.themeName, theme.shopName, theme.imageUrl,
                         theme.openStatus, recode.success))
                 .from(theme)
                 .where(theme.themeName.like(searchKeyword)
@@ -46,7 +47,7 @@ public class ThemeRepositoryImpl implements ThemeRepositoryCustom {
                         .and(filterAreaType(areaType))
                         .and(filterDetailArea(detailArea))
                         .and(filterCloseExclude(closeExclude)))
-                .leftJoin(recode).on(recode.member.no.eq(member.getNo()).and(theme.no.eq(recode.theme.no)))
+                .leftJoin(recode).on(recode.member.no.eq(member.getNo()).and(theme.no.eq(recode.theme.no))).fetchJoin()
                 .groupBy(theme.no)
                 .fetch();
 
@@ -55,12 +56,12 @@ public class ThemeRepositoryImpl implements ThemeRepositoryCustom {
     }
 
     @Override
-    public List<ThemeRecodeDto> searchThemeStampExclude(Member member,String keyword,AreaType areaType, String detailArea, Boolean closeExclude){
+    public List<ThemeDto> searchThemeStampExclude(Member member,String keyword,AreaType areaType, String detailArea, Boolean closeExclude){
 
         String searchKeyword = "%"+keyword+"%";
 
-        List<ThemeRecodeDto> list = queryFactory
-                .selectDistinct(Projections.bean(ThemeRecodeDto.class,theme.no.as("themeNo"), theme.themeName, theme.shopName, theme.imageUrl,
+        List<ThemeDto> list = queryFactory
+                .selectDistinct(Projections.bean(ThemeDto.class,theme.no, theme.themeName, theme.shopName, theme.imageUrl,
                         theme.openStatus, recode.success))
                 .from(theme)
                 .where(theme.themeName.like(searchKeyword)
@@ -68,7 +69,7 @@ public class ThemeRepositoryImpl implements ThemeRepositoryCustom {
                         .and(filterAreaType(areaType))
                         .and(filterDetailArea(detailArea))
                         .and(filterCloseExclude(closeExclude)))
-                .leftJoin(recode).on(recode.member.no.eq(member.getNo()).and(theme.no.eq(recode.theme.no)))
+                .leftJoin(recode).on(recode.member.no.eq(member.getNo()).and(theme.no.eq(recode.theme.no))).fetchJoin()
                 .groupBy(theme.no)
                 .having(recode.success.isNull())
                 .fetch();

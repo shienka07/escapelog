@@ -6,9 +6,7 @@ import com.recoders.escapelog.dto.*;
 import com.recoders.escapelog.security.CurrentMember;
 import com.recoders.escapelog.service.EmailService;
 import com.recoders.escapelog.service.MemberService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -366,10 +364,12 @@ public class MainController {
     public String themeList(@CurrentMember Member member, Model model){
 
         if (member!=null){
+            model.addAttribute("checkU",true);
             model.addAttribute("themeList", themeService.getAllThemeList(member));
         }else {
             List<ThemeDto> themeList = themeService.getThemeList(themeService.getAllThemeEntities());
             model.addAttribute("themeList",themeList);
+            model.addAttribute("checkU",false);
         }
         model.addAttribute("feedbackForm", new FeedbackDto());
         return "theme/theme_list";
@@ -391,20 +391,24 @@ public class MainController {
 
     @GetMapping("/review_filter")
     public String themeReviewFilter(Long themeNo, Integer rating, Model model){
-        model.addAttribute("themeReviewList", libraryService.getReviewList(libraryService.getReviewFilterEntities(themeNo,rating)));
+        if (rating == 0){
+            model.addAttribute("themeReviewList", libraryService.getReviewList(libraryService.getAllReviewEntities(themeNo)));
+        }else{
+            model.addAttribute("themeReviewList", libraryService.getReviewList(libraryService.getReviewFilterEntities(themeNo,rating)));
+        }
+
         return "theme/theme_detail :: #theme-review-list";
     }
 
+    @ResponseBody
     @GetMapping("/theme_search")
-    public String themeSearch(@CurrentMember Member member, @RequestParam Map<String, Object> searchForm, Model model){
+    public List<ThemeDto> themeSearch(@CurrentMember Member member, @RequestParam Map<String, Object> searchForm, Model model){
 
         if (member!=null){
-            model.addAttribute("themeList",themeService.searchTheme(member,searchForm));
+            return themeService.searchTheme(member,searchForm);
         }else{
-            model.addAttribute("themeList",themeService.getThemeList(themeService.searchTheme(searchForm)));
+            return themeService.getThemeList(themeService.searchTheme(searchForm));
         }
-
-        return "theme/theme_list :: #theme-list";
     }
 
     @GetMapping("/recode/theme_search")
