@@ -2,20 +2,16 @@ package com.recoders.escapelog.dto;
 
 import com.recoders.escapelog.domain.BreakTime;
 import com.recoders.escapelog.domain.Recode;
-import com.recoders.escapelog.domain.Theme;
-import com.sun.istack.NotNull;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 
 @Data
 @NoArgsConstructor
 public class RecodeDto {
 
-    @NotNull
+    @NonNull
     private String title;
 
     private Long themeNo;

@@ -1,7 +1,7 @@
 package com.recoders.escapelog.domain;
 
 import com.recoders.escapelog.dto.EditDto;
-import com.sun.istack.NotNull;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,12 +29,13 @@ public class Recode {
 
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String contents;
 
     @Transient
     private String nlString;
 
-    @NotNull
+    @NonNull
     private LocalDateTime regdate;
 
     private Integer rating;
