@@ -1,16 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common_layout.html}" th:with="activeTab='index', title='Welcome!'">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<style>
-    input:invalid {
-        border: 3px solid red;
-    }
-</style>
-<body>
+    <link rel="stylesheet" th:href="@{/css/library_name.css}">
 
+    <style>
+        input:invalid {
+            border: 3px solid red;
+        }
+    </style>
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <section>
 <div>
     <form th:action="@{/setLibrary}" method="post" name="libraryName-form">
         <h3>책장이름을 입력해주세요</h3>

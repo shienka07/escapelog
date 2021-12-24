@@ -1,159 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
-
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common_layout.html}" th:with="activeTab='library', title='Welcome!'">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function () {
-
-            let selectedThemeName="";
-            let selectedThemeNo=0;
-
-            function themeValueInit(){
-                selectedThemeNo = 0;
-                selectedThemeName = "";
-            }
-
-            $('#save-recode').click(function () {
-
-                let title = $('#title').val();
-                let success = $('input:radio[name=success]').is(':checked');
-                let rating = $('input:radio[name=rating]').is(':checked');
-                let contents = $('#contents').val();
-                let secret = $('input:radio[name=secret]').is(':checked');
-
-                if (title == '') {
-                    alert('제목을 입력해주세요');
-                    return false;
-                }
-
-                if (success == false) {
-                    alert('탈출여부를 선택해주세요');
-                    return false;
-                }
-
-                if (rating == false) {
-                    alert('평점을 선택해주세요');
-                    return false;
-                }
-
-                if (contents == '') {
-                    alert('내용을 입력해주세요');
-                    return false;
-                }
-
-                if (secret == false) {
-                    alert('공개여부를 선택해주세요');
-                    return false;
-                }
-
-
-                $('form[name=recode-dto]').submit()
-
-
-            });
-
-            $('#theme-search-btn').click(function () {
-                let keyword = $('#keyword').val().replace(/^\s+|\s+$/gm, '');
-
-                $.ajax({
-                    url: '/recode/theme_search',
-                    type: 'GET',
-                    data: {keyword: keyword},
-                })
-                    .done(function (fragment) {
-                        $('#theme-list').replaceWith(fragment);
-                        themeValueInit()
-                    });
-            });
-
-            $("#theme-search-result").on("click","li", function(){
-                selectedThemeNo = $(this).val();
-                selectedThemeName = $(this).text();
-
-
-            });
-
-            $('#theme-select-btn').click(function () {
-                if (!selectedThemeName | !selectedThemeName){
-                    alert("테마를 선택해주세요.");
-                    return false;
-                }
-                document.getElementById("theme-no").value=selectedThemeNo;
-                document.getElementById("theme-name").value= selectedThemeName;
-                $('#selectModal').modal('hide');
-            });
-
-            $('#theme-info-remove-btn').click(function () {
-                themeValueInit()
-                document.getElementById("theme-no").value=null;
-                document.getElementById("theme-name").value= selectedThemeName;
-            });
-
-            $('#feedback-submit-btn').click(function () {
-
-                if ($('#new-theme-name').val().replace(/\s| /gi, "").length==0){
-                    alert("테마명을 입력해주세요.");
-                    return false;
-                }
-
-                var token = $("meta[name='_csrf']").attr("content");
-                var header = $("meta[name='_csrf_header']").attr("content");
-
-                document.getElementById("new-theme-name").value = $('#new-theme-name').val().replace(/^\s+|\s+$/gm,'');
-                document.getElementById("message-text").value = $('#message-text').val().replace(/^\s+|\s+$/gm,'');
-
-                $.ajax({
-                    url : '/feedback/add',
-                    type : 'POST',
-                    data : $('#feedback-form').serialize(),
-                    beforeSend: function (xhr){
-                        xhr.setRequestHeader(header, token);
-                    },
-                    success : function(data){
-                        $('#themeModal').modal("hide");
-                        alert("의견을 주셔서 감사합니다.");
-                        $("#sel1 option:eq(0)").prop("selected", true);
-                        document.getElementById("new-theme-name").value = null;
-                        document.getElementById("message-text").value = null;
-                    },
-                    error : function(request,status,error){
-                        console.log("code = "+ request.status + " error = " + error);
-                    }
-                })
-            });
-        });
-    </script>
-    <style>
-        ul.nav-pills {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            top: 20px;
-            position: fixed;
-        }
-
-        .container {
-            min-height: 100vh;
-        }
-
-        .theme-search {
-            max-height: 200px;
-            overflow-y: scroll;
-            /* 스크롤 기능!!!!!!! */
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/library_write.css}">
 </head>
 
 <body data-spy="scroll" data-target="#myScrollspy" data-offset="1">
+<th:block layout:fragment="content">
+    <section>
 <div class="container-fluid">
     <div class="row">
         <!-- 좌측 소메뉴 부분 -->
@@ -433,6 +289,130 @@
         </div>
     </div>
 </div>
-</body>
 
+
+<script>
+    $(document).ready(function () {
+
+        let selectedThemeName="";
+        let selectedThemeNo=0;
+
+        function themeValueInit(){
+            selectedThemeNo = 0;
+            selectedThemeName = "";
+        }
+
+        $('#save-recode').click(function () {
+
+            let title = $('#title').val();
+            let success = $('input:radio[name=success]').is(':checked');
+            let rating = $('input:radio[name=rating]').is(':checked');
+            let contents = $('#contents').val();
+            let secret = $('input:radio[name=secret]').is(':checked');
+
+            if (title == '') {
+                alert('제목을 입력해주세요');
+                return false;
+            }
+
+            if (success == false) {
+                alert('탈출여부를 선택해주세요');
+                return false;
+            }
+
+            if (rating == false) {
+                alert('평점을 선택해주세요');
+                return false;
+            }
+
+            if (contents == '') {
+                alert('내용을 입력해주세요');
+                return false;
+            }
+
+            if (secret == false) {
+                alert('공개여부를 선택해주세요');
+                return false;
+            }
+
+
+            $('form[name=recode-dto]').submit()
+
+
+        });
+
+        $('#theme-search-btn').click(function () {
+            let keyword = $('#keyword').val().replace(/^\s+|\s+$/gm, '');
+
+            $.ajax({
+                url: '/recode/theme_search',
+                type: 'GET',
+                data: {keyword: keyword},
+            })
+                .done(function (fragment) {
+                    $('#theme-list').replaceWith(fragment);
+                    themeValueInit()
+                });
+        });
+
+        $("#theme-search-result").on("click","li", function(){
+            selectedThemeNo = $(this).val();
+            selectedThemeName = $(this).text();
+
+
+        });
+
+        $('#theme-select-btn').click(function () {
+            if (!selectedThemeName | !selectedThemeName){
+                alert("테마를 선택해주세요.");
+                return false;
+            }
+            document.getElementById("theme-no").value=selectedThemeNo;
+            document.getElementById("theme-name").value= selectedThemeName;
+            $('#selectModal').modal('hide');
+        });
+
+        $('#theme-info-remove-btn').click(function () {
+            themeValueInit()
+            document.getElementById("theme-no").value=null;
+            document.getElementById("theme-name").value= selectedThemeName;
+        });
+
+        $('#feedback-submit-btn').click(function () {
+
+            if ($('#new-theme-name').val().replace(/\s| /gi, "").length==0){
+                alert("테마명을 입력해주세요.");
+                return false;
+            }
+
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+            document.getElementById("new-theme-name").value = $('#new-theme-name').val().replace(/^\s+|\s+$/gm,'');
+            document.getElementById("message-text").value = $('#message-text').val().replace(/^\s+|\s+$/gm,'');
+
+            $.ajax({
+                url : '/feedback/add',
+                type : 'POST',
+                data : $('#feedback-form').serialize(),
+                beforeSend: function (xhr){
+                    xhr.setRequestHeader(header, token);
+                },
+                success : function(data){
+                    $('#themeModal').modal("hide");
+                    alert("의견을 주셔서 감사합니다.");
+                    $("#sel1 option:eq(0)").prop("selected", true);
+                    document.getElementById("new-theme-name").value = null;
+                    document.getElementById("message-text").value = null;
+                },
+                error : function(request,status,error){
+                    console.log("code = "+ request.status + " error = " + error);
+                }
+            })
+        });
+    });
+</script>
+    </section>
+</th:block>
+</body>
 </html>
