@@ -43,6 +43,7 @@
                     data : searchForm,
                     success : function(data){
                         $('#theme-list').children().remove();
+                        $("#more-btn").show();
                         themeList = data;
                         totalCount = 0;
                         setThemeList();
@@ -66,6 +67,10 @@
                 count++;
             }
             totalCount += count;
+
+            if (totalCount >= themeList.length-1){
+                $("#more-btn").hide();
+            }
         }
 
         function addThemeItem(index, theme) {
@@ -85,13 +90,11 @@
         }
 
         function addStampClass(index, success){
-            if (checkU && success){
+            if (checkU && success!=null){
                 let id = '#polaroid'+index;
-                $(id).addClass('success');
+                $(id).addClass('visit');
             }
         }
-
-
 
     </script>
 

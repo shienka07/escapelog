@@ -13,6 +13,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class ThemeRepositoryImpl implements ThemeRepositoryCustom {
+
     private final JPAQueryFactory queryFactory;
     private final QTheme theme = QTheme.theme;
     private final QRecode recode = QRecode.recode;
@@ -24,7 +25,7 @@ public class ThemeRepositoryImpl implements ThemeRepositoryCustom {
                 .selectDistinct(Projections.bean(ThemeDto.class,theme.no, theme.themeName, theme.shopName, theme.imageUrl,
                         theme.openStatus, recode.success))
                 .from(theme)
-                .leftJoin(recode).on(recode.member.no.eq(member.getNo()).and(theme.no.eq(recode.theme.no)))
+                .leftJoin(recode).on(recode.member.no.eq(member.getNo()).and(theme.no.eq(recode.theme.no))).fetchJoin()
                 .groupBy(theme.no)
                 .fetch();
 
@@ -46,7 +47,7 @@ public class ThemeRepositoryImpl implements ThemeRepositoryCustom {
                         .and(filterAreaType(areaType))
                         .and(filterDetailArea(detailArea))
                         .and(filterCloseExclude(closeExclude)))
-                .leftJoin(recode).on(recode.member.no.eq(member.getNo()).and(theme.no.eq(recode.theme.no)))
+                .leftJoin(recode).on(recode.member.no.eq(member.getNo()).and(theme.no.eq(recode.theme.no))).fetchJoin()
                 .groupBy(theme.no)
                 .fetch();
 
@@ -68,9 +69,9 @@ public class ThemeRepositoryImpl implements ThemeRepositoryCustom {
                         .and(filterAreaType(areaType))
                         .and(filterDetailArea(detailArea))
                         .and(filterCloseExclude(closeExclude)))
-                .leftJoin(recode).on(recode.member.no.eq(member.getNo()).and(theme.no.eq(recode.theme.no)))
+                .leftJoin(recode).on(recode.member.no.eq(member.getNo()).and(theme.no.eq(recode.theme.no))).fetchJoin()
                 .groupBy(theme.no)
-                .having(recode.success.isNull().or(recode.success.isFalse()))
+                .having(recode.success.isNull())
                 .fetch();
 
         return list;
