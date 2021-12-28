@@ -1,84 +1,65 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
-
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common_layout.html}" th:with="activeTab='signup'">
 <head>
-    <title>Bootstrap 4 Website Example</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <style>
-
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: #84B4B8;
-            overflow-x: hidden;
-        }
-
-
-    </style>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 
 <body>
-
-    <!-- 네비게이션 GNB 메인 헤더자리 -->
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top" style="height: 100px;">
-        <div class="collapse navbar-collapse justify-content-center" id="collapsibleNavbar">
-            <a class="navbar-brand" href="#">헤더가 들어갈 영역</a>
+<th:block layout:fragment="content">
+<section>
+    <div class="container row mx-auto">
+        <div class="col-4">
+            <h2>회원가입</h2>
+            <hr/>
+            <h4 class="bold">SIGN UP</h4>
+            <div class="sel-signup">
+                <span class="signup-txt">회원가입</span>&ensp;<span style="color:#474249">로그인</span>
+            </div>
         </div>
-    </nav>
-    <!-- 네이게이션 (메인 헤더) 끝!!!! -->
+        <div class="col-8">
 
-    <div class="container my-5 p-4 bg-light">
-        <h2>회원가입</h2>
+            <form name="signup-form" th:object="${signupForm}" th:action="@{/signup}" th:method="post">
+                <div class="form-group">
+                    <label for="email">* 이메일</label>
+                    <input type="email" id="email" name="email" th:field="*{email}" class="form-control" placeholder="이메일 입력">
+                    <div class="invalid-feedback" id="email-fail-feedback"></div>
+                    <div class="validationError" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="nickname">* 닉네임 (2~12자)</label>
+                    <input type="text" id="nickname" name="nickname" th:field="*{nickname}" class="form-control" placeholder="닉네임 입력" minlength="2" maxlength="12">
+                    <button type="button" id="nickname-duplicate-check-btn"  class="btn member-btn">중복체크</button>
+                    <div class="valid-feedback" id="nickname-success-feedback"></div>
+                    <div class="invalid-feedback" id="nickname-fail-feedback"></div>
+                    <div class="validationError" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></div>
+                </div>
 
-        <form name="signup-form" th:object="${signupForm}" th:action="@{/signup}" th:method="post">
-            <div class="form-group">
-                <label for="email">이메일:</label>
-                <input type="email" id="email" name="email" th:field="*{email}" class="form-control" placeholder="이메일 입력">
-                <div class="invalid-feedback" id="email-fail-feedback"></div>
-                <div class="validationError" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-            </div>
-            <div class="form-group">
-                <label for="nickname">닉네임</label>
-                <input type="text" id="nickname" name="nickname" th:field="*{nickname}" class="form-control" placeholder="닉네임 입력" minlength="2" maxlength="12">
-                <button type="button" id="nickname-duplicate-check-btn"  class="btn btn-dark btn-sm">중복체크</button>
-                <div class="valid-feedback" id="nickname-success-feedback"></div>
-                <div class="invalid-feedback" id="nickname-fail-feedback"></div>
-                <div class="validationError" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></div>
-            </div>
+                <div class="form-group">
+                    <label for="pwd">* 비밀번호 (영어+숫자 조합 8-30자):</label>
+                    <input type="password" id="pwd" name="pwd" th:field="*{password}" class="form-control" placeholder="비밀번호 입력" minlength="8" maxlength="30">
+                    <div class="invalid-feedback">비밀번호를 올바르게 입력해주세요. (영어+숫자 조합 8-30자) </div>
+                    <div class="validationError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="pwd2" name="pwd2" th:field="*{rePassword}" class="form-control" placeholder="비밀번호 확인">
+                    <div class="invalid-feedback" id="pwd2-fail-feedback">비밀번호가 일치하지 않습니다.</div>
+                    <div class="validationError" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}"></div>
+                </div>
 
-            <div class="form-group">
-                <label for="pwd">비밀번호:</label>
-                <input type="password" id="pwd" name="pwd" th:field="*{password}" class="form-control" placeholder="비밀번호 입력" minlength="8" maxlength="30">
-                <div class="invalid-feedback">비밀번호를 올바르게 입력해주세요. (영어+숫자 조합 8-30자) </div>
-                <div class="validationError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-            </div>
-            <div class="form-group">
-                <label for="pwd2">비밀번호 확인:</label>
-                <input type="password" id="pwd2" name="pwd2" th:field="*{rePassword}" class="form-control" placeholder="비밀번호 확인">
-                <div class="invalid-feedback" id="pwd2-fail-feedback">비밀번호가 일치하지 않습니다.</div>
-                <div class="validationError" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}"></div>
-            </div>
+                <div class="text-center">
+                    <button type="button" id="signup-submit-btn" class="btn member-btn">회원가입</button>
+                </div>
+            </form>
 
-            <div class="text-center">
-              <button type="button" id="signup-submit-btn" class="btn btn-primary">Create account</button>
-            </div>
-            <!-- Register Form-->
-        </form>
-      </div>
+        </div>
+    </div>
     <script>
 
         $(document).ready(function (){
@@ -214,6 +195,7 @@
 
     </script>
 
+</section>
+</th:block>
 </body>
-
 </html>

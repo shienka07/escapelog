@@ -1,33 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common_layout.html}" th:with="activeTab='library', title='Welcome!'">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <style>
-        .contents {
-            border: 2px solid black;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .theme-img img {
-            max-width: 400px;
-        }
-
-        .btn-box {
-            display: inline;
-            align-items: center;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/library_detail.css}">
 </head>
+
 <body>
+<th:block layout:fragment="content">
+    <section>
 <div>
     <div class="container p-5" th:if="${currentMember.no == recode.member.no} or ${recode.secret}==false">
         <h2>책 펼쳐보기</h2>
@@ -105,5 +87,7 @@
         <a th:href="@{'/library/' + ${recode.member.libraryName}}" class="btn btn-primary my-3">책장으로 돌아가기</a>
     </div>
 </div>
+    </section>
+</th:block>
 </body>
 </html>

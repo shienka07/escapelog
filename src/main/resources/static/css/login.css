@@ -1,0 +1,190 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+body        { font: 24px/30px 'Noto Sans CJK KR', Noto Sans KR, sans-serif }
+.thin       { font-weight: 100 }
+.light      { font-weight: 300 }
+.regular    { font-weight: 400 }
+.medium     { font-weight: 500 }
+.bold       { font-weight: 700 }
+.bolder     { font-weight: 900 }
+
+section {
+    min-height: 100vh; /* 추가 작성할 부분*/
+    /* width: 100%; */
+    padding-top: 100px;
+    background-color: #E1DBCD;
+    display: flex;
+    align-items: center;
+}
+.container.row{
+    max-width: 1000px;
+}
+.col-4,
+.col-8{
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.col-4{
+    border-radius: 25px 0px 0px 25px;
+    background-color: #474249;
+}
+.col-8{
+    border-radius: 0px 25px 25px 0px;
+    background-color: #fff;
+}
+.col-4 h2{
+    /* font-family: 'East Sea Dokdo', cursive;
+    font-size: 50px; */
+    font-family: 'Gugi', cursive;
+    font-size: 30px;
+    color:#fff;
+}
+.col-4 hr{
+    width: 30%;
+    border-top: 2px solid #E1DBCD;
+    margin:0;
+}
+.col-4 h4{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    color: #E1DBCD;
+    margin:5px;
+}
+.col-4 .sel-login{
+    background-color: #E1DBCD;
+    border-radius: 5px;
+    padding: 1px 2px 1px 10px;
+    margin-top: 10px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+}
+.col-4 .sel-signup{
+    background-color: #E1DBCD;
+    border-radius: 5px;
+    padding: 1px 15px 1px 2px;
+    margin-top: 10px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+}
+.col-4 span{
+    font-size: 10px;
+    color: #E1DBCD;
+}
+.col-4 .login-txt{
+    color: #fff;
+    background-color: #555;
+    padding: 3px 15px 3px 15px;
+    border-radius: 4px;
+    height: 21px;
+    display: flex;
+    align-items: center;
+    color:#fff;
+}
+.col-4 .signup-txt{
+    color: #fff;
+    background-color: #555;
+    padding: 3px 12px 3px 12px;
+    border-radius: 4px;
+    height: 21px;
+    display: flex;
+    align-items: center;
+    color:#fff;
+}
+
+
+
+
+.col-8 .character-box {
+    height: 250px;
+    width: 250px;
+    /* border: 3px solid #333; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.character {
+    border-radius: 100px;
+    border: 3px solid #777;
+    height: 200px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+form{
+    line-height: 1.2;
+    /* width: 250px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.alert-danger {
+    height: 30px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0;
+}
+
+.invalid-feedback,
+.valid-feedback,
+.validationError{
+    font-size: 11px;
+}
+.validationError{
+    color:#dc3545;
+}
+
+.col-8 .form-group label{
+    font-family: 'Noto Sans KR', sans-serif;
+    margin:0;
+    padding:0;
+    font-size: 12px;
+    font-weight: 500;
+}
+.col-8 .form-group{
+    margin-bottom: 5px;
+}
+.col-8 .form-control{
+    font-size: 12px;
+    background-color: #eee;
+    /* border: 1px solid #eee; */
+    width: 300px;
+}
+
+.col-8 .member-btn {
+    color: #fff;
+    background-color: #474249;
+    border-color: #474249;
+    height: 30px;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 0px 35px;
+    border-radius: 15px;
+    margin-top: 15px;
+}
+.col-8 .member-btn:hover{
+    background-color: #E1DBCD;
+    border:0;
+    color:#474249;
+}
+.signup-link{
+    font-size: 12px;
+    text-decoration: none;
+    color: #474249;
+    display: flex;
+    float: right;
+    width: 100%;
+    justify-content: flex-end;
+}
+.signup-link:hover{
+    text-decoration: none;
+    color:#EEC86F;
+}
