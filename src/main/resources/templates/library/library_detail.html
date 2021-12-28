@@ -87,8 +87,7 @@
             </div>
         </div>
     </div>
-    <div class="btn-box" th:if="${currentMember.no != recode.member.no} and ${recode.secret}==true">
-        <p> 비공개 글입니다 </p>
+    <div class="btn-box">
         <div th:if="${currentMember.no == recode.member.no}">
             <form id="recode-delete-form" th:action="@{'/delete/'+${recode.no}}" method="post">
                 <input type="hidden" name="delete-recode" value="delete">
@@ -98,8 +97,10 @@
                 <button>수정</button>
             </a>
         </div>
-        <button class="btn btn-primary">이전 책</button>
-        <button class="btn btn-primary">다음 책</button>
+        <div th:if="${currentMember.no != recode.member.no} and ${recode.secret}==true">
+            <p> 비공개 글입니다 </p>
+        </div>
+
         <br/>
         <a th:href="@{'/library/' + ${recode.member.libraryName}}" class="btn btn-primary my-3">책장으로 돌아가기</a>
     </div>
