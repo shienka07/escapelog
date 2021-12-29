@@ -106,6 +106,25 @@
                 fill: #FE8045;
             }
 
+            .progress {
+                position:relative;
+            }
+
+            .progress-bar{
+                background-color:#FE8045;
+            }
+
+            .progress-value {
+                position:absolute;
+                right:0;
+                left:0;
+                width:100%;
+                text-align:center;
+                z-index:2;
+                color: #000000;
+                top : 6px;
+            }
+
         </style>
         <script th:inline="javascript">
 
@@ -143,11 +162,13 @@
             }
 
             function setVisitProgressBar(visitNumPercent) {
-                $('#visit-progress-bar').text(visitNumPercent).attr('aria-valuenow', visitNumPercent).css('width', visitNumPercent + '%');
+                $('#visit-progress-bar').attr('aria-valuenow', visitNumPercent).css('width', visitNumPercent + '%');
+                $('#visit-progress-value').text(visitNumPercent + '%');
             }
 
             function setSuccessProgressBar(successNumPercent) {
-                $('#success-progress-bar').text(successNumPercent).attr('aria-valuenow', successNumPercent).css('width', successNumPercent + '%');
+                $('#success-progress-bar').attr('aria-valuenow', successNumPercent).css('width', successNumPercent + '%');
+                $('#success-progress-value').text(successNumPercent + '%');
             }
 
         </script>
@@ -163,17 +184,19 @@
                 <span>visit</span>
                 <div class="progress">
                     <div id="visit-progress-bar" class="progress-bar" role="progressbar" style="width: 0%;"
-                         aria-valuenow="0"
-                         aria-valuemin="0" aria-valuemax="100">0%
+                         aria-valuenow="10"
+                         aria-valuemin="0" aria-valuemax="100">
                     </div>
+                    <span id="visit-progress-value" class="progress-value"></span>
                 </div>
 
                 <span>success</span>
                 <div class="progress">
                     <div id="success-progress-bar" class="progress-bar" role="progressbar" style="width: 0%;"
                          aria-valuenow="0"
-                         aria-valuemin="0" aria-valuemax="100">0%
+                         aria-valuemin="0" aria-valuemax="100">
                     </div>
+                    <span id="success-progress-value" class="progress-value"></span>
                 </div>
 
             </div>
