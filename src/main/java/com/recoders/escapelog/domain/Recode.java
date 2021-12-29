@@ -24,7 +24,7 @@ public class Recode {
     @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
     private Member member;
 
-    @ManyToOne(targetEntity = Theme.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Theme.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Theme theme;
 
     private String title;
