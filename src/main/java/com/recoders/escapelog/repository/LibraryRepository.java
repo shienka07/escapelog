@@ -30,4 +30,16 @@ public interface LibraryRepository extends JpaRepository<Recode, Long> {
 
     List<Recode> findByThemeNoAndRatingOrderByRegdateDesc(Long themeNo, Integer rating);
 
+    @Query(value = "SELECT COUNT(R.no) FROM (SELECT no,theme_no,success FROM recode WHERE member_no = :memberNo AND success = true GROUP BY theme_no) AS R", nativeQuery = true)
+    int countTotalSuccessNum(Long memberNo);
+
+    @Query(value = "SELECT COUNT(R.no) FROM (SELECT no,theme_no FROM recode WHERE member_no = :memberNo GROUP BY theme_no ) AS R", nativeQuery = true)
+    int countTotalVisitNum(Long memberNo);
+
+    @Query(value = "SELECT COUNT(R.no) FROM (SELECT r.no,r.success,t.area_type FROM recode r, theme t WHERE member_no = :memberNo AND success = true AND r.theme_no = t.no GROUP BY theme_no) AS R WHERE R.area_type=:areaName", nativeQuery = true)
+    int countSuccessNum(Long memberNo, String areaName);
+
+    @Query(value = "SELECT COUNT(R.no) FROM (SELECT r.no,t.area_type FROM recode r, theme t WHERE member_no = :memberNo AND r.theme_no = t.no GROUP BY theme_no) AS R WHERE R.area_type=:areaName", nativeQuery = true)
+    int countVisitNum(Long memberNo,String areaName);
+
 }

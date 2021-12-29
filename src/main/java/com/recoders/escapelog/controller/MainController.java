@@ -4,8 +4,7 @@ import com.google.gson.JsonObject;
 import com.recoders.escapelog.domain.Member;
 import com.recoders.escapelog.dto.*;
 import com.recoders.escapelog.security.CurrentMember;
-import com.recoders.escapelog.service.EmailService;
-import com.recoders.escapelog.service.MemberService;
+import com.recoders.escapelog.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +14,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.recoders.escapelog.domain.Recode;
-import com.recoders.escapelog.service.LibraryService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import com.recoders.escapelog.service.FeedbackService;
-import com.recoders.escapelog.service.ThemeService;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,14 +25,13 @@ import java.util.Map;
 @Controller
 public class MainController {
 
-
-
     private final MemberService memberService;
     private final EmailService emailService;
     private final LibraryService libraryService;
 
     private final ThemeService themeService;
     private final FeedbackService feedbackService;
+    private final MapService mapService;
 
     @GetMapping("/")
     public String index(){
@@ -436,5 +430,11 @@ public class MainController {
         return "theme/theme_detail";
     }
 
+    @GetMapping("/map")
+    public String escapeMap(@CurrentMember Member member,Model model){
+        model.addAttribute("stamp","1");
+        model.addAttribute("mapInfo",mapService.getMapInfo(member));
+        return "map/escape_map";
+    }
 
 }
