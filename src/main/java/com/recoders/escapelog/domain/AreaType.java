@@ -1,19 +1,29 @@
 package com.recoders.escapelog.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum AreaType {
-    SEUOL("서울"), GYEONGGI("경기"), INCHEON("인천"), GANGWON("강원"), CHUNGCHEONGBUK("충북"),
-    CHUNGCHEONGNAM("충남"), DAEJEON("대전"), JEOLLABUK("전북"), JEOLLANAM("전남"), GWANGJU("광주"),
-    GYEONGSANGBUK("경북"), GYEONGSANGNAM("경남"), DEAGU("대구"), BUSAN("부산"), JEJU("제주"),
-    ULSAN("울산"),SEJONG("세종");
+    SEOUL("서울",AreaGroup.SEOUL), GYEONGGI("경기",AreaGroup.GYEONGGI), INCHEON("인천",AreaGroup.INCHEON), GANGWON("강원",AreaGroup.GANGWON),
+    CHUNGCHEONGBUK("충북",AreaGroup.CHUNGCHEONG),CHUNGCHEONGNAM("충남",AreaGroup.CHUNGCHEONG), DAEJEON("대전",AreaGroup.DAEJEON),
+    JEOLLABUK("전북",AreaGroup.JEOLLA), JEOLLANAM("전남",AreaGroup.JEOLLA), GWANGJU("광주",AreaGroup.GWANGJU),
+    GYEONGSANGBUK("경북",AreaGroup.GYEONGSANG), GYEONGSANGNAM("경남",AreaGroup.GYEONGSANG), DAEGU("대구",AreaGroup.DAEGU),
+    BUSAN("부산",AreaGroup.BUSAN), JEJU("제주",AreaGroup.JEJU), ULSAN("울산",AreaGroup.ULSAN),SEJONG("세종",AreaGroup.SEJONG);
+
 
     private final  String krName;
+    private final AreaGroup areaGroup;
 
-    private AreaType(String name){
+    private AreaType(String name,AreaGroup groupName){
         krName = name;
+        this.areaGroup = groupName;
     }
 
     public String getKrName(){
         return krName;
+    }
+    public boolean isInGroup(AreaGroup group){
+        return this.areaGroup == group;
     }
 
     public static AreaType nameOf(String name){
@@ -25,4 +35,13 @@ public enum AreaType {
         return null;
     }
 
+    public static List<String> getGroupList(AreaGroup group){
+        List<String> areaTypeList = new ArrayList<>();
+        for(AreaType areas : AreaType.values()){
+            if (areas.isInGroup(group)){
+                areaTypeList.add(areas.name());
+            }
+        }
+        return areaTypeList;
+    }
 }
