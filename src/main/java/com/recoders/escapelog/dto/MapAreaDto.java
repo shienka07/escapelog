@@ -12,6 +12,7 @@ public class MapAreaDto {
     int visitNum;
     int successNum;
     int stampLevel;
+    int requiredNum;
     double visitNumPercent;
     double successNumPercent;
 
@@ -33,9 +34,12 @@ public class MapAreaDto {
             this.stampLevel = 3;
         }else if(visitNumPercent>=50){
             this.stampLevel = 2;
+            this.requiredNum = (int) Math.ceil((0.7*areaThemeNum)-visitNum);
         }else if(visitNumPercent>=20){
+            this.requiredNum = (int) Math.ceil((0.5*areaThemeNum)-visitNum);
             this.stampLevel = 1;
         }else{
+            this.requiredNum = (int) Math.ceil((0.2*areaThemeNum)-visitNum);
             this.stampLevel = 0;
         }
     }
