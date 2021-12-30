@@ -6,10 +6,9 @@ import java.util.List;
 public enum AreaType {
 
     SEOUL("서울",AreaGroup.SEOUL), GYEONGGI("경기",AreaGroup.GYEONGGI), INCHEON("인천",AreaGroup.INCHEON), GANGWON("강원",AreaGroup.GANGWON),
-    CHUNGCHEONGBUK("충북",AreaGroup.CHUNGCHEONG),CHUNGCHEONGNAM("충남",AreaGroup.CHUNGCHEONG), DAEJEON("대전",AreaGroup.DAEJEON),
-    JEOLLABUK("전북",AreaGroup.JEOLLA), JEOLLANAM("전남",AreaGroup.JEOLLA), GWANGJU("광주",AreaGroup.GWANGJU),
-    GYEONGSANGBUK("경북",AreaGroup.GYEONGSANG), GYEONGSANGNAM("경남",AreaGroup.GYEONGSANG), DAEGU("대구",AreaGroup.DAEGU),
-    BUSAN("부산",AreaGroup.BUSAN), JEJU("제주",AreaGroup.JEJU), ULSAN("울산",AreaGroup.ULSAN),SEJONG("세종",AreaGroup.SEJONG);
+    CHUNGCHEONGBUK("충북",AreaGroup.CHUNGCHEONG),CHUNGCHEONGNAM("충남",AreaGroup.CHUNGCHEONG), DAEJEON("대전",AreaGroup.DAEJEON),SEJONG("세종",AreaGroup.SEJONG),
+    BUSAN("부산",AreaGroup.BUSAN),ULSAN("울산",AreaGroup.ULSAN),DAEGU("대구",AreaGroup.DAEGU), GYEONGSANGBUK("경북",AreaGroup.GYEONGSANG), GYEONGSANGNAM("경남",AreaGroup.GYEONGSANG),
+    JEOLLABUK("전북",AreaGroup.JEOLLA), JEOLLANAM("전남",AreaGroup.JEOLLA), GWANGJU("광주",AreaGroup.GWANGJU), JEJU("제주",AreaGroup.JEJU);
 
     private final  String krName;
     private final AreaGroup areaGroup;
