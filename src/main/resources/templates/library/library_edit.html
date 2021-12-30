@@ -11,409 +11,384 @@
 <th:block layout:fragment="content">
     <section>
 
-    <div class="container-fluid">
-    <div class="row">
-        <!-- 좌측 소메뉴 부분 -->
-        <nav class="col-sm-3 col-4" id="myScrollspy">
-            <ul class="nav nav-pills flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#section1">정보 입력</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#section2">후기 작성</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#section3">플레이어 정보</a>
-                </li>
-            </ul>
-        </nav>
-        <!-- 좌측 소메뉴 부분 끝!-->
+        <div class="container-fluid">
+            <div class="row">
+                <!-- 좌측 소메뉴 부분 -->
+                <nav class="col-sm-3 col-4" id="myScrollspy">
+                    <ul class="nav nav-pills flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#section1">정보 입력</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#section2">후기 작성</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#section3">플레이어 정보</a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- 좌측 소메뉴 부분 끝!-->
 
-        <!-- 우측 정보 입력 부분 시작 -->
-        <div class="col-sm-9 col-8">
-            <form name="recode-dto" th:action="@{'/modify/' +${no}}" th:object="${editDto}" method="post" id="recodeForm">
-                <!-- page1. 정보 입력 -->
-                <div id="section1" class="bg-light">
-                    <div class="container p-5">
-                        <div>
-                            <h2>정보 입력</h2>
-                            <p style="color: tomato"> * 는 필수 입력란 입니다.</p>
-                            <label style="color: tomato">*</label>
-                            <label for="title">제목: </label>
-                            <input type="text" th:value="${editRecode.title}" class="form-control mb-3" id="title" placeholder="제목"
-                                   name="title">
-                        </div>
-                        <div class="my-3">
-                            <label>테마 검색 : </label>
-                            <div class="form-inline">
-                                <input id="theme-no" name="theme.no" class="form-control mr-sm-2" type="hidden">
-                                <input id="theme-name" class="form-control mr-sm-3" type="text" th:value="${editRecode.theme.themeName+'/'+editRecode.theme.shopName}" name="theme.themeName" readonly>
-                                <button id="theme-info-remove-btn" type="button" class="btn btn-primary">지우기</button>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectModal">
-                                    테마 검색
-                                </button>
-                            </div>
-                            <!-- 테마 검색 모달 -->
-                            <div class="modal" id="selectModal">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
+                <!-- 우측 정보 입력 부분 시작 -->
+                <div class="col-sm-9 col-8">
+                    <form name="recode-dto" th:action="@{'/modify/' +${no}}" th:object="${editDto}" method="post" id="recodeForm">
+                        <!-- page1. 정보 입력 -->
+                        <div id="section1" class="bg-light">
+                            <div class="container p-5">
+                                <div>
+                                    <h2>정보 입력</h2>
+                                    <p style="color: tomato"> * 는 필수 입력란 입니다.</p>
+                                    <label style="color: tomato">*</label>
+                                    <label for="title">제목: </label>
+                                    <input type="text" th:value="${editRecode.title}" class="form-control mb-3" id="title" placeholder="제목"
+                                           name="title">
+                                </div>
+                                <div class="my-3">
+                                    <label>테마 검색 : </label>
+                                    <div class="form-inline">
+                                        <input id="theme-no" name="theme.no" class="form-control mr-sm-2" type="hidden">
+                                        <input id="theme-name" class="form-control mr-sm-3" type="text" th:value="${editRecode.theme != null ? editRecode.theme.themeName+'/'+editRecode.theme.shopName : null}" name="theme.themeName" readonly>
+                                        <button id="theme-info-remove-btn" type="button" class="btn btn-primary">지우기</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectModal">
+                                            테마 검색
+                                        </button>
+                                    </div>
+                                    <!-- 테마 검색 모달 -->
+                                    <div class="modal" id="selectModal">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
 
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">테마 검색</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">테마 검색</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    <label>테마 검색 : </label>
+                                                    <div class="form-inline">
+                                                        <form class="form-inline">
+                                                            <input class="form-control mr-sm-2" id="keyword" type="text"
+                                                                   placeholder="테마명 또는 지점 검색">
+                                                            <button class="btn btn-success" id="theme-search-btn" type="button">
+                                                                검색하기
+                                                            </button>
+                                                        </form>
+                                                    </div>
+
+                                                    <div class="mt-4" id="theme-search-result">
+                                                        <p>검색 결과</p>
+                                                        <ul id="theme-list" class="list-group theme-search">
+                                                            <li class="list-group-item list-group-item-action" th:each="theme,num:${themeList}" th:value="${theme.no}" th:text="${theme.themeName}+'/'+${theme.shopName}">
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button id="theme-select-btn" type="button" class="btn btn-primary">선택</button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <div class="modal-body">
-                                            <label>테마 검색 : </label>
-                                            <div class="form-inline">
-                                                <form class="form-inline">
-                                                    <input class="form-control mr-sm-2" id="keyword" type="text"
-                                                           placeholder="테마명 또는 지점 검색">
-                                                    <button class="btn btn-success" id="theme-search-btn" type="button">
-                                                        검색하기
+                                    </div>
+                                    <a class="btn btn-danger btn-sm mb-4" data-toggle="modal" data-target="#themeModal">원하는 테마
+                                        정보가
+                                        없나요?</a>
+
+
+                                    <!-- 정보입력- 테마검색 모달 ! -->
+                                    <div class="modal fade" id="themeModal" tabindex="-1" role="dialog"
+                                         aria-labelledby="themeModalLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">새로운 테마가 있나요?</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
                                                     </button>
-                                                </form>
-                                            </div>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form id="feedback-form" th:object="${feedbackForm}">
+                                                        <div class="form-group">
+                                                            <label for="theme-name" class="col-form-label">테마명:</label>
+                                                            <input type="text" class="form-control" id="new-theme-name" th:field="*{newThemeName}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="sel1">지역 선택:</label>
+                                                            <select class="form-control" id="sel1" th:field="*{areaType}">
+                                                                <option th:each="areaTypeValue : ${T(com.recoders.escapelog.domain.AreaType).values()}"
+                                                                        th:value="${areaTypeValue.name()}"
+                                                                        th:text="${areaTypeValue.getKrName()}">
+                                                            </select>
+                                                        </div>
 
-                                            <div class="mt-4" id="theme-search-result">
-                                                <p>검색 결과</p>
-                                                <ul id="theme-list" class="list-group theme-search">
-                                                    <li class="list-group-item list-group-item-action" th:each="theme,num:${themeList}" th:value="${theme.no}" th:text="${theme.themeName}+'/'+${theme.shopName}">
-                                                    </li>
-                                                </ul>
+                                                        <div class="form-group">
+                                                            <label for="message-text" class="col-form-label">내용:</label>
+                                                            <textarea class="form-control" id="message-text" th:field="*{contents}"></textarea>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary" id="feedback-submit-btn">제출하기</button>
+                                                </div>
                                             </div>
-
-                                            <div class="modal-footer">
-                                                <button id="theme-select-btn" type="button" class="btn btn-primary">선택</button>
-                                                <button type="button" class="btn btn-danger" data-dismiss="modal">닫기
-                                                </button>
-                                            </div>
-
                                         </div>
                                     </div>
-                                </div>
+                                    <!-- 정보입력- 테마검색 모달 끝 ! -->
 
-                            </div>
-                            <a class="btn btn-danger btn-sm mb-4" data-toggle="modal" data-target="#themeModal">원하는 테마
-                                정보가
-                                없나요?</a>
-
-
-                            <!-- 정보입력- 테마검색 모달 ! -->
-                            <div class="modal fade" id="themeModal" tabindex="-1" role="dialog"
-                                 aria-labelledby="themeModalLabel"
-                                 aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">새로운 테마가 있나요?</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form id="feedback-form" th:object="${feedbackForm}">
-                                                <div class="form-group">
-                                                    <label for="theme-name" class="col-form-label">테마명:</label>
-                                                    <input type="text" class="form-control" id="new-theme-name" th:field="*{newThemeName}">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="sel1">지역 선택:</label>
-                                                    <select class="form-control" id="sel1" th:field="*{areaType}">
-                                                        <option th:each="areaTypeValue : ${T(com.recoders.escapelog.domain.AreaType).values()}"
-                                                                th:value="${areaTypeValue.name()}"
-                                                                th:text="${areaTypeValue.getKrName()}">
-                                                    </select>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="message-text" class="col-form-label">내용:</label>
-                                                    <textarea class="form-control" id="message-text" th:field="*{contents}"></textarea>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" id="feedback-submit-btn">제출하기</button>
+                                    <div>
+                                        <label style="color: tomato">*</label>
+                                        <label>탈출 여부: </label>
+                                    </div>
+                                    <div>
+                                        <div class="mb-4 form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" th:checked="${editRecode.success}==true" class="form-check-input"
+                                                       name="success" value="true">탈출 성공
+                                            </label>
+                                            <label class="form-check-label">
+                                                <input type="radio" th:checked="${editRecode.success}==false" class="form-check-input"
+                                                       name="success" value="false">탈출 실패
+                                            </label>
                                         </div>
                                     </div>
+                                    <div>
+                                        <label style="color: tomato">*</label>
+                                        <label>평점: </label>
+                                    </div>
+                                    <div>
+                                        <div class="mb-4 form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" th:checked="${editRecode.rating == 1}" class="form-check-input" name="rating"
+                                                       value="1">1
+                                            </label>
+                                            <label class="form-check-label">
+                                                <input type="radio" th:checked="${editRecode.rating == 2}" class="form-check-input" name="rating"
+                                                       value="2">2 &emsp;
+                                            </label>
+                                            <label class="form-check-label">
+                                                <input type="radio" th:checked="${editRecode.rating == 3}" class="form-check-input" name="rating"
+                                                       value="3">3 &emsp;
+                                            </label>
+                                            <label class="form-check-label">
+                                                <input type="radio" th:checked="${editRecode.rating == 4}" class="form-check-input" name="rating"
+                                                       value="4">4 &emsp;
+                                            </label>
+                                            <label class="form-check-label">
+                                                <input type="radio" th:checked="${editRecode.rating == 5}" class="form-check-input" name="rating"
+                                                       value="5">5 &emsp;
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label>탈출 시간: </label>
+                                    </div>
+                                    <div class="mb-4 form-check-inline">
+                                        <input type="number" name="breakTime.min" th:value="${editRecode.breakTime?.min}" min="0" max="99999">
+                                        <label>&nbsp;분&emsp;</label>
+                                        <input type="number" name="breakTime.sec" th:value="${editRecode.breakTime?.sec}" min="0" max="99999">
+                                        <label>&nbsp;초 </label>
+                                    </div>
+
+                                    <div>
+                                        <label>힌트 사용 : </label>
+                                    </div>
+                                    <div class="mb-4 form-check-inline">
+                                        <input type="number" name="hint" th:value="${editRecode.hint}" min="0" max="99999">
+                                        <label>&nbsp;개</label>
+                                    </div>
+
+
+                                    <div>
+                                        <label>인원 : </label>
+                                    </div>
+                                    <div class="mb-4 form-check-inline">
+                                        <input type="number" name="playerNum" th:value="${editRecode.playerNum}" min="1" max="8" tabindex="1">
+                                        <label>&nbsp;명</label>
+                                    </div>
+
+                                    <br/>
                                 </div>
                             </div>
-                            <!-- 정보입력- 테마검색 모달 끝 ! -->
+                            <!-- page1. 정보 입력 끝! -->
 
-                            <div>
-                                <label style="color: tomato">*</label>
-                                <label>탈출 여부: </label>
-                            </div>
-                            <div>
-                                <div class="mb-4 form-check-inline">
-                                    <label class="form-check-label">
-                                        <input type="radio" th:checked="${editRecode.success}==true" class="form-check-input"
-                                               name="success" value="true">탈출 성공
-                                    </label>
-                                    <label class="form-check-label">
-                                        <input type="radio" th:checked="${editRecode.success}==false" class="form-check-input"
-                                               name="success" value="false">탈출 실패
-                                    </label>
+
+                            <!-- page2. 후기 작성 -->
+                            <div id="section2" class="bg-light">
+                                <div class="container p-5">
+                                    <span style="color: tomato">*</span>
+                                    <h2>후기 작성</h2>
+                                    <textarea class="form-control" name="contents" th:text="${editRecode.contents}" id="contents"
+                                              rows="20"></textarea>
+                                    <form>
+                                        <div class="form-group mt-5">
+                                            <label for="image-file">이미지 업로드</label>
+                                            <input type="file" class="form-control-file" id="image-file">
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                            <div>
-                                <label style="color: tomato">*</label>
-                                <label>평점: </label>
-                            </div>
-                            <div>
-                                <div class="mb-4 form-check-inline">
-                                    <label class="form-check-label">
-                                        <input type="radio" th:checked="${editRecode.rating == 1}" class="form-check-input" name="rating"
-                                               value="1">1
-                                    </label>
-                                    <label class="form-check-label">
-                                        <input type="radio" th:checked="${editRecode.rating == 2}" class="form-check-input" name="rating"
-                                               value="2">2 &emsp;
-                                    </label>
-                                    <label class="form-check-label">
-                                        <input type="radio" th:checked="${editRecode.rating == 3}" class="form-check-input" name="rating"
-                                               value="3">3 &emsp;
-                                    </label>
-                                    <label class="form-check-label">
-                                        <input type="radio" th:checked="${editRecode.rating == 4}" class="form-check-input" name="rating"
-                                               value="4">4 &emsp;
-                                    </label>
-                                    <label class="form-check-label">
-                                        <input type="radio" th:checked="${editRecode.rating == 5}" class="form-check-input" name="rating"
-                                               value="5">5 &emsp;
-                                    </label>
+                            <!-- page2. 후기 작성 끝! -->
+
+                            <!-- page3. 플레이어 정보 -->
+                            <div id="section3" class="bg-light">
+                                <div class="container p-5">
+
+                                    <!-- page 3. 플레이어 정보 끝! -->
+                                    <div>
+                                        <div class="mb-4 form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" th:checked="${editRecode.secret == false}" class="form-check-input"
+                                                       name="secret" value="false">공개
+                                            </label>
+                                            <label class="form-check-label">
+                                                <input type="radio" th:checked="${editRecode.secret == true}" class="form-check-input"
+                                                       name="secret" value="true">비공개
+                                            </label>
+                                        </div>
+                                    </div>
+
+
+                                    <hr/>
+                                    <!-- 최종 form 전송 버튼  -->
+                                    <input type="button" th:onclick="" class="btn btn-primary" id="save-recode">글쓰기 완료</input>
+
                                 </div>
                             </div>
-
-                            <div>
-                                <label>탈출 시간: </label>
-                            </div>
-                            <div class="mb-4 form-check-inline">
-                                <input type="number" name="breakTime.min" th:value="${editRecode.breakTime.min}" min="0" max="99999">
-                                <label>&nbsp;분&emsp;</label>
-                                <input type="number" name="breakTime.sec" th:value="${editRecode.breakTime.sec}" min="0" max="99999">
-                                <label>&nbsp;초 </label>
-                            </div>
-
-                            <div>
-                                <label>힌트 사용 : </label>
-                            </div>
-                            <div class="mb-4 form-check-inline">
-                                <input type="number" name="hint" th:value="${editRecode.hint}" min="0" max="99999">
-                                <label>&nbsp;개</label>
-                            </div>
-
-
-                            <div>
-                                <label>인원 : </label>
-                            </div>
-                            <div class="mb-4 form-check-inline">
-                                <input type="number" name="playerNum" th:value="${editRecode.playerNum}" min="1" max="8" tabindex="1">
-                                <label>&nbsp;명</label>
-                            </div>
-
-                            <br/>
                         </div>
-                    </div>
-                    <!-- page1. 정보 입력 끝! -->
-
-
-                    <!-- page2. 후기 작성 -->
-                    <div id="section2" class="bg-light">
-                        <div class="container p-5">
-                            <span style="color: tomato">*</span>
-                            <h2>후기 작성</h2>
-                            <textarea class="form-control" name="contents" th:text="${editRecode.contents}" id="contents"
-                                      rows="20"></textarea>
-                            <form>
-                                <div class="form-group mt-5">
-                                    <label for="image-file">이미지 업로드</label>
-                                    <input type="file" class="form-control-file" id="image-file">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- page2. 후기 작성 끝! -->
-
-                    <!-- page3. 플레이어 정보 -->
-                    <div id="section3" class="bg-light">
-                        <div class="container p-5">
-<!--                            <h2>플레이어 정보</h2>-->
-
-<!--                            <input type="button" class="btn btn-primary" value="추가" onclick="add_div()">-->
-<!--                            <div id="player" class="my-3 row">-->
-<!--                                      <input type="text" th:field="*{player.playerName}" id="p-name" name="p-name" class="form-control col-3"-->
-<!--                                           placeholder="이름">-->
-<!--                                      <input type="text" th:field="*{player}" id="p-info" name="p-info" class="form-control col-9"-->
-<!--                                           placeholder="정보">-->
-<!--                                <input type="button" class="btn btn-danger btn-sm" value="삭제" onclick="remove_div(this)">-->
-<!--                            </div>-->
-<!--                            <div id="field"></div>-->
-
-
-<!--                            <script type="text/javascript">-->
-<!--                                function add_div() {-->
-<!--                                    var div = document.createElement('div');-->
-
-<!--                                    div.innerHTML = document.getElementById('player').innerHTML;-->
-<!--                                    document.getElementById('field').appendChild(div);-->
-<!--                                }-->
-
-<!--                                function remove_div(obj) {-->
-<!--                                    document.getElementById('field').removeChild(obj.parentNode);-->
-<!--                                }-->
-<!--                            </script>-->
-
-                            <!-- page 3. 플레이어 정보 끝! -->
-                            <div>
-                                <div class="mb-4 form-check-inline">
-                                    <label class="form-check-label">
-                                        <input type="radio" th:checked="${editRecode.secret}==false" class="form-check-input"
-                                               name="secret" value="true">공개
-                                    </label>
-                                    <label class="form-check-label">
-                                        <input type="radio" th:checked="${editRecode.secret}==true" class="form-check-input"
-                                               name="success" value="false">비공개
-                                    </label>
-                                </div>
-                            </div>
-
-
-                            <hr/>
-                            <!-- 최종 form 전송 버튼  -->
-                            <input type="button" th:onclick="" class="btn btn-primary" id="save-recode">글쓰기 완료</input>
-
-                        </div>
-                    </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
-</div>
 
-<script>
-    $(document).ready(function () {
+        <script>
+            $(document).ready(function () {
 
-        let selectedThemeName="";
-        let selectedThemeNo=0;
+                let selectedThemeName="";
+                let selectedThemeNo=0;
 
-        function themeValueInit(){
-            selectedThemeNo = 0;
-            selectedThemeName = "";
-        }
-
-        $('#save-recode').click(function () {
-
-            let title = $('#title').val();
-            let success = $('input:radio[name=success]').is(':checked');
-            let rating = $('input:radio[name=rating]').is(':checked');
-            let contents = $('#contents').val();
-            let secret = $('input:radio[name=secret]').is(':checked');
-
-            if (title == '') {
-                alert('제목을 입력해주세요');
-                return false;
-            }
-
-            if (success == false) {
-                alert('탈출여부를 선택해주세요');
-                return false;
-            }
-
-            if (rating == false) {
-                alert('평점을 선택해주세요');
-                return false;
-            }
-
-            if (contents == '') {
-                alert('내용을 입력해주세요');
-                return false;
-            }
-
-            if (secret == false) {
-                alert('공개여부를 선택해주세요');
-                return false;
-            }
-
-
-            $('form[name=recode-dto]').submit()
-
-
-        });
-
-        $('#theme-search-btn').click(function () {
-            let keyword = $('#keyword').val().replace(/^\s+|\s+$/gm, '');
-
-            $.ajax({
-                url: '/recode/theme_search',
-                type: 'GET',
-                data: {keyword: keyword},
-            })
-                .done(function (fragment) {
-                    $('#theme-list').replaceWith(fragment);
-                    themeValueInit()
-                });
-        });
-
-        $("#theme-search-result").on("click","li", function(){
-            selectedThemeNo = $(this).val();
-            selectedThemeName = $(this).text();
-
-
-        });
-
-        $('#theme-select-btn').click(function () {
-            if (!selectedThemeName | !selectedThemeName){
-                alert("테마를 선택해주세요.");
-                return false;
-            }
-            document.getElementById("theme-no").value=selectedThemeNo;
-            document.getElementById("theme-name").value= selectedThemeName;
-            $('#selectModal').modal('hide');
-        });
-
-        $('#theme-info-remove-btn').click(function () {
-            themeValueInit()
-            document.getElementById("theme-no").value=null;
-            document.getElementById("theme-name").value= selectedThemeName;
-        });
-
-        $('#feedback-submit-btn').click(function () {
-
-            if ($('#new-theme-name').val().replace(/\s| /gi, "").length==0){
-                alert("테마명을 입력해주세요.");
-                return false;
-            }
-
-            var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");
-
-            document.getElementById("new-theme-name").value = $('#new-theme-name').val().replace(/^\s+|\s+$/gm,'');
-            document.getElementById("message-text").value = $('#message-text').val().replace(/^\s+|\s+$/gm,'');
-
-            $.ajax({
-                url : '/feedback/add',
-                type : 'POST',
-                data : $('#feedback-form').serialize(),
-                beforeSend: function (xhr){
-                    xhr.setRequestHeader(header, token);
-                },
-                success : function(data){
-                    $('#themeModal').modal("hide");
-                    alert("의견을 주셔서 감사합니다.");
-                    $("#sel1 option:eq(0)").prop("selected", true);
-                    document.getElementById("new-theme-name").value = null;
-                    document.getElementById("message-text").value = null;
-                },
-                error : function(request,status,error){
-                    console.log("code = "+ request.status + " error = " + error);
+                function themeValueInit(){
+                    selectedThemeNo = 0;
+                    selectedThemeName = "";
                 }
-            })
-        });
-    });
-</script>
 
-</section>
+                $('#save-recode').click(function () {
+
+                    let title = $('#title').val();
+                    let success = $('input:radio[name=success]').is(':checked');
+                    let rating = $('input:radio[name=rating]').is(':checked');
+                    let contents = $('#contents').val();
+                    let secret = $('input:radio[name=secret]').is(':checked');
+
+                    if (title == '') {
+                        alert('제목을 입력해주세요');
+                        return false;
+                    }
+
+                    if (success == false) {
+                        alert('탈출여부를 선택해주세요');
+                        return false;
+                    }
+
+                    if (rating == false) {
+                        alert('평점을 선택해주세요');
+                        return false;
+                    }
+
+                    if (contents == '') {
+                        alert('내용을 입력해주세요');
+                        return false;
+                    }
+
+                    if (secret == false) {
+                        alert('공개여부를 선택해주세요');
+                        return false;
+                    }
+
+
+                    $('form[name=recode-dto]').submit()
+
+
+                });
+
+                $('#theme-search-btn').click(function () {
+                    let keyword = $('#keyword').val().replace(/^\s+|\s+$/gm, '');
+
+                    $.ajax({
+                        url: '/recode/theme_search',
+                        type: 'GET',
+                        data: {keyword: keyword},
+                    })
+                        .done(function (fragment) {
+                            $('#theme-list').replaceWith(fragment);
+                            themeValueInit()
+                        });
+                });
+
+                $("#theme-search-result").on("click","li", function(){
+                    selectedThemeNo = $(this).val();
+                    selectedThemeName = $(this).text();
+
+
+                });
+
+                $('#theme-select-btn').click(function () {
+                    if (!selectedThemeName | !selectedThemeName){
+                        alert("테마를 선택해주세요.");
+                        return false;
+                    }
+                    document.getElementById("theme-no").value=selectedThemeNo;
+                    document.getElementById("theme-name").value= selectedThemeName;
+                    $('#selectModal').modal('hide');
+                });
+
+                $('#theme-info-remove-btn').click(function () {
+                    themeValueInit()
+                    document.getElementById("theme-no").value=null;
+                    document.getElementById("theme-name").value= selectedThemeName;
+                });
+
+                $('#feedback-submit-btn').click(function () {
+
+                    if ($('#new-theme-name').val().replace(/\s| /gi, "").length==0){
+                        alert("테마명을 입력해주세요.");
+                        return false;
+                    }
+
+                    var token = $("meta[name='_csrf']").attr("content");
+                    var header = $("meta[name='_csrf_header']").attr("content");
+
+                    document.getElementById("new-theme-name").value = $('#new-theme-name').val().replace(/^\s+|\s+$/gm,'');
+                    document.getElementById("message-text").value = $('#message-text').val().replace(/^\s+|\s+$/gm,'');
+
+                    $.ajax({
+                        url : '/feedback/add',
+                        type : 'POST',
+                        data : $('#feedback-form').serialize(),
+                        beforeSend: function (xhr){
+                            xhr.setRequestHeader(header, token);
+                        },
+                        success : function(data){
+                            $('#themeModal').modal("hide");
+                            alert("의견을 주셔서 감사합니다.");
+                            $("#sel1 option:eq(0)").prop("selected", true);
+                            document.getElementById("new-theme-name").value = null;
+                            document.getElementById("message-text").value = null;
+                        },
+                        error : function(request,status,error){
+                            console.log("code = "+ request.status + " error = " + error);
+                        }
+                    })
+                });
+            });
+        </script>
+
+    </section>
 </th:block>
 </body>
 </html>

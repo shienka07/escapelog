@@ -24,7 +24,7 @@ public class Recode {
     @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
     private Member member;
 
-    @ManyToOne(targetEntity = Theme.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Theme.class, fetch = FetchType.LAZY)
     private Theme theme;
 
     private String title;
@@ -58,7 +58,11 @@ public class Recode {
 
 
     public void update(EditDto editDto) {
-        this.theme = editDto.getTheme();
+        if(editDto.getTheme().getNo() != null) {
+            this.theme = editDto.getTheme();
+        }else{
+            this.theme = null;
+        }
         this.title = editDto.getTitle();
         this.contents = editDto.getContents();;
         this.rating = editDto.getRating();

@@ -237,33 +237,6 @@
                     <!-- page3. 플레이어 정보 -->
                     <div id="section3" class="bg-light">
                         <div class="container p-5">
-                            <h2>플레이어 정보</h2>
-
-                            <input type="button" class="btn btn-primary" value="추가" onclick="add_div()">
-                            <div id="player" class="my-3 row">
-                                <!--                            <input type="text" th:field="*{player.playerName}" id="p-name" name="p-name" class="form-control col-3"-->
-                                <!--                                   placeholder="이름">-->
-                                <!--                            <input type="text" th:field="*{player}" id="p-info" name="p-info" class="form-control col-9"-->
-                                <!--                                   placeholder="정보">-->
-                                <input type="button" class="btn btn-danger btn-sm" value="삭제" onclick="remove_div(this)">
-                            </div>
-                            <div id="field"></div>
-
-
-                            <script type="text/javascript">
-                                function add_div() {
-                                    var div = document.createElement('div');
-
-                                    div.innerHTML = document.getElementById('player').innerHTML;
-                                    document.getElementById('field').appendChild(div);
-                                }
-
-                                function remove_div(obj) {
-                                    document.getElementById('field').removeChild(obj.parentNode);
-                                }
-                            </script>
-
-                            <!-- page 3. 플레이어 정보 끝! -->
                             <div>
                                 <div class="mb-4 form-check-inline">
                                     <label class="form-check-label">
@@ -272,11 +245,10 @@
                                     </label>
                                     <label class="form-check-label">
                                         <input type="radio" th:field="*{secret}" class="form-check-input"
-                                               name="success" value="true">비공개
+                                               name="secret" value="true">비공개
                                     </label>
                                 </div>
                             </div>
-
 
                             <hr/>
                             <!-- 최종 form 전송 버튼  -->
