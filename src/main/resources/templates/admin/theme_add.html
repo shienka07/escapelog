@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common_layout.html}">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <section>
+    <form>
+        <div class="container bg-light p-5 mt-4">
+            <h2>테마 추가</h2>
+            <div class="row">
+                <div class="col-6">
+                    <label>테마명 :</label>
+                    <input type="text" class="form-control" />
+                    <label>지점 :</label>
+                    <input type="text" class="form-control" />
+                    <label>지점 url :</label>
+                    <input type="text" class="form-control" />
+                    <label>지역 : </label>
+                    <input type="text" class="form-control" />
+                    <label>세부지역 :</label>
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="col-6">
+                    <label>폐업 여부 :</label>
+                    <input type="text" class="form-control" />
+                    <label>플레이 시간 :</label>
+                    <input type="text" class="form-control" />
+                    <label>난이도 :</label>
+                    <input type="text" class="form-control" />
+                    <label>줄거리 :</label>
+                    <textarea class="form-control"></textarea>
+                </div>
+                <div class="col-12 my-3">
+                    <label>이미지 업로드 :</label>
+                    <input type="file" />
+                </div>
+            </div>
+            <button class="btn btn-dark float-right">등록하기</button>
+        </div>
+    </form>
+
+    </section>
+</th:block>
+</body>
+</html>

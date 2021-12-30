@@ -30,6 +30,9 @@
         <div>
             <ul class="navbar-nav">
                 <li sec:authorize="!isAuthenticated()" class="nav-item">
+                    <a th:href="@{/admin}">관리자</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()" class="nav-item">
                     <a th:href="@{/login}">로그인</a>
                 </li>
                 <li sec:authorize="!isAuthenticated()" class="nav-item">

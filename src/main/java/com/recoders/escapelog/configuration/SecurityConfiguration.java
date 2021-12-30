@@ -35,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/library","/library/{no}","/recode/**","/recode/theme_search").authenticated()
                 .mvcMatchers("/","/signup","/login","/doLogin","/doLogout",
                         "/check_nickname","/find_pw","/check_email","/send_code_email","/check_code","/find_change_pw","/email_check_token",
-                        "/themes","/themes/{no}","/theme_search","/feedback/add","/feedback/info","/insert_theme","/review_filter").permitAll()
+                        "/themes","/themes/{no}","/theme_search","/feedback/add","/feedback/info","/insert_theme","/review_filter", "/admin/**").permitAll()
 
                 .anyRequest().authenticated()
 

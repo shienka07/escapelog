@@ -437,4 +437,9 @@ public class MainController {
         return "map/escape_map";
     }
 
+    @GetMapping("/admin")
+    public String themeAdd(){
+        return "admin/theme_add";
+    }
+
 }
