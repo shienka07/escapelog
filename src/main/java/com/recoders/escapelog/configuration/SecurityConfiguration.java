@@ -37,6 +37,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/check_nickname","/find_pw","/check_email","/send_code_email","/check_code","/find_change_pw","/email_check_token",
                         "/themes","/themes/{no}","/theme_search","/feedback/add","/feedback/info","/insert_theme","/review_filter").permitAll()
 
+                .antMatchers("/css/**", "/img/**", "/js/**", "**/favicon.ico").permitAll()
+
                 .anyRequest().authenticated()
 
                 .and()

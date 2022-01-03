@@ -20,14 +20,134 @@
                 <hr/>
                 <h4 class="bold">SIGN IN</h4>
                 <div class="sel-login">
-                    <span style="color:#474249">회원가입</span>&ensp;<span class="login-txt">로그인</span>
+                    <span th:onclick="'location.href=\''+ @{/signup} + '\''"
+                      style="color:#474249; cursor:pointer">회원가입</span>
+                    &ensp;
+                    <span class="login-txt">로그인</span>
                 </div>
             </div>
             <div class="col-8">
                 <div class="character-box">
-                    <div class="character">캐릭터</div>
+
+                    <svg id="loginchar" xmlns="http://www.w3.org/2000/svg" width="232" height="255"
+                         viewBox="0 0 300 300">
+                        <g id="타원_24" data-name="타원 24" fill="#474249" stroke="#707070" stroke-width="1">
+                            <circle cx="129" cy="129" r="129" stroke="none" />
+                            <circle cx="129" cy="129" r="128.5" fill="none" />
+                        </g>
+                        <g id="그룹_238" data-name="그룹 238" transform="translate(-1032 -311)">
+                            <path id="패스_78" data-name="패스 78"
+                                  d="M9369.345,5596.167c-1.216-.19-13.929-110.733,4.324-152.021,10.341-3.441,33.46,21.79,34.069,22.364s37.713-5.432,89.432-2.867c1.6-8.624,16.785-30.252,26.771-26.952,18.814,25.2,16.792,50.623,17.769,156.809l-.382.264C9492.843,5634.9,9421.9,5640.741,9369.345,5596.167Z"
+                                  transform="translate(-8292.436 -5062.004)" fill="#fff" stroke="#333"
+                                  stroke-width="3" />
+                            <g id="타원_93" data-name="타원 93" transform="translate(1104 431)" fill="none"
+                               stroke="#333" stroke-width="3">
+                                <circle cx="27" cy="27" r="27" stroke="none" />
+                                <circle cx="27" cy="27" r="25.5" fill="none" />
+                            </g>
+                            <g id="타원_94" data-name="타원 94" transform="translate(1161 431)" fill="none"
+                               stroke="#333" stroke-width="3">
+                                <circle cx="27" cy="27" r="27" stroke="none" />
+                                <circle cx="27" cy="27" r="25.5" fill="none" />
+                            </g>
+                            <path id="패스_79" data-name="패스 79" d="M9442.116,5520.7c2.315-1.546,5.811-.869,6.578,0"
+                                  transform="translate(-8285.858 -5065)" fill="none" stroke="#333" stroke-width="3" />
+                            <g id="타원_95" data-name="타원 95" transform="translate(1155 481)" fill="none"
+                               stroke="#333" stroke-width="3">
+                                <ellipse cx="6.5" cy="8.5" rx="6.5" ry="8.5" stroke="none" />
+                                <ellipse cx="6.5" cy="8.5" rx="5" ry="7" fill="none" />
+                            </g>
+                            <g>
+                                <path id="패스_80" data-name="패스 80" d="M9420.562,5478.813s-8.752-2.8-11.554,5.952"
+                                      transform="translate(-8290 -5065)" fill="none" stroke="#333"
+                                      stroke-linecap="round" stroke-width="3" />
+                                <path id="패스_81" data-name="패스 81" d="M9472.31,5476.712s9.525-.351,12.326,6.3"
+                                      transform="translate(-8290 -5065)" fill="none" stroke="#333"
+                                      stroke-linecap="round" stroke-width="3" />
+                            </g>
+                        </g>
+                        <g id="사각형_374" data-name="사각형 374" transform="translate(57 193)" fill="#cdcdcd"
+                           stroke="#474249" stroke-width="2">
+                            <rect width="148" height="86" rx="8" stroke="none" />
+                            <rect x="1" y="1" width="146" height="84" rx="7" fill="none" />
+                        </g>
+                        <rect id="사각형_377" data-name="사각형 377" width="48" height="32" rx="1"
+                              transform="matrix(0.999, -0.035, 0.035, 0.999, 144.456, 228.847)" fill="#fff" />
+                        <g id="사각형_375" data-name="사각형 375" transform="translate(56 280)" fill="#cdcdcd"
+                           stroke="#474249" stroke-width="2">
+                            <rect width="149" height="15" rx="4" stroke="none" />
+                            <rect x="1" y="1" width="147" height="13" rx="3" fill="none" />
+                        </g>
+                        <g id="그룹_143" data-name="그룹 143" transform="translate(-3748.468 -4759.608)">
+                            <g id="그룹_129" data-name="그룹 129" transform="translate(3898.777 4989.608)">
+                                <path id="패스_22" data-name="패스 22"
+                                      d="M3738.506,4024.768c-.732-2.653,4.534-1.447,4.519-.472s-.1.9-1.615,3.568-5.334,8.6-5.271,8.535c0,.274-1.413-2.088-1.413-2.088S3739.237,4027.42,3738.506,4024.768Z"
+                                      transform="translate(-3715.204 -4023.158)" fill="#474249" />
+                                <path id="빼기_6" data-name="빼기 6"
+                                      d="M8.3,16.3h0a3.036,3.036,0,0,1-2.316-1C4.89,14.061.955,8.6.788,8.369l0,0a4.048,4.048,0,0,1-.779-1.82,1.543,1.543,0,0,1,.138-.817,1.813,1.813,0,0,1,.641-.7L8.208.47A2.623,2.623,0,0,1,9.671,0a2.344,2.344,0,0,1,1.973,1.093l2.243,2.632L12.906,5.7l1.589.714.758-.714-1.1-1.661L17.67,8.165a1.982,1.982,0,0,1,.343,1.745A2.844,2.844,0,0,1,16.8,11.352L10.3,15.7A3.609,3.609,0,0,1,8.3,16.3ZM4.93,5.611a.415.415,0,0,0-.35.638l4.387,6.64a.415.415,0,1,0,.7-.445L5.281,5.8A.413.413,0,0,0,4.93,5.611ZM11.9,9.279a1.1,1.1,0,0,1,.254.033l-.217.42c-.457.883-1.408,2.721-1.54,2.971-.043.082-.059.135-.046.157a.027.027,0,0,0,.025.012,1.063,1.063,0,0,0,.384-.239A19,19,0,0,0,13.12,10.5a5.026,5.026,0,0,0,.687-1.986,14.52,14.52,0,0,0,.2-1.454c.006-.028-1.079-.542-1.09-.545S11.675,7.6,11.01,8.231a3.38,3.38,0,0,0-.5,2.069,8.381,8.381,0,0,1-.1,1.069c-.04.2-.048.322-.024.351a.018.018,0,0,0,.014.007c.086,0,.344-.549.373-.611l.631-1.381s.127-.35.309-.422A.542.542,0,0,1,11.9,9.279Zm-5.2-4.9a.415.415,0,0,0-.343.648L8.534,8.287A.415.415,0,0,0,9.22,7.82L7.047,4.556A.414.414,0,0,0,6.7,4.375Z"
+                                      transform="translate(5.621 7.596)" fill="#474249" />
+                                <path id="패스_27" data-name="패스 27"
+                                      d="M3693.4,4217.116s-.166-.521-.842,0-.884,2.525-.884,2.525l.567.753a1.684,1.684,0,0,1,2.276.547,1.549,1.549,0,0,1-.38,2.23s4.921,6.189,5.636,6.652a2.409,2.409,0,0,0,2.61,0c1.135-.547,8.6-5.009,9.427-5.462a2.788,2.788,0,0,0,1.179-2.1s.1-.886-.192-1.067-.987.338-.987.338-6.329,4.071-7.883,5.074a3.347,3.347,0,0,1-4.154-.421C3698.838,4225.3,3693.4,4217.116,3693.4,4217.116Z"
+                                      transform="translate(-3688.341 -4202.203)" fill="#474249" />
+                                <path id="패스_32" data-name="패스 32"
+                                      d="M25.562,95.485c-5.427,3.133-6.752-4.818-.844-8.229"
+                                      transform="translate(-20.851 -75.825)" fill="none" stroke="#474249"
+                                      stroke-linecap="round" stroke-width="1" />
+                            </g>
+                            <text id="scape_Log" data-name="scape Log" transform="translate(3931.024 4998.85)"
+                                  fill="#474249" font-size="6" font-family="tvNEnjoystoriesB, tvN Enjoystories"
+                                  letter-spacing="-0.1em">
+                                <tspan x="-6.57" y="0">scape Log</tspan>
+                            </text>
+                            <path id="패스_40" data-name="패스 40" d="M0,0H9.513"
+                                  transform="translate(3924.438 4990.789)" fill="none" stroke="#474249"
+                                  stroke-linecap="round" stroke-width="1" />
+                            <path id="패스_39" data-name="패스 39" d="M0,0H5.195" transform="translate(3924 4994.463)"
+                                  fill="none" stroke="#474249" stroke-linecap="round" stroke-width="1" />
+                            <path id="패스_38" data-name="패스 38" d="M0,0H3.411"
+                                  transform="translate(3920.055 5002.049)" fill="none" stroke="#474249"
+                                  stroke-linecap="round" stroke-width="1" />
+                            <line id="선_42" data-name="선 42" x1="0.607" y2="0.303"
+                                  transform="translate(3923.577 5001.713)" fill="none" stroke="#474249"
+                                  stroke-width="1" />
+                        </g>
+                        <line id="선_68" data-name="선 68" y2="33" transform="translate(64.5 206.5)" fill="none"
+                              stroke="#474249" stroke-linecap="round" stroke-width="1" />
+                        <line id="선_69" data-name="선 69" y2="12" transform="translate(64.5 251.5)" fill="none"
+                              stroke="#707070" stroke-width="1" />
+                        <line id="선_70" data-name="선 70" x2="34" transform="translate(163.5 271.5)" fill="none"
+                              stroke="#707070" stroke-width="1" />
+                        <line id="선_71" data-name="선 71" x2="36" transform="translate(58.5 287.5)" fill="none"
+                              stroke="#707070" stroke-width="1" />
+                        <line id="선_72" data-name="선 72" x2="4" transform="translate(101.5 287.5)" fill="none"
+                              stroke="#707070" stroke-width="1" />
+                        <g id="패스_76" data-name="패스 76" transform="translate(234 239)" fill="#fff">
+                            <path
+                                    d="M 27.66991996765137 55.5 L 10.00195026397705 55.5 C 8.072039604187012 55.5 6.501949787139893 53.92990875244141 6.501949787139893 52 L 6.501949787139893 51.9688606262207 L 6.498089790344238 51.93796157836914 L 0.5001288056373596 3.969860076904297 C 0.5163031220436096 2.053709030151367 2.080102443695068 0.5 4 0.5 L 33 0.5 C 34.92095947265625 0.5 36.48542404174805 2.05559515953064 36.49989700317383 3.973204374313354 L 31.17296981811523 51.94482040405273 L 31.16991996765137 51.97232055664062 L 31.16991996765137 52 C 31.16991996765137 53.92990875244141 29.59983062744141 55.5 27.66991996765137 55.5 Z"
+                                    stroke="none" />
+                            <path
+                                    d="M 4 1 C 2.365074157714844 1 1.031421661376953 2.314468383789062 1.00054931640625 3.942146301269531 L 7.001949310302734 51.93772125244141 L 7.001949310302734 52 C 7.001949310302734 53.65420913696289 8.347740173339844 55 10.00194931030273 55 L 27.66991996765137 55 C 29.32413101196289 55 30.66991996765137 53.65420913696289 30.66991996765137 52 L 30.66991996765137 51.94464874267578 L 35.99956512451172 3.948581695556641 C 35.97203826904297 2.317977905273438 34.63704681396484 1 33 1 L 4 1 M 4 0 L 33 0 C 35.20914077758789 0 37 1.790859222412109 37 4 L 31.66991996765137 52 C 31.66991996765137 54.20914077758789 29.87905883789062 56 27.66991996765137 56 L 10.00194931030273 56 C 7.792810440063477 56 6.001949310302734 54.20914077758789 6.001949310302734 52 L 0 4 C 0 1.790859222412109 1.790859222412109 0 4 0 Z"
+                                    stroke="none" fill="#474249" />
+                        </g>
+                        <path id="패스_77" data-name="패스 77"
+                              d="M-2.719,17.593H25.919a4,4,0,0,1,4,4l-1.53,14.741a4,4,0,0,1-4,4H-1.269a4,4,0,0,1-4-4l-1.45-14.741A4,4,0,0,1-2.719,17.593Z"
+                              transform="translate(241 239)" fill="#474249" />
+                        <rect id="사각형_376" data-name="사각형 376" width="40" height="10" rx="2"
+                              transform="translate(232 239)" fill="#474249" />
+                        <circle id="타원_92" data-name="타원 92" cx="7.5" cy="7.5" r="7.5"
+                                transform="translate(249 261)" fill="#fff" />
+                        <g class="eyes">
+                            <!-- left eye and eyebrow-->
+                            <!-- <line x1="90" x2="110" y1="140" y2="140" stroke="#000" stroke-width="3" stroke-linecap="round" /> -->
+                            <circle cx="100" cy="150" r="3" fill="#000" />
+                            <!-- right eye and eyebrow -->
+                            <!-- <line x1="150" x2="165" y1="140" y2="140" stroke="#000" stroke-width="3" stroke-linecap="round" /> -->
+                            <circle cx="155" cy="150" r="3" fill="#000" />
+                        </g>
+                    </svg>
+
                 </div>
-                <form action="/doLogin" method="post"><!--class="is-validated" -->
+                <form action="/doLogin" method="post">
                     <div class="form-group">
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                         <div th:if="${param.error}">
@@ -42,14 +162,123 @@
                         <input type="password" class="form-control" id="pwd" placeholder="비밀번호" name="pwd" required maxlength="">
                         <div class="invalid-feedback">비밀번호를 입력하세요</div>
                     </div>
-
-                    <a class="signup-link" th:href="@{/find_pw}">비밀번호를 잃어버렸나요?</a>
+                    <div class="right-box">
+                        <a class="signup-link" th:href="@{/find_pw}">비밀번호를 잃어버렸나요?</a>
+                    </div>
                     <button type="submit" class="btn member-btn">로그인</button>
                 </form>
-                <a class="signup-link" th:href="@{/signup}">아직 회원이 아니신가요?</a>
+                <div class="right-box">
+                    <a class="signup-link" th:href="@{/signup}">아직 회원이 아니신가요?</a>
+                </div>
             </div>
-        </div>
 
+
+
+
+            <script>
+                (function () {
+
+                    const loginchar = document.querySelector('#loginchar');
+                    const face = document.querySelectorAll('.eyebrow, .eyes');
+                    const email = document.querySelector('input[type="text"]');
+                    const password = document.querySelector('input[type="password"]');
+                    const fauxInput = document.createElement('div');
+                    const span = document.createElement('span');
+                    let timer = null;
+
+                    function rotate3d(x, y, z, rad) {
+                        const value = `rotate3d(${x}, ${y}, ${z}, ${rad}rad)`;
+                        for (let i = 0; i < face.length; i++) {
+                            face[i].style.transform = value;
+                        }
+                    }
+
+                    function focus(event) {
+                        event.target.classList.add('focused');
+                        copyStyles(event.target);
+                        event.target.type === 'password' ? lookAway(event) : look(event);
+                    }
+
+                    function reset(event) {
+                        event.target.classList.remove('focused');
+                        loginchar.classList.remove('playing');
+
+                        clearTimeout(timer);
+                        timer = setTimeout(() => {
+                            loginchar.classList.remove('look-away', 'down', 'up');
+                            rotate3d(0, 0, 0, 0);
+                        }, 1);
+                    }
+
+                    function copyStyles(el) {
+                        const props = window.getComputedStyle(el, null);
+
+                        if (fauxInput.parentNode === document.body) {
+                            document.body.removeChild(fauxInput);
+                        }
+
+                        fauxInput.style.visibility = 'hidden';
+                        fauxInput.style.position = 'absolute';
+                        fauxInput.style.top = Math.min(el.offsetHeight * -2, -999) + 'px';
+
+                        for (let i = 0; i < props.length; i++) {
+                            if (['visibility', 'display', 'opacity', 'position', 'top', 'left', 'right', 'bottom'].indexOf(props[i]) !== -1) {
+                                continue;
+                            }
+                            fauxInput.style[props[i]] = props.getPropertyValue(props[i]);
+                        }
+
+                        document.body.appendChild(fauxInput);
+                    }
+
+                    function look(event) {
+                        const el = event.target;
+                        const text = el.value.substr(0, el.selectionStart);
+
+                        span.innerText = text || '.';
+
+                        const logincharRect = loginchar.getBoundingClientRect();
+                        const inputRect = el.getBoundingClientRect();
+                        const caretRect = span.getBoundingClientRect();
+                        const caretPos = caretRect.left + Math.min(caretRect.width, inputRect.width) * !!text;
+                        const distCaret = logincharRect.left + logincharRect.width / 2 - inputRect.left - caretPos;
+                        const distInput = logincharRect.top + logincharRect.height / 2 - inputRect.top;
+                        const y = Math.atan2(-distCaret, Math.abs(distInput) * 3);
+                        const x = Math.atan2(distInput, Math.abs(distInput) * 3 / Math.cos(y));
+                        const angle = Math.max(Math.abs(x), Math.abs(y));
+
+                        rotate3d(x / angle, y / angle, y / angle / 2, angle);
+                    }
+
+                    function lookAway(event) {
+                        const el = event.target;
+                        const logincharRect = loginchar.getBoundingClientRect();
+                        const inputRect = el.getBoundingClientRect();
+                        const distInput = logincharRect.top + logincharRect.height / 2 - inputRect.top;
+
+                        loginchar.classList.add('look-away', distInput < 0 ? 'up' : 'down');
+
+                        clearTimeout(timer);
+                        timer = setTimeout(() => {
+                            loginchar.classList.add('playing');
+                        }, 300);
+                    }
+
+                    fauxInput.appendChild(span);
+
+                    email.addEventListener('focus', focus, false);
+                    email.addEventListener('keyup', look, false);
+                    email.addEventListener('click', look, false);
+                    email.addEventListener('blur', reset, false);
+
+                    password.addEventListener('focus', lookAway, false);
+                    password.addEventListener('blur', reset, false);
+
+                })();
+            </script>
+
+
+        </div>
     </section>
 </th:block>
 </body>

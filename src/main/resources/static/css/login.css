@@ -8,8 +8,7 @@ body        { font: 24px/30px 'Noto Sans CJK KR', Noto Sans KR, sans-serif }
 .bolder     { font-weight: 900 }
 
 section {
-    min-height: 100vh; /* 추가 작성할 부분*/
-    /* width: 100%; */
+    min-height: 100vh;
     padding-top: 100px;
     background-color: #E1DBCD;
     display: flex;
@@ -35,8 +34,6 @@ section {
     background-color: #fff;
 }
 .col-4 h2{
-    /* font-family: 'East Sea Dokdo', cursive;
-    font-size: 50px; */
     font-family: 'Gugi', cursive;
     font-size: 30px;
     color:#fff;
@@ -97,29 +94,23 @@ section {
 
 
 
-
 .col-8 .character-box {
     height: 250px;
     width: 250px;
-    /* border: 3px solid #333; */
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: 20px;
 }
 .character {
-    border-radius: 100px;
-    border: 3px solid #777;
     height: 200px;
     width: 200px;
     display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 
 form{
     line-height: 1.2;
-    /* width: 250px; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -155,7 +146,6 @@ form{
 .col-8 .form-control{
     font-size: 12px;
     background-color: #eee;
-    /* border: 1px solid #eee; */
     width: 300px;
 }
 
@@ -179,12 +169,79 @@ form{
     font-size: 12px;
     text-decoration: none;
     color: #474249;
-    display: flex;
-    float: right;
-    width: 100%;
-    justify-content: flex-end;
 }
 .signup-link:hover{
     text-decoration: none;
     color:#EEC86F;
+}
+.right-box {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+
+/* 캐릭터 눈 따라가기 */
+.eyes {
+    transform-origin: 50% 50% -10px;
+}
+svg {
+    align-self: center;
+    transform-style: preserve-3d;
+}
+input {
+    font-size: 16px;
+    border: 0;
+    border-radius: 5px;
+    outline: 0;
+    padding: 10px 15px;
+}
+@keyframes lookaway-up {
+    from {
+        transform: rotate3d(.2, 0, -.01, 20deg);
+    }
+    to {
+        transform: rotate3d(.2, -.05, -.01, 20deg);
+    }
+}
+@keyframes lookaway-down {
+    0% {
+        transform: rotate3d(-.2, 0, -.01, 20deg);
+    }
+    100% {
+        transform: rotate3d(-.2, -.05, .01, 20deg);
+    }
+}
+.eyes {
+    transform-origin: 50% 50% -40px;
+}
+.eyebrow {
+    transform-origin: 50% 50% -44px;
+}
+.eyebrow, .eyes {
+    transition: transform .5s;
+}
+.focused {
+    transition: transform .1s;
+}
+.look-away .eyebrow,
+.look-away .eyes {
+    transition-duration: .3s;
+    animation: 3s infinite alternate;
+}
+.look-away.up .eyebrow,
+.look-away.up .eyes {
+    transform: rotate3d(.2, 0, 0, 20deg) !important;
+}
+.look-away.down .eyebrow,
+.look-away.down .eyes {
+    transform: rotate3d(-.2, 0, 0, 20deg) !important;
+}
+.look-away.playing.up .eyebrow,
+.look-away.playing.up .eyes {
+    animation-name: lookaway-up;
+}
+.look-away.playing.down .eyebrow,
+.look-away.playing.down .eyes {
+    animation-name: lookaway-down;
 }
