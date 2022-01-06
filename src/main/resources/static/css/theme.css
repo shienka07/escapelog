@@ -29,7 +29,7 @@
     width: 250px;
     border-radius: 10px;
     background-color: rgba(100, 100, 100, 0.2);
-    background-image:url('http://drive.google.com/uc?export=view&id=1bYc6HnAnl6MzBC1ZjB5cFf9F3cdyj1k_');
+    background-image:url('/img/closed.png');
     background-repeat : no-repeat;
     background-size : cover;
     position:absolute;
@@ -43,7 +43,7 @@
     width: 250px;
     border-radius: 10px;
     /*background-color: rgba(100, 100, 100, 0.2);*/
-    background-image:url('http://drive.google.com/uc?export=view&id=17xZax7u81QhmMqw0d4znd6YbX-ZK3Yvx');
+    background-image:url('/img/successed.png');
     background-repeat : no-repeat;
     background-size : cover;
     position:absolute;
@@ -57,7 +57,7 @@
     width: 250px;
     border-radius: 10px;
     /*background-color: rgba(100, 100, 100, 0.2);*/
-    background-image:url('http://drive.google.com/uc?export=view&id=1rIL-JVAHV-nXETaGHGLz7pgWMUcIBa30');
+    background-image:url('/img/visited.png');
     background-repeat : no-repeat;
     background-size : cover;
     position:absolute;
@@ -68,7 +68,7 @@
     height: 350px;
     width: 250px;
     border-radius: 10px;
-    background-image:url('http://drive.google.com/uc?export=view&id=1rIL-JVAHV-nXETaGHGLz7pgWMUcIBa30');
+    background-image:url('/img/visited.png');
     background-repeat : no-repeat;
     background-size : cover;
     position:absolute;

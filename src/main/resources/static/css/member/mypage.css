@@ -1,0 +1,163 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+body        { font: 24px/30px 'Noto Sans CJK KR', Noto Sans KR, sans-serif }
+.thin       { font-weight: 100 }
+.light      { font-weight: 300 }
+.regular    { font-weight: 400 }
+.medium     { font-weight: 500 }
+.bold       { font-weight: 700 }
+.bolder     { font-weight: 900 }
+
+section {
+    min-height: 100vh;
+    padding-top: 100px;
+    background-color: #E1DBCD;
+    display: flex;
+    align-items: center;
+}
+.container.row{
+    max-width: 1000px;
+    margin: 30px 0;
+}
+.col-4,
+.col-8{
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.col-4{
+    border-radius: 25px 0px 0px 25px;
+    background-color: #474249;
+}
+.col-8{
+    border-radius: 0px 25px 25px 0px;
+    background-color: #fff;
+    padding: 30px;
+}
+.col-4 h2{
+    font-family: 'Gugi', cursive;
+    font-size: 30px;
+    color:#fff;
+}
+.col-4 h4{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    color: #E1DBCD;
+    margin:5px;
+}
+
+form{
+    line-height: 1.2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.alert-danger {
+    height: 30px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0;
+}
+
+.invalid-feedback,
+.valid-feedback {
+    font-size: 11px;
+}
+
+
+.col-8 label{
+    font-family: 'Noto Sans KR', sans-serif;
+    margin:0;
+    padding:0;
+    font-size: 12px;
+    font-weight: 500;
+}
+.col-8 .form-group{
+    margin-bottom: 5px;
+}
+.col-8 .form-control{
+    font-size: 12px;
+    background-color: #eee;
+    width: 300px;
+}
+
+
+.char-box{
+    height: 150px;
+    width: 150px;
+    border-radius: 100px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    margin-bottom: 30px;
+}
+.char-box img{
+    width: 130px;
+    padding-top: 30px;
+}
+
+.col-8 p, span{
+    font-size: 11pt;
+    color:#474249;
+}
+.col-8 hr{
+    width: 30%;
+    border-top: 2px solid #E1DBCD;
+    margin:0;
+}
+.email-msg small{
+    color:#E86F6F;
+}
+.col-8 .email-box{
+    border: 2px solid #474249;
+    width: 500px;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.col-8 .btn-center{
+    display: flex;
+    justify-content: center;
+}
+.col-8 button{
+    font-size: 9pt;
+    background-color: #474249;
+    border: 1px solid #474249;
+}
+.col-8 button:hover{
+    background-color: #E1DBCD;
+    color:#474249;
+    border:1px solid #474249;
+}
+.btn-left {
+    display: flex;
+    width: 80%;
+}
+.col-8 .card-body{
+    width: 500px;
+    border: 2px solid #474249;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.input-group>.input-group-append:not(:last-child)>.btn{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 1px solid #474249;
+}
+
+.modal-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+}
+.modal-body p{
+    font-size: 14px;
+}

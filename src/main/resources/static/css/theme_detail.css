@@ -23,7 +23,7 @@
     top: 0;
     height: 450px;
     width: 550px;
-    background-image: url("http://drive.google.com/uc?export=view&id=1krx2-t-YO7QNcSxE9R3gYEYOTSlELW2N");
+    background-image: url("/img/d_visited.png");
     background-repeat : no-repeat;
     background-size : auto;
     position:absolute;
@@ -61,7 +61,7 @@
     top: 0;
     height: 650px;
     width: 550px;
-    background-image: url(http://drive.google.com/uc?export=view&id=1kTXuV2zSZ_rgAdxOCLOjHpkoxeJZEohx);
+    background-image: url('/img/d_closed.png');
     background-repeat: no-repeat;
     background-size: cover;
     position: absolute;
@@ -93,7 +93,7 @@
     top: 0;
     height: 600px;
     width: 500px;
-    background-image: url(http://drive.google.com/uc?export=view&id=1rmkOJjk_fLQu7TEe4P48IA95aR5-Zebp);
+    background-image: url('img/d_successed.png');
     background-repeat: no-repeat;
     background-size: cover;
     position: absolute;
