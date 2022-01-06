@@ -1,68 +1,183 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common_layout.html}" th:with="activeTab='signup'">
 <head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="_csrf" th:content="${_csrf.token}"/>
-  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-  <style>
-    .form-group{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 500px;
-      padding: 50px;
-      border: 1px solid black;
-    }
-  </style>
+  <link rel="stylesheet" th:href="@{/css/common.css}">
+  <link rel="stylesheet" th:href="@{/css/member/find_pw.css}">
 </head>
 <body>
+<th:block layout:fragment="content">
+  <section>
+    <div class="container bg-light">
+      <img th:src="@{/img/logo/logo_footer_dark.png}">
+      <form id="msform" name="find-pw-form" th:object="${findForm}" th:action="@{/find_change_pw}" th:method="post">
 
-<div class="container p-5">
-  <h2>비밀번호 찾기</h2>
-  <form name="find-pw-form" th:object="${findForm}" th:action="@{/find_change_pw}" th:method="post">
-    <div class="form-group">
-      <label for="email">이메일 입력:</label>
-      <div class="alert alert-danger" id="email-check-result" style="display: none"></div>
-      <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="이메일을 입력해주세요" name="email">
-      <div class="invalid-feedback" id="email-fail-feedback"></div>
-      <div class="validationError" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-      <button type="button" id="email-check-btn" class="btn btn-primary my-2">다음</button>
+        <!-- progressbar -->
+        <div class="progress-box">
+          <div class="progress">
+            <div class="progress-bar progress-bar-animated" role="progressbar" aria-valuemin="0"
+                 aria-valuemax="100"></div>
+          </div>
+          <br>
+          <ul id="progressbar">
+            <li class="active" id="account"></li>
+            <li id="personal"></li>
+            <li id="payment"></li>
+            <li id="confirm"></li>
+          </ul>
+        </div>
+
+        <!-- fieldsets -->
+        <fieldset>
+          <div class="form-card">
+            <h5 class="steps">1 - 4</h5>
+
+            <label for="email">이메일 입력:</label>
+            <div class="alert alert-danger" id="email-check-result" style="display: none"></div>
+            <input type="email" class="form-control" id="email" th:onkeyup="printName()" th:field="*{email}" placeholder="이메일을 입력해주세요" name="email">
+            <div class="invalid-feedback" id="email-fail-feedback"></div>
+            <div class="validationError" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+          </div>
+          <button type="button" id="email-check-btn" class="next btn btn-next my-2">다음</button>
+        </fieldset>
+
+        <fieldset>
+          <div class="form-card">
+            <h5 class="steps">2 - 4</h5>
+              <div id='result'>이메일이 입력되지 않았습니다!</div>
+            <label for="code">다음 이메일로 인증 번호를 받으시겠습니까?</label>
+
+            <script>
+              function printName()  {
+                const email = document.getElementById('email').value;
+                document.getElementById("result").innerText = email;
+              }
+              $('input[type="email"]').keydown(function() {
+                if (event.keyCode === 13) {
+                  event.preventDefault();
+                };
+              });
+            </script>
+          </div>
+          <button type="button" id="code-send-btn" class="next btn btn-next my-2">인증번호 보내기</button>
+        </fieldset>
+
+        <fieldset>
+          <div class="form-card">
+            <h5 class="steps">3 - 4</h5>
+            <label for="code">인증 번호: </label>
+            <input type="text" class="form-control" id="code" placeholder="전송받은 인증 번호를 입력해주세요" name="code">
+          </div>
+          <button type="button" id="code-check-btn" class="next btn btn-next my-2">확인</button>
+        </fieldset>
+
+        <fieldset>
+          <div class="form-card">
+            <h5 class="steps">4 - 4</h5>
+            <label for="pwd">새 비밀번호: </label>
+            <input type="password" class="form-control" id="pwd" th:field="*{newPassword}" placeholder="영어+숫자 (8-30자)" name="pwd" minlength="8" maxlength="30">
+            <div class="validationError" th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}"></div>
+            <div class="invalid-feedback">비밀번호를 올바르게 입력해주세요. (영어+숫자 조합 8-30자) </div>
+
+
+            <label for="pwd2" class="mt-4">새 비밀번호 확인: </label>
+            <input type="password" class="form-control" id="pwd2"th:field="*{rePassword}" placeholder="영어+숫자 (8-30자)" name="pwd2">
+            <div class="invalid-feedback" id="pwd2-fail-feedback">비밀번호가 일치하지 않습니다.</div>
+            <div class="validationError" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}"></div>
+          </div>
+          <button type="button" id="find-pw-submit-btn" class="next btn btn-next my-2">완료</button>
+        </fieldset>
+        <fieldset>
+          <div class="form-card">
+            <p>아래 버튼을 눌러 비밀번호 변경을 완료해주세요</p>
+            <button class="btn btn-next">비밀번호 변경 완료</button>
+          </div>
+        </fieldset>
+      </form>
     </div>
 
-    <div class="form-group mt-5">
-      <label for="code">인증 번호 보내기 </label>
-      <button type="button" id="code-send-btn" class="btn btn-primary my-2">보내기</button>
-    </div>
+    <script>
+      $(document).ready(function () {
 
-    <div class="form-group mt-5">
-      <label for="code">인증 번호: </label>
-      <input type="text" class="form-control" id="code" placeholder="전송받은 인증 번호를 입력해주세요" name="code">
-      <button type="button" id="code-check-btn" class="btn btn-primary my-2">확인</button>
-    </div>
+        let current_fs, next_fs, previous_fs; //fieldsets
+        let opacity;
+        let current = 1;
+        let steps = $("fieldset").length;
 
-    <div class="form-group mt-5">
-      <label for="pwd">새 비밀번호: </label>
-      <input type="password" class="form-control mb-4" id="pwd" th:field="*{newPassword}" placeholder="영어+숫자 (8-30자)" name="pwd" minlength="8" maxlength="30">
-      <div class="validationError" th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}"></div>
-      <div class="invalid-feedback">비밀번호를 올바르게 입력해주세요. (영어+숫자 조합 8-30자) </div>
+        setProgressBar(current);
+
+        $(".next").click(function () {
+
+          current_fs = $(this).parent();
+          next_fs = $(this).parent().next();
+
+          //Add Class Active
+          $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+
+          //show the next fieldset
+          next_fs.show();
+          //hide the current fieldset with style
+          current_fs.animate({ opacity: 0 }, {
+            step: function (now) {
+              // for making fielset appear animation
+              opacity = 1 - now;
+
+              current_fs.css({
+                'display': 'none',
+                'position': 'relative'
+              });
+              next_fs.css({ 'opacity': opacity });
+            },
+            duration: 500
+          });
+          setProgressBar(++current);
+        });
+
+        $(".previous").click(function () {
+
+          current_fs = $(this).parent();
+          previous_fs = $(this).parent().prev();
+
+          //Remove class active
+          $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+
+          //show the previous fieldset
+          previous_fs.show();
+
+          //hide the current fieldset with style
+          current_fs.animate({ opacity: 0 }, {
+            step: function (now) {
+              // for making fielset appear animation
+              opacity = 1 - now;
+
+              current_fs.css({
+                'display': 'none',
+                'position': 'relative'
+              });
+              previous_fs.css({ 'opacity': opacity });
+            },
+            duration: 500
+          });
+          setProgressBar(--current);
+        });
+
+        function setProgressBar(curStep) {
+          var percent = parseFloat(100 / steps) * curStep;
+          percent = percent.toFixed();
+          $(".progress-bar")
+                  .css("width", percent + "%")
+        }
+
+        $(".submit").click(function () {
+          return false;
+        })
+
+      });
+    </script>
 
 
-      <label for="pwd2">새 비밀번호 확인: </label>
-      <input type="password" class="form-control" id="pwd2"th:field="*{rePassword}" placeholder="영어+숫자 (8-30자)" name="pwd2">
-      <div class="invalid-feedback" id="pwd2-fail-feedback">비밀번호가 일치하지 않습니다.</div>
-      <div class="validationError" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}"></div>
-      <button type="button" id="find-pw-submit-btn" class="btn btn-primary my-2">변경하기</button>
-    </div>
-  </form>
-</div>
 <script>
   $(document).ready(function (){
 
@@ -230,5 +345,8 @@
 
   });
 </script>
+
+  </section>
+</th:block>
 </body>
 </html>

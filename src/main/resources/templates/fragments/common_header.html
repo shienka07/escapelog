@@ -1,11 +1,35 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
+<style>
+    header{
+        position: fixed;
+        top:0;
+        left:0;
+        width: 100%;
+        min-height: 100px;
+        z-index: 99;
+    }
+    header .navbar{
+        background-color: #474249;
+    }
+    header .nav-item a{
+        font-size: 30px;
+        font-family: 'Jua', sans-serif;
+        color: #fff;
+        margin-left: 30px;
+    }
+    header .nav-item a:hover{
+        color:#E1DBCD;
+    }
+    header .nav-item a.active{
+        color:#E1DBCD;
+    }
+</style>
 <header>
 
     <nav class="navbar navbar-expand-md">
         <a class="navbar-brand logo" href="#">
-            <img th:src='@{/img/logo_main.png}' alt="logo">
+            <img th:src='@{/img/logo/logo_main.png}' alt="logo">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"><i class="fas fa-bars" style="color:white"></i></span>
@@ -22,7 +46,10 @@
                     <a class="nav-link" th:href="@{/themes}" th:classappend="${#httpServletRequest.getRequestURI() == '/themes' ? 'active':''}">테마</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{#info}" th:classappend="${#httpServletRequest.getRequestURI() == '#info' ? 'active':''}">소개</a>
+                    <a class="nav-link" th:href="@{/map}" th:classappend="${#httpServletRequest.getRequestURI() == '/map' ? 'active':''}">지도</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/#info}" th:classappend="${#httpServletRequest.getRequestURI() == '/#info' ? 'active':''}">소개</a>
                 </li>
             </ul>
         </div>

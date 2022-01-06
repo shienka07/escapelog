@@ -1,3 +1,4 @@
+
 .theme-item {
     position: relative;
     width: 250px;
@@ -29,7 +30,7 @@
     width: 250px;
     border-radius: 10px;
     background-color: rgba(100, 100, 100, 0.2);
-    background-image:url('/img/closed.png');
+    background-image:url('/img/stamp/closed.png');
     background-repeat : no-repeat;
     background-size : cover;
     position:absolute;
@@ -37,13 +38,13 @@
 }
 .polaroid.success::after{
     content:"";
-    z-index: 999;
+    /*z-index: 999;*/
     top: 0;
     height: 350px;
     width: 250px;
     border-radius: 10px;
     /*background-color: rgba(100, 100, 100, 0.2);*/
-    background-image:url('/img/successed.png');
+    background-image:url('/img/stamp/successed.png');
     background-repeat : no-repeat;
     background-size : cover;
     position:absolute;
@@ -51,13 +52,13 @@
 }
 .polaroid.visit::after{
     content:"";
-    z-index: 999;
+    /*z-index: 999;*/
     top: 0;
     height: 350px;
     width: 250px;
     border-radius: 10px;
     /*background-color: rgba(100, 100, 100, 0.2);*/
-    background-image:url('/img/visited.png');
+    background-image:url('/img/stamp/visited.png');
     background-repeat : no-repeat;
     background-size : cover;
     position:absolute;
@@ -68,7 +69,7 @@
     height: 350px;
     width: 250px;
     border-radius: 10px;
-    background-image:url('/img/visited.png');
+    background-image:url('/img/stamp/visited.png');
     background-repeat : no-repeat;
     background-size : cover;
     position:absolute;
@@ -78,8 +79,8 @@
 .row{
     justify-content: center;
 }
-.col-8{
-    left: 10%;
+.col-9{
+    padding-left: 10%;
 }
 .col-3{
     display: flex;
@@ -153,4 +154,9 @@ a.polaroid {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+}
+.btn-center {
+    display: flex;
+    justify-content: center;
+    margin: 30px;
 }

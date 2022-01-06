@@ -1,23 +1,9 @@
 .side-box{
-    /*position: fixed;*/
-    /*width: 280px;*/
-    /*height: 90vh;*/
-    /*margin: 10px;*/
-    /*padding: 5px;*/
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*align-items: center;*/
-    /*font-family: 'Noto Sans KR', sans-serif;*/
-    position: fixed;
-    right: 100px;
-    width: 280px;
-    height: 90vh;
-    margin: 10px;
-    padding: 5px;
     display: flex;
     flex-direction: column;
     font-family: 'Noto Sans KR', sans-serif;
     align-items: center;
+    width: 300px;
 }
 .area-box{
     display: flex;
@@ -69,6 +55,7 @@
     color: #474249;
     background-color: #EEC86F;
     border-color: #EEC86F;
+    z-index:0;
 }
 .btn-dark {
     color: #474249;
@@ -140,4 +127,11 @@ hr{
     color: #fff;
     background-color: #937B69;
     border-color: #937B69;
+}
+
+
+@media only screen and (max-width: 1400px) {
+    .list-box .col-4{
+        min-width: 50%;
+    }
 }

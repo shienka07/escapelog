@@ -4,12 +4,10 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/common_layout.html}" th:with="activeTab='theme'">
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/theme.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/theme/theme_list.css}">
     <link rel="stylesheet" th:href="@{/css/theme/side_bar.css}">
     <link rel="script" th:href="@{/js/theme_list.js}">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
     <script th:inline="javascript">
         let currentUrl = window.location.protocol
@@ -97,7 +95,6 @@
         }
 
     </script>
-
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -107,15 +104,16 @@
             <div class="row">
 
                 <!-- 테마 모아보기 리스트 -->
-                <div class="col-8 list-box">
+                <div class="col-9 list-box">
 
                     <div class="container row" id="theme-list">
 
                     </div>
-                    <button id="more-btn" type="button" class="btn btn-dark"> more</button>
-
+                    <div class="btn-center">
+                        <button id="more-btn" type="button" class="btn btn-dark"> more</button>
+                    </div>
                 </div>
-                <div class="col-1"></div>
+<!--                <div class="col-1"></div>-->
                 <!-- 테마 리스트 끝! -->
 
 
