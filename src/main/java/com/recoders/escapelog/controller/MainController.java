@@ -34,7 +34,8 @@ public class MainController {
     private final MapService mapService;
 
     @GetMapping("/")
-    public String index(){
+    public String index(@CurrentMember Member member, Model model){
+        model.addAttribute("member", member);
         return "index";
     }
     

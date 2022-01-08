@@ -1,5 +1,5 @@
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
-body        { font: 12px/20px 'Noto Sans CJK KR', Noto Sans KR, sans-serif }
+body        { font: 12px/2rem 'Noto Sans CJK KR', Noto Sans KR, sans-serif }
 .thin       { font-weight: 100 }
 .light      { font-weight: 300 }
 .regular    { font-weight: 400 }
@@ -28,4 +28,70 @@ section *{
 .logo img{
     height: 100%;
     width: auto;
+}
+
+
+
+/* header */
+
+header{
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    min-height: 100px;
+    z-index: 99;
+    overflow: hidden;
+}
+header .navbar{
+    background-color: #474249;
+}
+header .nav-item a{
+    font-size: 30px;
+    font-family: 'Jua', sans-serif;
+    color: #fff;
+    margin-left: 30px;
+}
+header a:hover{
+    color:#E1DBCD;
+    text-decoration: none;
+}
+header a.active{
+    color:#E1DBCD;
+}
+header li.nav-item {
+    overflow: hidden;
+    list-style: none;
+    color: #fff;
+}
+
+header .member-nav{
+    display: flex;
+    align-items: center;
+}
+header .member-nav .login-item {
+    font-size: 20px;
+    border: 2px solid #fff;
+    margin: 8px;
+    padding: 4px;
+    border-radius: 10px;
+}
+
+header .member-nav .login-item:hover {
+    color: #474249;
+    background-color: #E1DBCD;
+    text-decoration: none;
+}
+a {
+    cursor: pointer;
+}
+.nickname a{
+    border-bottom: 3px solid #777;
+    font-family: 'East Sea Dokdo', cursive;
+}
+
+@media screen and (max-width: 1048px){
+    header .nav-item a{
+        font-size: 23px;
+    }
 }
