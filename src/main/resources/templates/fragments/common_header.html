@@ -40,23 +40,23 @@
                 </li>
 
                 <li sec:authorize="isAuthenticated()" class="nav-item ml-5">
-                    <th:block th:if="${member != null and member != ''}">
-                        <img th:src="@{'/img/level/' + ${member.gradeType} + '.png'}"
+                    <th:block th:if="${currentMember != null and currentMember != ''}">
+                        <img th:src="@{'/img/level/' + ${currentMember.gradeType} + '.png'}"
                          style="width: 50px; height: 50px; border-radius: 100px; border:2px solid #fff;">
                     </th:block>
-                    <img th:src="@{/img/logo/logo_footer_dark.png}" style="height: 40px; width: auto;" th:unless="${member != null and member != ''}" >
+                    <img th:src="@{/img/logo/logo_footer_dark.png}" style="height: 40px; width: auto;" th:unless="${currentMember != null and currentMember != ''}" >
                 </li>
-                <th:block th:if="${member != null and member != ''}">
+                <th:block th:if="${currentMember != null and currentMember != ''}">
                     <li sec:authorize="isAuthenticated()" class="nav-item nickname">
-                        <a th:text="${member.nickname}" th:href="@{/user/mypage}"
+                        <a th:text="${currentMember.nickname}" th:href="@{/user/mypage}"
                         style="font-family: 'East Sea Dokdo', cursive;">닉네임</a>
                     </li>
                     <li sec:authorize="isAuthenticated()" class="nav-item level mx-2">
-                        <b style="font-size: 15px" th:text="${member.gradeType.getTitle()}">&emsp;회원등급</b><span>님</span>
+                        <b style="font-size: 15px" th:text="${currentMember.gradeType.getTitle()}">&emsp;회원등급</b><span>님</span>
                     </li>
                 </th:block>
                 <li sec:authorize="isAuthenticated()" class="nav-item">
-                    <a onclick="document.getElementById('logout').submit();">&times;</a>
+                    <a class="login-item" onclick="document.getElementById('logout').submit();">로그아웃</a>
                 </li>
             </ul>
 

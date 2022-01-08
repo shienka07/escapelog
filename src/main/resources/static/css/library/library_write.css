@@ -1,0 +1,257 @@
+
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+body        { font: 24px/30px 'Noto Sans CJK KR', Noto Sans KR, sans-serif }
+.thin       { font-weight: 100 }
+.light      { font-weight: 300 }
+.regular    { font-weight: 400 }
+.medium     { font-weight: 500 }
+.bold       { font-weight: 700 }
+.bolder     { font-weight: 900 }
+
+p, label{
+    font-size: 14px;
+    margin:0;
+}
+input{
+    background-color: #eee;
+    border:0;
+    font-size: 14px;
+    width: 100%;
+}
+.form-box input[placeholder]{
+    color:#888;
+    font-size: 12px;
+}
+.form-box{
+    width: 80%;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    color:#888;
+    background-color: #eee;
+    height: 30px;
+    /* padding: 0 10px; */
+}
+.form-box input{
+    padding: 0;
+    margin: 0;
+}
+.form-box input[placeholder]{
+    padding: 0 20px;
+}
+.form-box .btn{
+    font-size: 10px;
+}
+.form-box .search-btn{
+    width: 40%;
+    padding:0;
+    background-color: #EEC86F;
+}
+.right-box{
+    display: flex;
+    width: 80%;
+    justify-content: flex-end;
+    font-size: 12px;
+}
+.right-box a{
+    cursor: pointer;
+}
+
+
+section {
+    min-height: 100vh; /* 추가 작성할 부분*/
+    /* width: 100%; */
+    padding-top: 100px;
+    background-color: #E1DBCD;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.container.row{
+    max-width: 1000px;
+}
+.col-2,
+.col-10{
+    /* min-height: 500px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.col-2{
+    border-radius: 25px 0px 0px 25px;
+    /* background-color: #474249; */
+}
+.col-10{
+    border-radius: 0px 25px 25px 0px;
+    /* background-color: #fff; */
+}
+
+#progressbar{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#progressbar p{
+    margin: 15px;
+    color: #bbb;
+}
+#progressbar li {
+    list-style-type: none;
+    font-size: 15px;
+    width: 120px;
+    /* float: left; */
+    /* position: relative; */
+    font-weight: 900;
+}
+
+#progressbar #info:before {
+    font-family: "Font Awesome 5 Free";
+    /* font-weight: 900; */
+    content: "\f15c";
+}
+
+#progressbar #write:before {
+    font-family: "Font Awesome 5 Free";
+    /* font-weight: 900; */
+    content: "\f56b";
+}
+
+#progressbar #upload:before {
+    font-family: "Font Awesome 5 Free";
+    /* font-weight: 900; */
+    content: "\f382";
+}
+
+/* #progressbar #finish:before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f46c";
+}*/
+
+#progressbar li:before {
+    width: 80px;
+    height: 80px;
+    /* line-height: 45px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: #bbb;
+    /* background: #E1DBCD; */
+    background-color: #fff;
+    border-radius: 50%;
+    margin: 0 auto 0 auto;
+    padding: 2px;
+    border:1px solid #bbb;
+}
+
+fieldset:not(:first-of-type) {
+    display: none
+}
+#progressbar li.active:before,
+#progressbar li.active:after {
+    background: #EEC86F;
+    color:#fff;
+    border:0;
+}
+
+
+
+
+
+
+
+
+.info-box,
+.write-box,
+.upload-box,
+.finish-box {
+    border: 3px solid #474249;
+    background-color: #fff;
+    padding:30px;
+    margin: 20px 0;
+    border-radius: 20px;
+    width: 700px;
+}
+
+.btn-next{
+    background-color: #474249;
+    border:1px solid #474249;
+    color: #fff;
+    float: right;
+    width: auto;
+}
+.btn-next:hover{
+    background-color: #E1DBCD;
+    color:#474249;
+    border:1px solid #474249;
+}
+/* .write-box{
+    height: 500px;
+} */
+.write-box textarea{
+    height: 250px;
+    overflow-y: auto;
+    resize: none;
+}
+.previous{
+    background-color: #474249;
+    border:1px solid #474249;
+    color: #fff;
+    float: left;
+}
+.previous:hover{
+    background-color: #E1DBCD;
+    border:1px solid #474249;
+    color:#474249;
+}
+
+
+/* 별점 css */
+.rating-box,
+.success-box{
+    display: inline-block;
+    direction: rtl;
+    border:0;
+    padding: 0 5px;
+}
+.rating-box input[type=radio],
+.success-box input[type=radio]
+{
+    display: none;
+}
+.rating-box label{
+    font-size: 30px;
+    font-family: 'Jua', sans-serif;
+    color: transparent;
+    text-shadow: 0 0 0 #eee;
+    margin-right: -5px;
+}
+.rating-box label:hover{
+    text-shadow: 0 0 0 #EEC86F;
+}
+.rating-box label:hover ~ label{
+    text-shadow: 0 0 0 #EEC86F;
+}
+.rating-box input[type=radio]:checked ~ label{
+    text-shadow: 0 0 0 #EEC86F;
+}
+
+.success-box label{
+    color: transparent;
+    text-shadow: 0 0 0 #888;
+    font-size: 12px;
+    padding: 0 8px;
+    margin-left: -5px;
+    background-color: #eee;
+}
+.success-box label:hover{
+    text-shadow: 0 0 0 #555;
+    background-color: #EEC86F;
+}
+.success-box input[type=radio]:checked+label{
+    text-shadow: 0 0 0 #555;
+    background-color: #EEC86F;
+}

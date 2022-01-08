@@ -35,7 +35,7 @@ public class MainController {
 
     @GetMapping("/")
     public String index(@CurrentMember Member member, Model model){
-        model.addAttribute("member", member);
+        model.addAttribute("currentMember", member);
         return "index";
     }
     
