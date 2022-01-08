@@ -10,81 +10,112 @@
 <body>
 <th:block layout:fragment="content">
     <section>
-<div class="container p-5">
-    <h2>책장 (글 목록) </h2>
-    <div class="search">
-        <form method="get" id="search-recode" th:action="@{'/library_search/' + ${libraryMember.libraryName}}">
-            <input type="text" id="recode-search" name="keyword" placeholder="검색할 테마를 입력해주세요">
-            <button>검색하기</button>
-        </form>
-    </div>
-    <ul class="row" th:each="recode : ${recodeList}">
-        <div th:if="${currentMember.no == libraryMember.no} or ${recode.secret}==false">
-            <a th:href="@{'/read/' + ${recode.no}}" class="list-group-item col-4">
-            <input type="checkbox" name="book" th:if="${currentMember.no == libraryMember.no}">
-                <div>
-                    <img src="https://picsum.photos/200/300">
-                    <h4 th:text="${recode.title}"></h4>
-                    <p th:if="${recode.regdate != null}"
-                       th:text="${#temporals.format(recode.regdate,'yyyy.MM.dd HH:mm')}"></p>
-                    <h6 th:if="${recode.theme != null}" th:text="${recode.theme.themeName}"></h6>
-                    <p th:text="${recode.secret} == false ? '공개' : '비공개'" ></p>
-                </div>
-            </a>
-        </div>
-    </ul>
-
-    <div class="container my-3" th:if="${currentMember.no == libraryMember.no}" >
-        <a th:href="@{/recode}" class="btn btn-dark" id="recode">글쓰기</a>
-        <button class="btn btn-danger" id="delete" data-toggle="modal" data-target="#checkModal">삭제하기</button>
-    </div>
-
-
-    <div class="modal fade" id="checkModal" tabindex="-1" role="dialog" aria-labelledby="checkModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" >삭제하기</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    다음 리스트를 삭제하시겠습니까?
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            1
-                        </li>
-                        <li class="list-group-item">
-                            2
-                        </li>
-                        <li class="list-group-item">
-                            3
-                        </li>
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                    <button type="button" class="btn btn-danger">삭제하기</button>
-                </div>
+        <div class="container">
+            <div class="search">
+                <form method="get" id="search-recode" th:action="@{'/library_search/' + ${libraryMember.libraryName}}">
+                    <input type="text" id="recode-search" name="keyword" placeholder="검색할 테마를 입력해주세요">
+                    <button>검색하기</button>
+                </form>
             </div>
+
+
+            <div class="row">
+                <!----------- 포스터 (회원 정보 창) -------------->
+                <div class="col-4">
+                    <div class="poster-box">
+                        <div class="poster1">
+                            <h2>닉네임<p>의 책장</p></h2>
+                            <hr>
+                            <span>책장 이름: user01</span>
+                            <span>집필한 책: 1 </span>
+                            <span>출간한 책: 1 </span>
+                        </div>
+                        <!-- 2. 탈출 정보 표시 포스터 -->
+                        <div class="poster2">
+                            <label>방문한 곳: 2</label>
+                            <label>탈출 완료: 2</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!----------- 책장 (메인 리스트) -------------->
+                <div class="col-4">
+                    <div class="shelf-box row">
+                        <div class="book col-4" th:each="recode : ${recodeList}">
+                            <a th:href="@{'/read/' + ${recode.no}}"
+                               th:if="${currentMember.no == libraryMember.no} or ${recode.secret}==false">
+                                <div>
+                                    <img src="https://picsum.photos/200/300">
+
+                                    <div id="board" class="board-text">
+                                        <div class="board-img"></div>
+                                        <h4 th:text="${recode.title}"></h4>
+                                        <p th:if="${recode.regdate != null}"
+                                           th:text="${#temporals.format(recode.regdate,'yyyy.MM.dd HH:mm')}"></p>
+                                        <h6 th:if="${recode.theme != null}" th:text="${recode.theme.themeName}"></h6>
+                                    </div>
+
+<!--                                   todo: 아래 지워질 부분 // 공개, 비공개 설정 후 지우기-->
+<!--                                    <h4 th:text="${recode.title}"></h4>-->
+<!--                                    <p th:if="${recode.regdate != null}"-->
+<!--                                       th:text="${#temporals.format(recode.regdate,'yyyy.MM.dd HH:mm')}"></p>-->
+<!--                                    <h6 th:if="${recode.theme != null}" th:text="${recode.theme.themeName}"></h6>-->
+<!--                                    <p th:text="${recode.secret} == false ? '공개' : '비공개'"></p>-->
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!----------- 보드 (책 호버시 정보) -------------->
+                <div class="col-4">
+
+                    <div class="board-box">
+                        <div class="board">
+                        </div>
+                        <div class="btn-box" th:if="${currentMember.no == libraryMember.no}" >
+                            <a th:href="@{/recode}" class="btn btn-dark" id="recode">글쓰기</a>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <script>
+                $(".book").hover(function (){
+                    $(this).find(".board-text").css({
+                        "display":"flex"
+                    });
+                });
+                $(".book").mouseleave(function (){
+                    $(this).find(".board-text").css({
+                        "display":"none"
+                    });
+                });
+            </script>
+
+
         </div>
-    </div>
 
+        <footer class="library-footer">
+            <p>Footer</p>
+        </footer>
 
-</div>
-<script>
-    $(document).ready(function () {
-        if ([[${deleteResult}]]==true) {
-            alert('삭제가 완료되었습니다.');
-        }
+        <script>
+            $(document).ready(function () {
+                if ([[${deleteResult}]] == true) {
+                    alert('삭제가 완료되었습니다.');
+                }
 
-        if ([[${recodeResult}]]==true) {
-            alert('기록이 저장되었습니다.');
-        }
+                if ([[${recodeResult}]] == true) {
+                    alert('기록이 저장되었습니다.');
+                }
 
-    });
-</script>
+            });
+        </script>
     </section>
 </th:block>
 </body>

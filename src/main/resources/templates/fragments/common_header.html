@@ -8,6 +8,7 @@
         width: 100%;
         min-height: 100px;
         z-index: 99;
+        overflow: hidden;
     }
     header .navbar{
         background-color: #474249;
@@ -24,6 +25,24 @@
     header .nav-item a.active{
         color:#E1DBCD;
     }
+    header li.nav-item {
+        overflow: hidden;
+    }
+
+    header .nav-item .login-item {
+        font-size: 20px;
+        border: 2px solid #fff;
+        margin: 8px;
+        padding: 4px;
+        border-radius: 10px;
+    }
+
+    header .nav-item .login-item:hover {
+        color: #474249;
+        background-color: #E1DBCD;
+        text-decoration: none;
+    }
+
 </style>
 <header>
 
@@ -57,10 +76,10 @@
         <div>
             <ul class="navbar-nav">
                 <li sec:authorize="!isAuthenticated()" class="nav-item">
-                    <a th:href="@{/login}">로그인</a>
+                    <a class="login-item" th:href="@{/login}">로그인</a>
                 </li>
                 <li sec:authorize="!isAuthenticated()" class="nav-item">
-                    <a th:href="@{/signup}">회원가입</a>
+                    <a class="login-item" th:href="@{/signup}">회원가입</a>
                 </li>
 
                 <li sec:authorize="isAuthenticated()" class="nav-item ml-5">

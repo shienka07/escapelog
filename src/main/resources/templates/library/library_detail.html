@@ -4,89 +4,184 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/common_layout.html}" th:with="activeTab='library', title='Welcome!'">
 <head>
-    <link rel="stylesheet" th:href="@{/css/library_detail.css}">
+    <link rel="stylesheet" th:href="@{/css/library/library_detail.css}">
 </head>
 
 <body>
 <th:block layout:fragment="content">
     <section>
-<div>
-    <div class="container p-5" th:if="${currentMember.no == recode.member.no} or ${recode.secret}==false">
-        <h2>책 펼쳐보기</h2>
-        <div class="row">
-            <div class="col-6 bg-light">
-                <div class="theme-img">
-                    <!-- 업로드한 이미지 -->
-                    <img src="https://picsum.photos/200/300">
-                    <p>테마명</p>
-                    <p id="recode-theme" th:if="${recode.theme != null}" th:text="${recode.theme.themeName}"></p>
-                    <p id="recode-theme-null" th:if="${recode.theme == null}">-</p>
-                </div>
-                <div>
-                    <p>지점</p>
-                    <p id="recode-shop-name" th:if="${recode.theme != null}" th:text="${recode.theme.shopName}"></p>
-                    <p id="recode-shop-name-null" th:if="${recode.theme == null}">-</p>
-                </div>
+        <div class="container" th:if="${currentMember.no == recode.member.no} or ${recode.secret}==false">
+            <div class="folder-box">
+                <div class="row">
+                    <div class="col-6" style="border-right:1px solid white;">
+                        <div class="title-box">
+                            <!--                            글 제목-->
+                            <h2 id="recode-title" th:text="${recode.title}"></h2>
 
-                <div>
-                    <p>힌트 사용 개수</p>
-                    <p id="recode-hint" th:if="${recode.hint != null}" th:text="${recode.hint}"></p>
-                    <p id="recode-hint-null" th:if="${recode.hint == null}">-</p>
-                </div>
+                            <!--                            날짜 -->
+                            <p id="recode-regdate" th:if="${recode.regdate != null}"
+                               th:text="${#temporals.format(recode.regdate,'yyyy.MM.dd HH:mm')}"></p>
 
-                <div>
-                    <p>플레이 인원 </p>
-                    <p id="recode-num" th:if="${recode.playerNum != null}" th:text="${recode.playerNum}"></p>
-                    <p id="recode-num-null" th:if="${recode.playerNum == null}">-</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="img-box">
+                                    <div class="polaroid">
+                                        <img src="https://picsum.photos/200/300">
+                                    </div>
+                                    <!--                                    지점명 -->
+                                    <p id="recode-shop-name" th:if="${recode.theme != null}"
+                                       th:text="${recode.theme.shopName}"></p>
+                                    <p id="recode-shop-name-null" th:if="${recode.theme == null}">-</p>
+                                    <!--                                    테마명 -->
+                                    <h6 id="recode-theme" th:if="${recode.theme != null}"
+                                        th:text="${recode.theme.themeName}"></h6>
+                                    <h6 id="recode-theme-null" th:if="${recode.theme == null}">-</h6>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="info-box">
+                                    <label>힌트 사용 개수</label>
+                                    <p id="recode-hint" th:if="${recode.hint != null}" th:text="${recode.hint} +' 개'"></p>
+                                    <p id="recode-hint-null" th:if="${recode.hint == null}">-</p>
 
-                </div>
-                <div>
-                    <p>탈출 시간</p>
-                    <span id="time-min" th:if="${recode.breakTime != null}" th:text="${recode.breakTime.min}"></span>
-                    <span id="time-sec" th:if="${recode.breakTime != null}" th:text="${recode.breakTime.sec}"></span>
-                    <span id="time-null" th:if="${recode.breakTime == null}"> - </span>
-                </div>
-                <div>
-                    <p>탈출여부</p>
-                    <p id="recode-success" th:text="${recode.success} ? '성공' : '실패'"></p>
-                </div>
+                                    <label>플레이 인원</label>
+                                    <p id="recode-num" th:if="${recode.playerNum != null}"
+                                       th:text="${recode.playerNum} + ' 명'"></p>
+                                    <p id="recode-num-null" th:if="${recode.playerNum == null}">-</p>
 
+                                    <label>탈출 시간</label>
+                                    <p id="time-min" th:if="${recode.breakTime != null}"
+                                       th:text="${recode.breakTime.min} +' 분 ' + ${recode.breakTime.sec} +' 초'"></p>
+<!--                                    <p id="time-sec" th:if="${recode.breakTime != null}"-->
+<!--                                       th:text="${recode.breakTime.sec}"></p>-->
+                                    <p id="time-null" th:if="${recode.breakTime == null}"> - </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                    <!-- <div class="paper-box"> -->
+                    <div class="container paper p-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="300" height="12.752"
+                             viewBox="0 0 345.389 12.752">
+                            <path id="합치기_20" data-name="합치기 20"
+                                  d="M-3963,2395.752l-8.25-4.782c-1.518-.88-1.518-2.308,0-3.188L-3963,2383h127v12.752Z"
+                                  transform="translate(3972.389 -2383)" fill="#9c9c9c"/>
+                            <path id="합치기_21" data-name="합치기 21"
+                                  d="M9.389,0,1.139,4.782c-1.518.88-1.518,2.308,0,3.188l8.25,4.782h127V0Z"
+                                  transform="translate(345.389 12.752) rotate(180)" fill="#9c9c9c"/>
+                        </svg>
+                        <div class="text-box m-4 p-2">
+                            <!--후기내용-->
+                            <p th:utext="${#strings.replace(recode.contents, recode.nlString,'&lt;br /&gt;')}"></p>
+                        </div>
+                        <div class="escape-box">
+                            <label>탈출 여부 : </label>
+                            <p id="recode-success" th:text="${recode.success} ? '성공' : '실패'"></p>
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                </div>
             </div>
-            <div class="col-6 contents">
-                <div>
-                    <h3>제목</h3>
-                    <p id="recode-title" th:text="${recode.title}"></p>
-                </div>
-                <div>
-                    <p>작성 날짜</p>
-                    <p id="recode-regdate" th:if="${recode.regdate != null}"
-                       th:text="${#temporals.format(recode.regdate,'yyyy.MM.dd HH:mm')}"></p>
-                </div>
-                <div>
-                    <p>내용</p>
-                    <span th:utext="${#strings.replace(recode.contents, recode.nlString,'&lt;br /&gt;')}"></span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="btn-box">
-        <div th:if="${currentMember.no == recode.member.no}">
-            <form id="recode-delete-form" th:action="@{'/delete/'+${recode.no}}" method="post">
-                <input type="hidden" name="delete-recode" value="delete">
-                <button id="recode-delete">삭제</button>
-            </form>
-            <a th:href="@{'/edit/'+${recode.no}}">
-                <button>수정</button>
-            </a>
-        </div>
-        <div th:if="${currentMember.no != recode.member.no} and ${recode.secret}==true">
-            <p> 비공개 글입니다 </p>
         </div>
 
-        <br/>
-        <a th:href="@{'/library/' + ${recode.member.libraryName}}" class="btn btn-primary my-3">책장으로 돌아가기</a>
-    </div>
-</div>
+        <div class="btn-box">
+            <div th:if="${currentMember.no == recode.member.no}">
+                <form id="recode-delete-form" th:action="@{'/delete/'+${recode.no}}" method="post">
+                    <input type="hidden" name="delete-recode" value="delete">
+                    <button id="recode-delete">삭제</button>
+                </form>
+                <a th:href="@{'/edit/'+${recode.no}}">
+                    <button>수정</button>
+                </a>
+            </div>
+            <div th:if="${currentMember.no != recode.member.no} and ${recode.secret}==true">
+                <p> 비공개 글입니다 </p>
+            </div>
+
+            <br/>
+            <a th:href="@{'/library/' + ${recode.member.libraryName}}" class="btn btn-primary my-3">책장으로 돌아가기</a>
+        </div>
+        </div>
+
+        <div>
+            <!--    <div class="container" th:if="${currentMember.no == recode.member.no} or ${recode.secret}==false">-->
+            <!--        <h2>책 펼쳐보기</h2>-->
+            <!--        <div class="row">-->
+            <!--            <div class="col-6 bg-light">-->
+            <!--                <div class="theme-img">-->
+            <!-- 업로드한 이미지 -->
+            <!--                    <img src="https://picsum.photos/200/300">-->
+            <!--                    <p>테마명</p>-->
+            <!--                    <p id="recode-theme" th:if="${recode.theme != null}" th:text="${recode.theme.themeName}"></p>-->
+            <!--                    <p id="recode-theme-null" th:if="${recode.theme == null}">-</p>-->
+            <!--                </div>-->
+            <!--                <div>-->
+            <!--                    <p>지점</p>-->
+            <!--                    <p id="recode-shop-name" th:if="${recode.theme != null}" th:text="${recode.theme.shopName}"></p>-->
+            <!--                    <p id="recode-shop-name-null" th:if="${recode.theme == null}">-</p>-->
+            <!--                </div>-->
+
+            <!--                <div>-->
+            <!--                    <p>힌트 사용 개수</p>-->
+            <!--                    <p id="recode-hint" th:if="${recode.hint != null}" th:text="${recode.hint}"></p>-->
+            <!--                    <p id="recode-hint-null" th:if="${recode.hint == null}">-</p>-->
+            <!--                </div>-->
+
+            <!--                <div>-->
+            <!--                    <p>플레이 인원 </p>-->
+            <!--                    <p id="recode-num" th:if="${recode.playerNum != null}" th:text="${recode.playerNum}"></p>-->
+            <!--                    <p id="recode-num-null" th:if="${recode.playerNum == null}">-</p>-->
+
+            <!--                </div>-->
+            <!--                <div>-->
+            <!--                    <p>탈출 시간</p>-->
+            <!--                    <span id="time-min" th:if="${recode.breakTime != null}" th:text="${recode.breakTime.min}"></span>-->
+            <!--                    <span id="time-sec" th:if="${recode.breakTime != null}" th:text="${recode.breakTime.sec}"></span>-->
+            <!--                    <span id="time-null" th:if="${recode.breakTime == null}"> - </span>-->
+            <!--                </div>-->
+            <!--                <div>-->
+            <!--                    <p>탈출여부</p>-->
+            <!--                    <p id="recode-success" th:text="${recode.success} ? '성공' : '실패'"></p>-->
+            <!--                </div>-->
+
+            <!--            </div>-->
+            <!--            <div class="col-6 contents">-->
+            <!--                <div>-->
+            <!--                    <h3>제목</h3>-->
+            <!--                    <p id="recode-title" th:text="${recode.title}"></p>-->
+            <!--                </div>-->
+            <!--                <div>-->
+            <!--                    <p>작성 날짜</p>-->
+            <!--                    <p id="recode-regdate" th:if="${recode.regdate != null}"-->
+            <!--                       th:text="${#temporals.format(recode.regdate,'yyyy.MM.dd HH:mm')}"></p>-->
+            <!--                </div>-->
+            <!--                <div>-->
+            <!--                    <p>내용</p>-->
+            <!--                    <span th:utext="${#strings.replace(recode.contents, recode.nlString,'&lt;br /&gt;')}"></span>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--        </div>-->
+            <!--&lt;!&ndash;    </div>&ndash;&gt;-->
+            <!--    <div class="btn-box">-->
+            <!--        <div th:if="${currentMember.no == recode.member.no}">-->
+            <!--            <form id="recode-delete-form" th:action="@{'/delete/'+${recode.no}}" method="post">-->
+            <!--                <input type="hidden" name="delete-recode" value="delete">-->
+            <!--                <button id="recode-delete">삭제</button>-->
+            <!--            </form>-->
+            <!--            <a th:href="@{'/edit/'+${recode.no}}">-->
+            <!--                <button>수정</button>-->
+            <!--            </a>-->
+            <!--        </div>-->
+            <!--        <div th:if="${currentMember.no != recode.member.no} and ${recode.secret}==true">-->
+            <!--            <p> 비공개 글입니다 </p>-->
+            <!--        </div>-->
+
+            <!--        <br/>-->
+            <!--        <a th:href="@{'/library/' + ${recode.member.libraryName}}" class="btn btn-primary my-3">책장으로 돌아가기</a>-->
+            <!--    </div>-->
+        </div>
     </section>
 </th:block>
 </body>

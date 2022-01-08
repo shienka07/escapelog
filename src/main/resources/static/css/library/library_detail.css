@@ -1,0 +1,119 @@
+h2, h4, h6, p, span, label{
+    font-family:'Noto Sans KR', sans-serif ;
+}
+
+.folder-box {
+    max-width: 100%;
+    height: auto;
+    background-color: #937B69;
+    padding: 2em;
+    border-radius: 10px;
+}
+.title-box {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.title-box h2{
+    font-family:'Noto Sans KR', sans-serif ;
+    font-size: 35px;
+    font-weight: 700;
+}
+.title-box p{
+    font-family:'Noto Sans KR', sans-serif ;
+    font-size: 18px;
+}
+.col-6{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.img-box {
+    background-color: #fff;
+    height: 300px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+}
+.polaroid img {
+    width: 170px;
+    height: 200px;
+    margin: 10px;
+    box-shadow: 3px 5px 5px rgb(0 0 0 / 20%);
+}
+.img-box p{
+    margin:0;
+}
+.img-box h6{
+    font-size: 20px;
+    font-weight: 700;
+}
+.img-box::after{
+    content: "";
+    position: absolute;
+    height: 25px;
+    width: 38px;
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: rotate(-80deg);
+}
+.row{
+    width: 100%;
+}
+.info-box {
+    background-color: #FCE188;
+    width: 95%;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: rotate(-4deg);
+    box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.2);
+}
+.info-box label{
+    font-size: 13px;
+    margin: 10px 0 0 0;
+}
+.paper-box {
+    width: 90%;
+    min-height: 60vh;
+    background-color: #fff;
+    padding: 20px;
+    background-color: gainsboro;
+    transform: rotate(-4deg);
+}
+/* .paper::before{
+    content:"";
+    position: absolute;
+    width: 80%;
+    min-height: 58vh;
+    background-color: gainsboro;
+    transform: rotate(-4deg);
+} */
+.paper {
+    width: 90%;
+    min-height: 60vh;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+}
+.text-box.m-4 {
+    /*border: 1px solid;*/
+    width: 100%;
+    height: 45vh;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+}
+.text-box p{
+    overflow-y: auto;
+    font-size: 14px;
+}

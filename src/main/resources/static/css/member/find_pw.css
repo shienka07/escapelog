@@ -113,7 +113,13 @@ html {
     color: #fff;
     float: right;
 }
-.btn-next:hover{
+.previous{
+    background-color: #474249;
+    color: #fff;
+    float: left;
+}
+.btn-next:hover,
+.previous:hover{
     background-color: #E1DBCD;
     color:#474249;
 }
