@@ -60,12 +60,9 @@ public class MainController {
     @PostMapping("/check_nickname")
     public String checkNicknameDuplicate(String nickname){
         JsonObject object = new JsonObject();
-        try {
-            memberService.checkNicknameDuplicate(nickname);
-            object.addProperty("duplicateResult", true);
-        }catch (IllegalArgumentException e){
-            object.addProperty("duplicateResult", false);
-        }
+        boolean duplicateResult = memberService.checkNicknameDuplicate(nickname);
+        object.addProperty("duplicateResult", duplicateResult);
+
         return object.toString();
     }
 
@@ -79,6 +76,12 @@ public class MainController {
 
         if (!signupForm.getPassword().equals(signupForm.getRePassword())){
             FieldError fieldError = new FieldError("signupForm", "rePassword","비밀번호가 일치하지 않습니다.");
+            result.addError(fieldError);
+            return "member/signup";
+        }
+
+        if (!memberService.checkNicknameDuplicate(signupForm.getNickname())){
+            FieldError fieldError = new FieldError("signupForm", "nickname","이미 존재하는 닉네임입니다.");
             result.addError(fieldError);
             return "member/signup";
         }
@@ -221,13 +224,11 @@ public class MainController {
     public String changeNickname(@CurrentMember Member member, String nickname){
 
         JsonObject object = new JsonObject();
-        try {
-            memberService.checkNicknameDuplicate(nickname);
+        boolean duplicateResult = memberService.checkNicknameDuplicate(nickname);
+        if (duplicateResult){
             memberService.changeUserNickname(member, nickname);
-            object.addProperty("duplicateResult", true);
-        }catch (IllegalArgumentException e){
-            object.addProperty("duplicateResult", false);
         }
+        object.addProperty("duplicateResult", duplicateResult);
         return object.toString();
     }
 

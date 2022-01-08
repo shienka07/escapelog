@@ -52,11 +52,9 @@ public class MemberService implements UserDetailsService {
     }
 
 
-    public void checkNicknameDuplicate(String nickname){
+    public boolean checkNicknameDuplicate(String nickname){
         Optional<Member> member = memberRepository.findByNickname(nickname);
-        if(!member.isEmpty()){
-            throw new IllegalArgumentException("nickname already exists");
-        }
+        return member.isEmpty();
     }
 
     public boolean checkAuthenticationCode(String email, String code){
