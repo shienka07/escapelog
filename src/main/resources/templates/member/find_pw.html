@@ -31,7 +31,7 @@
 
         <!-- fieldsets -->
         <fieldset>
-          <div class="form-card">
+          <div class="form-card" id="step-1">
             <h5 class="steps">1 - 4</h5>
 
             <label for="email">이메일 입력:</label>
@@ -44,7 +44,7 @@
         </fieldset>
 
         <fieldset>
-          <div class="form-card">
+          <div class="form-card" id="step-2">
             <h5 class="steps">2 - 4</h5>
               <div id='result'>이메일이 입력되지 않았습니다!</div>
             <label for="code">다음 이메일로 인증 번호를 받으시겠습니까?</label>
@@ -62,12 +62,12 @@
             </script>
           </div>
           <button type="button" id="code-send-btn" class="next btn btn-next my-2">인증번호 보내기</button>
-          <button type="button" id="previous-1" name="previous" class="previous my-2 btn action-button-previous"
+          <button type="button" name="previous" class="previous my-2 btn action-button-previous"
                   value="Previous">이전</button>
         </fieldset>
 
         <fieldset>
-          <div class="form-card">
+          <div class="form-card" id="step-3">
             <h5 class="steps">3 - 4</h5>
             <label for="code">인증 번호: </label>
             <input type="text" class="form-control" id="code" placeholder="전송받은 인증 번호를 입력해주세요" name="code">
@@ -76,7 +76,7 @@
         </fieldset>
 
         <fieldset>
-          <div class="form-card">
+          <div class="form-card" id="step-4">
             <h5 class="steps">4 - 4</h5>
             <label for="pwd">새 비밀번호: </label>
             <input type="password" class="form-control" id="pwd" th:field="*{newPassword}" placeholder="영어+숫자 (8-30자)" name="pwd" minlength="8" maxlength="30">
@@ -106,6 +106,7 @@
   let opacity;
   let current = 1;
   let steps = $("fieldset").length;
+  let currentStepIdF = '#step-';
 
   let emailFormatCheck = false;
   let passwordFormatCheck = false;
@@ -177,8 +178,8 @@
     });
 
 
-    $('#previous-1').click(function () {
-      previous(this);
+    $(".previous").click(function () {
+      previousStep();
     });
 
     $('#email-check-btn').click(function () {
@@ -208,7 +209,7 @@
             document.getElementById("email-check-result").style.display = "none";
             $("#email").removeClass("is-invalid").addClass("is-valid");
             emailCheck = true;
-            next('#email-check-btn');
+            nextStep();
           }
 
         },
@@ -233,7 +234,7 @@
         },
         success : function(data){
           codeSend = data.result;
-          next('#code-send-btn');
+          nextStep();
         },
         error : function(request,status,error){
           console.log("code = "+ request.status + " error = " + error);
@@ -259,7 +260,7 @@
           codeCheck =data.result;
 
           if (codeCheck){
-            next('#code-check-btn');
+            nextStep();
           }
         },
         error : function(request,status,error){
@@ -280,9 +281,9 @@
 
   });
 
-  function next(currentBtn){
+  function nextStep(){
 
-    current_fs = $(currentBtn).parent();
+    current_fs = $(currentStepIdF+current).parent();
     next_fs = current_fs.next();
 
     //Add Class Active
@@ -307,8 +308,8 @@
     setProgressBar(++current);
   }
 
-  function previous(currentBtn){
-    current_fs = $(currentBtn).parent();
+  function previousStep(){
+    current_fs = $(currentStepIdF+current).parent();
     previous_fs = current_fs.prev();
 
     //Remove class active
