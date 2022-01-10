@@ -6,6 +6,7 @@ import com.recoders.escapelog.dto.*;
 import com.recoders.escapelog.security.CurrentMember;
 import com.recoders.escapelog.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import com.recoders.escapelog.domain.Recode;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,6 +35,8 @@ public class MainController {
     private final FeedbackService feedbackService;
     private final MapService mapService;
 
+    private final AmazonS3Service amazonS3Service;
+
     @GetMapping("/")
     public String index(){
         return "index";
@@ -47,6 +51,23 @@ public class MainController {
             return "index";
         }
         return "redirect:/themes";
+    }
+
+    @GetMapping("/admin/theme/add")
+    public String addThemeForm(Model model){
+        model.addAttribute("themeForm",new ThemeBasicDto());
+        return "admin/theme_add";
+    }
+
+    @PostMapping("/add_theme")
+    public String addTheme(ThemeBasicDto themeDto, MultipartFile file){
+        try {
+            themeDto.setImageUrl(amazonS3Service.upload(file));
+        }catch (IOException e){
+            return "admin/theme_add";
+        }
+
+        return "redirect:/";
     }
 
     @GetMapping("/signup")
@@ -435,11 +456,6 @@ public class MainController {
         model.addAttribute("stamp","1");
         model.addAttribute("mapInfo",mapService.getMapInfo(member));
         return "map/escape_map";
-    }
-
-    @GetMapping("/admin")
-    public String themeAdd(){
-        return "admin/theme_add";
     }
 
 }
