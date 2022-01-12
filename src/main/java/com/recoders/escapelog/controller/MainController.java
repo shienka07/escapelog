@@ -6,7 +6,8 @@ import com.recoders.escapelog.dto.*;
 import com.recoders.escapelog.security.CurrentMember;
 import com.recoders.escapelog.service.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.Banner;
+
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import com.recoders.escapelog.domain.Recode;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -60,14 +62,22 @@ public class MainController {
     }
 
     @PostMapping("/add_theme")
-    public String addTheme(ThemeBasicDto themeDto, MultipartFile file){
+    public String addTheme(@Validated @ModelAttribute("themeForm")ThemeBasicDto themeDto, BindingResult result, MultipartFile file){
+
+        if (result.hasErrors()){
+            return "admin/theme_add";
+        }
+
         try {
-            themeDto.setImageUrl(amazonS3Service.upload(file));
+            if (!file.isEmpty()){
+                themeDto.setImageUrl(amazonS3Service.upload(file));
+            }
+            themeService.saveThemeInfo(themeDto);
         }catch (IOException e){
             return "admin/theme_add";
         }
 
-        return "redirect:/";
+        return "redirect:/themes";
     }
 
     @GetMapping("/signup")

@@ -7,78 +7,188 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="stylesheet" th:href="@{/css/common.css}">
+    <style>
+        .validationError{
+            color: #dc3545
+        }
+        .required{
+            color: tomato;
+        }
+    </style>
 </head>
 
 <body>
 <th:block layout:fragment="content">
     <section>
-    <form th:action="@{/add_theme}" method="post" enctype="multipart/form-data">
-        <div class="container bg-light p-5 mt-4">
-            <h2>테마 추가</h2>
-            <div class="row">
-                <div class="col-6">
-                    <label>테마명 :</label>
-                    <input type="text" class="form-control" />
-                    <label>지점 :</label>
-                    <input type="text" class="form-control" />
-                    <label>지점 url :</label>
-                    <input type="text" class="form-control" />
-                    <label>지역 : </label>
-                    <input type="text" class="form-control" />
-                    <label>세부지역 :</label>
-                    <input type="text" class="form-control" />
-                </div>
-                <div class="col-6">
-                    <label>폐업 여부 :</label>
-                    <input type="text" class="form-control" />
-                    <label>플레이 시간 :</label>
-                    <input type="text" class="form-control" />
-                    <label>난이도 :</label>
-                    <input type="text" class="form-control" />
-                    <label>줄거리 :</label>
-                    <textarea class="form-control"></textarea>
-                </div>
-                <div class="col-12 my-3">
-                    <label>이미지 업로드 :</label>
-                    <input type="file" name="file" accept=".jpg,.jpeg,.png" onchange="fileUploadCheck(this)"/>
-                    <div th:if="${fileUploadError}!=null" style="color: #dc3545">
-                        [ 파일 크기 오류 ] 업로드할 수 있는 파일의 최대 크기는 300KB입니다.
+        <form th:action="@{/add_theme}" name="theme-form" th:object="${themeForm}" method="post" enctype="multipart/form-data">
+            <div class="container bg-light p-5 mt-4">
+                <h2>테마 추가</h2>
+                <p class="required"> * 는 필수 입력란 입니다.</p>
+                <div class="row">
+                    <div class="col-6">
+                        <label class="required">*</label>
+                        <label>테마명 :</label>
+                        <input type="text" id="theme-name" th:field="*{themeName}" class="form-control"/>
+                        <div class="validationError" th:if="${#fields.hasErrors('themeName')}">
+                            <label>※ 테마명은 </label>
+                            <label th:errors="*{themeName}"></label>
+                            <label>.</label>
+                        </div>
+                        <label class="required">*</label>
+                        <label>지점 :</label>
+                        <input type="text" id="shop-name" th:field="*{shopName}" class="form-control"/>
+                        <div class="validationError" th:if="${#fields.hasErrors('shopName')}">
+                            <label>※ 지점은 </label>
+                            <label th:errors="*{shopName}"></label>
+                            <label>.</label>
+                        </div>
+                        <label class="required">*</label>
+                        <label>폐업한 지점인가요?</label>
+                        <div>
+                            <input type="radio" th:field="*{openStatus}" class="form-check-input"
+                                   name="openStatus" id="open-statusT" th:value="false" checked>
+                            <label for="open-statusT">예</label>
+                            <input type="radio" th:field="*{openStatus}" class="form-check-input"
+                                   name="openStatus" id="open-statusF" th:value="true">
+                            <label for="open-statusF">아니오</label>
+                        </div>
+
+                        <label>지점 url :</label>
+                        <input type="text" id="shop-url" th:field="*{shopUrl}" class="form-control"/>
+                    </div>
+                    <div class="col-6">
+                        <label class="required">*</label>
+                        <label>지역 :</label>
+                        <select class="form-control" th:field="*{areaType}">
+                            <option th:each="areaTypeValue : ${T(com.recoders.escapelog.domain.AreaType).values()}"
+                                    th:value="${areaTypeValue.name()}"
+                                    th:text="${areaTypeValue.getKrName()}">
+                        </select>
+                        <label class="required">*</label>
+                        <label>세부지역 :</label>
+                        <input type="text" id="detail-area" th:field="*{detailArea}" class="form-control"/>
+                        <div class="validationError" th:if="${#fields.hasErrors('detailArea')}">
+                            <label>※ 플레이 시간은 </label>
+                            <label th:errors="*{detailArea}"></label>
+                            <label>.</label>
+                        </div>
+                        <label class="required">*</label>
+                        <label>플레이 시간 :</label>
+                        <input type="number" id="play-time" th:field="*{playTime}" class="form-control" min="1"/>
+                        <div class="validationError" th:if="${#fields.hasErrors('playTime')}">
+                            <label>※ 플레이 시간은 </label>
+                            <label th:errors="*{playTime}"></label>
+                            <label>.</label>
+                        </div>
+                        <label>난이도 :<span id="level-value">0</span></label>
+                        <input type="range" id="level" th:value="level" class="form-control" min="0" max="10" oninput="document.getElementById('level-value').innerHTML=this.value;"/>
+                        <span>※ 난이도를 모르면 0으로 표시하세요.</span>
+                        <div class="validationError" th:if="${#fields.hasErrors('level')}">
+                            <label>※ 난이도는 </label>
+                            <label th:errors="*{level}"></label>
+                            <label>.</label>
+                        </div>
+                        <label>줄거리 :</label>
+                        <textarea id="story" th:field="*{story}" class="form-control"></textarea>
+                    </div>
+                    <div class="col-12 my-3">
+                        <label>이미지 업로드 :</label>
+                        <input type="file" name="file" accept=".jpg,.jpeg,.png" onchange="fileUploadCheck(this)"/>
+                        <div th:if="${fileUploadError}!=null" style="color: #dc3545">
+                            [ 파일 크기 오류 ] 업로드할 수 있는 파일의 최대 크기는 300KB입니다.
+                        </div>
                     </div>
                 </div>
+                <button type="button" id="theme-add-btn" class="btn btn-dark float-right">등록하기</button>
             </div>
-            <button class="btn btn-dark float-right">등록하기</button>
-        </div>
-    </form>
+        </form>
         <script>
 
-            function fileUploadCheck(file){
+            $(document).ready(function () {
+
+                document.getElementById('play-time').value = 60;
+                document.getElementById('level').value = 0;
+
+                if ($('input[name=openStatus]:checked').val() == 'false') {
+                    $('#shop-url').attr('disabled', true);
+                }
+
+                $('input:radio[name=openStatus]').click(function () {
+                    let checkedValue = $('input[name=openStatus]:checked').val();
+                    let urlText = $('#shop-url');
+                    if (checkedValue == 'true') {
+                        urlText.attr('disabled', false);
+
+                    } else if (checkedValue == 'false') {
+                        urlText.val('');
+                        urlText.attr('disabled', true);
+                    }
+                });
+
+                $('#theme-add-btn').click(function () {
+                    if ($('#theme-name').val().replace(/\s| /gi, "").length == 0) {
+                        alert('테마명을 입력해주세요.');
+                        return false;
+                    }
+                    if ($('#shop-name').val().replace(/\s| /gi, "").length == 0) {
+                        alert('지점을 입력해주세요.');
+                        return false;
+                    }
+                    if ($('input[name=openStatus]:checked').val() == 'true') {
+                        let regUrl = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+                        if (!regUrl.test($('#shop-url').val())) {
+                            alert('지점 url를 올바르게 입력해주세요.');
+                            return false;
+                        }
+                    }
+                    if ($('#detail-area').val().replace(/\s| /gi, "").length == 0){
+                        alert('세부 지역을 입력해주세요.');
+                        return false;
+                    }
+
+                    if ($('#play-time').val()=='' || $('#play-time').val() < 1){
+                        alert("플레이 시간을 숫자(양수)로 입력해주세요.");
+                    }
+
+                    document.getElementById("theme-name").value = $('#theme-name').val().replace(/^\s+|\s+$/gm,'');
+                    document.getElementById("shop-name").value = $('#shop-name').val().replace(/^\s+|\s+$/gm,'');
+                    document.getElementById("shop-url").value = $('#shop-url').val().replace(/^\s+|\s+$/gm,'');
+                    document.getElementById("shop-url").value = $('#story').val().replace(/^\s+|\s+$/gm,'');
+
+                    $('form[name=theme-form]').submit();
+                });
+            });
+
+            function fileUploadCheck(file) {
                 fileFormatCheck(file);
                 fileSizeCheck(file);
             }
 
-            function fileFormatCheck(file){
+            function fileFormatCheck(file) {
                 let fileValue = file.value;
                 let fileLength = fileValue.length;
                 let fileDot = fileValue.lastIndexOf('.');
-                let fileType = fileValue.substring(fileDot+1, fileLength).toLowerCase();
+                let fileType = fileValue.substring(fileDot + 1, fileLength).toLowerCase();
 
-                if (!(fileType === 'jpg' || fileType === 'jpeg' || fileType === 'png' )){
+                if (!(fileType === 'jpg' || fileType === 'jpeg' || fileType === 'png')) {
                     alert('파일 형식 오류\nJPG, JPEG, PNG 형식의 파일만 첨부할 수 있습니다.');
                     file.value = "";
                     return false;
                 }
             }
 
-            function fileSizeCheck(file){
+            function fileSizeCheck(file) {
                 let fileSize = file.files[0].size;
-                let maxSize = 300*1024;
+                let maxSize = 300 * 1024;
 
-                if (fileSize > maxSize){
+                if (fileSize > maxSize) {
                     alert('파일 크기 오류\n업로드할 수 있는 파일의 최대 크기는 300KB입니다.');
                     file.value = "";
                     return false;
                 }
             }
+
+
         </script>
     </section>
 </th:block>

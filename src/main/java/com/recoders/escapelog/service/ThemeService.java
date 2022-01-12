@@ -32,8 +32,8 @@ public class ThemeService {
 
         List<Theme> themeList = new ArrayList<>();
         for(String s: stringList){
-            String[] arr = s.replaceAll("^\"|\"$", "").split("\\|");
-            int level = -1;
+            String[] arr = s.replaceAll("^\"|\"|$", "").split("\\|");
+            int level = 0;
             if (!arr[5].equals("-")){
                 level = (int) Double.parseDouble(arr[5]);
             }
