@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Controller
@@ -71,7 +72,7 @@ public class MainController {
 
         try {
             if (!file.isEmpty()){
-                themeDto.setImageUrl(amazonS3Service.upload(file));
+                themeDto.setImageUrl(amazonS3Service.upload(file,file.getOriginalFilename()));
             }
             themeService.saveThemeInfo(themeDto);
         }catch (IOException e){
@@ -325,8 +326,19 @@ public class MainController {
 
     //글쓰기 보내기
     @PostMapping("/recode")
-    public String write(RecodeDto recodeDto, Model model, @CurrentMember Member member){
-        libraryService.saveRecode(member, recodeDto);
+    public String write(RecodeDto recodeDto, Model model, MultipartFile file, @CurrentMember Member member){
+
+
+        try {
+            if (!file.isEmpty()){
+                String saveFileName = amazonS3Service.changeFileName(file.getOriginalFilename());
+                recodeDto.setImageUrl(amazonS3Service.upload(file,saveFileName));
+            }
+            libraryService.saveRecode(member, recodeDto);
+        }catch (IOException e){
+            return "library/library_write";
+        }
+
         model.addAttribute("recodeResult", true);
         return "redirect:/library";
     }

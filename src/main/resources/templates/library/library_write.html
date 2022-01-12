@@ -6,9 +6,9 @@
 <head>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/library/library_write.css}">
+    <script type="text/javascript" th:src="@{/js/file/file_upload.js}"></script>
 </head>
 
 <body>
@@ -16,7 +16,7 @@
     <section>
 
         <div class="container">
-            <form name="recode-dto" th:action="@{/recode}" th:object="${recodeDto}" method="post" id="recodeForm">
+            <form name="recode-dto" th:action="@{/recode}" th:object="${recodeDto}" method="post" id="recodeForm" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-2">
                         <div class="progress-box">
@@ -261,7 +261,10 @@
                                 <p>추억하고 싶은 이미지를 추가해보세요</p>
                                 <div class="p-5" style="border:2px dashed #474249">
                                     <label for="image-file">이미지 업로드</label>
-                                    <input type="file" class="form-control-file" id="image-file">
+                                    <input type="file" id="image-file" name="file" accept=".jpg,.jpeg,.png" class="form-control-file"  onchange="fileUploadCheck(this)">
+                                    <div th:if="${fileUploadError}!=null" style="color: #dc3545">
+                                        [ 파일 크기 오류 ] 업로드할 수 있는 파일의 최대 크기는 300KB입니다.
+                                    </div>
                                 </div>
                             </div>
                             <input type="button" th:onclick="" class="btn btn-next" id="save-recode-btn" value="글쓰기 완료"/>

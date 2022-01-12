@@ -43,6 +43,7 @@ public class LibraryService {
                 .success(recodeDto.getSuccess())
                 .playerNum(recodeDto.getPlayerNum())
                 .regdate(LocalDateTime.now().withNano(0))
+                .imageUrl(recodeDto.getImageUrl())
                 .build();
 
         libraryRepository.save(recode);

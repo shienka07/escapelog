@@ -38,6 +38,8 @@ public class RecodeDto {
 
     private Long no;
 
+    private String imageUrl;
+
     public RecodeDto(Long no, String nickname, boolean secret, String title, String contents, LocalDate regdate, Boolean success, Integer rating) {
         this.no = no;
         this.nickname = nickname;

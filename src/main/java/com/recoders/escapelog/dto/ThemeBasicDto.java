@@ -3,7 +3,6 @@ package com.recoders.escapelog.dto;
 import com.recoders.escapelog.domain.AreaType;
 import com.recoders.escapelog.domain.Theme;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 import javax.validation.constraints.*;
