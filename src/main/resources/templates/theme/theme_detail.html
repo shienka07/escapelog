@@ -25,8 +25,9 @@
 
                         <!---------------------- 폴리스라인 위치 : class="image-box" 에서 'closed' 추가 ==> [class="col-6 image-box closed"] --------->
                         <div class="col-6 image-box">
-                            <div class="img-box" id="theme-img">
-                                <img src="https://picsum.photos/400/300">
+                            <div class="img-box" id="theme-img" th:classappend="${themeInfo.openStatus}==false ? 'closed' : ''">
+<!--                                <img src="https://picsum.photos/400/300">-->
+                                <img th:src="${themeInfo.imageUrl}">
                             </div>
 
                             <!-- 테마 세부 정보 영역!! -->
@@ -35,7 +36,7 @@
                         <div class="col-6 info-box p-3">
                             <label>
                             <span id="shop-name" th:text="${themeInfo.shopName}">비트포비아 강남 던전</span>
-                                <a type="button" id="shop-url-btn"
+                                <a th:if="${themeInfo.openStatus} and ${themeInfo.shopUrl}!=''" type="button" id="shop-url-btn"
                                         th:onclick="'window.open(\''+ @{${themeInfo.shopUrl}} + '\')'"
                                         class="btn btn-icon btn-sm">
                                     <i class="fas fa-external-link-alt"></i>
@@ -44,7 +45,7 @@
                             <h3 th:text="${themeInfo.themeName}">LOST KINGDOM : 잊혀진 전설</h3>
                             <label>난이도</label>
                             <div class="level" th:switch="${themeInfo.level}">
-                                <p th:case="-1">-</p>
+                                <p th:case="0">-</p>
                                 <p th:case="1">★☆☆☆☆</p>
                                 <p th:case="2">★★☆☆☆</p>
                                 <p th:case="3">★★★☆☆</p>
@@ -79,6 +80,7 @@
 <!--                                          th:styleappend="'top:' + (60 - (${rating.value}/${themeInfo.totalRatingNum} * 60)) + 'px'"></span>-->
                                 </div>
                             </div>
+                            <th:block th:if="${themeInfo.story!=null}">
                             <label>줄거리</label>
                             <div class="story-box">
                             <p th:utext="${#strings.replace(themeInfo.story,nlString, '&lt;br /&gt;')}">"전설 속의 왕국,
@@ -92,6 +94,7 @@
 
                                 그곳에 도착한 당신은 동굴 안을 좀 더 자세히 살펴보기로 하는데…"</p>
                             </div>
+                            </th:block>
                         </div>
                     </div>
 
@@ -180,12 +183,6 @@
 
         <script>
             $(document).ready(function () {
-
-                var openStatus = [[${themeInfo.openStatus}]];
-                if (!openStatus) {
-                    $('#theme-img').addClass('closed');
-                    $('#shop-url-btn').hide();
-                }
 
                 $("body").on("click", "[id^=rating-btn]", function (event) {
 
