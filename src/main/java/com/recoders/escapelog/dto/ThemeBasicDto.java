@@ -28,7 +28,7 @@ public class ThemeBasicDto {
         Theme build = Theme.builder()
                 .themeName(themeName)
                 .shopName(shopName)
-                .shopUrl(shopUrl == null ? "" : story)
+                .shopUrl(shopUrl == null ? "" : shopUrl)
                 .areaType(areaType)
                 .detailArea(detailArea)
                 .openStatus(openStatus)
