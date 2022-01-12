@@ -6,6 +6,8 @@ import com.recoders.escapelog.dto.*;
 import com.recoders.escapelog.security.CurrentMember;
 import com.recoders.escapelog.service.*;
 import lombok.RequiredArgsConstructor;
+
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import com.recoders.escapelog.domain.Recode;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,6 +37,8 @@ public class MainController {
     private final FeedbackService feedbackService;
     private final MapService mapService;
 
+    private final AmazonS3Service amazonS3Service;
+
     @GetMapping("/")
     public String index(@CurrentMember Member member, Model model){
         model.addAttribute("currentMember", member);
@@ -47,6 +53,31 @@ public class MainController {
         }catch (IOException e){
             return "index";
         }
+        return "redirect:/themes";
+    }
+
+    @GetMapping("/admin/theme/add")
+    public String addThemeForm(Model model){
+        model.addAttribute("themeForm",new ThemeBasicDto());
+        return "admin/theme_add";
+    }
+
+    @PostMapping("/add_theme")
+    public String addTheme(@Validated @ModelAttribute("themeForm")ThemeBasicDto themeDto, BindingResult result, MultipartFile file){
+
+        if (result.hasErrors()){
+            return "admin/theme_add";
+        }
+
+        try {
+            if (!file.isEmpty()){
+                themeDto.setImageUrl(amazonS3Service.upload(file));
+            }
+            themeService.saveThemeInfo(themeDto);
+        }catch (IOException e){
+            return "admin/theme_add";
+        }
+
         return "redirect:/themes";
     }
 

@@ -3,6 +3,7 @@ package com.recoders.escapelog.service;
 import com.recoders.escapelog.domain.AreaType;
 import com.recoders.escapelog.domain.Member;
 import com.recoders.escapelog.domain.Theme;
+import com.recoders.escapelog.dto.ThemeBasicDto;
 import com.recoders.escapelog.dto.ThemeDto;
 import com.recoders.escapelog.repository.LibraryRepository;
 import com.recoders.escapelog.repository.ThemeRepository;
@@ -31,8 +32,8 @@ public class ThemeService {
 
         List<Theme> themeList = new ArrayList<>();
         for(String s: stringList){
-            String[] arr = s.replaceAll("^\"|\"$", "").split("\\|");
-            int level = -1;
+            String[] arr = s.replaceAll("^\"|\"|$", "").split("\\|");
+            int level = 0;
             if (!arr[5].equals("-")){
                 level = (int) Double.parseDouble(arr[5]);
             }
@@ -53,6 +54,11 @@ public class ThemeService {
             themeList.add(theme);
         }
         themeRepository.saveAll(themeList);
+    }
+
+    @Transactional
+    public void saveThemeInfo(ThemeBasicDto themeDto){
+        themeRepository.save(themeDto.toEntity());
     }
 
     public List<Theme> getAllThemeEntities(){

@@ -36,6 +36,9 @@
                     <a class="login-item" th:href="@{/login}">로그인</a>
                 </li>
                 <li sec:authorize="!isAuthenticated()" class="nav-item">
+                    <a class="login-item" th:href="@{/admin}">관리자</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()" class="nav-item">
                     <a class="login-item" th:href="@{/signup}">회원가입</a>
                 </li>
 
