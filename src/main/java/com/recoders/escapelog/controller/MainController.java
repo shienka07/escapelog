@@ -8,6 +8,12 @@ import com.recoders.escapelog.service.*;
 import lombok.RequiredArgsConstructor;
 
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -284,24 +290,37 @@ public class MainController {
 
     //책장
     @GetMapping("/library")
-    public String library(Model model, @CurrentMember Member member){
+    public String library(Model model, @CurrentMember Member member,
+                          @PageableDefault(page=0, size=9, sort="no", direction = Sort.Direction.DESC)Pageable pageable){
+
         if(member.getLibraryName()==null){
             return "library/library_name";
         }
 
-        return memberLibrary(member.getLibraryName(), model, member);
+        return memberLibrary(member.getLibraryName(), model, member, pageable);
 
     }
 
 
     @GetMapping("/library/{libraryName}")
-    public String memberLibrary(@PathVariable String libraryName, Model model, @CurrentMember Member member) {
+    public String memberLibrary(@PathVariable String libraryName, Model model, @CurrentMember Member member,
+                                @PageableDefault(page=0, size=9, sort="no", direction = Sort.Direction.DESC)Pageable pageable) {
 
-        List<Recode> MemberRecodeList = libraryService.getMemberRecodeList(libraryName);
+        Page<Recode> memberRecodeList = libraryService.getMemberRecodeList(libraryName,pageable);
+
+        int nowPage = memberRecodeList.getPageable().getPageNumber() + 1;
+        int startPage = Math.max(nowPage -4, 1);
+        int endPage = Math.min(nowPage+5, memberRecodeList.getTotalPages());
+
 
         model.addAttribute("libraryMember", memberService.getLibraryMember(libraryName));
-        model.addAttribute("recodeList",MemberRecodeList);
+        model.addAttribute("recodeList",memberRecodeList);
         model.addAttribute("currentMember", memberService.getMember(member));
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+
         return "library/library_list";
     }
 

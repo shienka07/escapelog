@@ -8,6 +8,8 @@ import com.recoders.escapelog.dto.RecodeDto;
 import com.recoders.escapelog.repository.LibraryRepository;
 import com.recoders.escapelog.repository.ThemeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -68,23 +70,8 @@ public class LibraryService {
     }
 
     @Transactional
-    public List<Recode> getMemberRecodeList(String libraryName) {
-        List<Recode> recodeEntities = libraryRepository.findByMember_LibraryNameOrderByRegdateDesc(libraryName);
-        List<Recode> recodeList = new ArrayList<>();
-
-        for (Recode recodes : recodeEntities) {
-            Recode recode = Recode.builder()
-                    .no(recodes.getNo())
-                    .title(recodes.getTitle())
-                    .regdate(recodes.getRegdate())
-                    .theme(recodes.getTheme())
-                    .secret(recodes.getSecret())
-                    .build();
-
-            recodeList.add(recode);
-        }
-
-        return recodeList;
+    public Page<Recode> getMemberRecodeList(String libraryName, Pageable pageable) {
+        return libraryRepository.findByMember_LibraryNameOrderByRegdateDesc(libraryName, pageable);
     }
 
     @Transactional

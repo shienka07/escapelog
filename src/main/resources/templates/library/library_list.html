@@ -24,17 +24,25 @@
                 <div class="col-4">
                     <div class="poster-box">
                         <div class="poster1">
-                            <h2>닉네임<p>의 책장</p></h2>
+                            <h2><span th:text="${libraryMember.nickname}"></span><p>의 책장</p></h2>
                             <hr>
-                            <span>책장 이름: user01</span>
-                            <span>집필한 책: 1 </span>
-                            <span>출간한 책: 1 </span>
+                            <span>책장 이름: <span th:text="${libraryMember.libraryName}"></span></span>
+<!--                            <span>집필한 책: 1 </span>-->
+<!--                            <span>출간한 책: 1 </span>-->
                         </div>
                         <!-- 2. 탈출 정보 표시 포스터 -->
-                        <div class="poster2">
-                            <label>방문한 곳: 2</label>
-                            <label>탈출 완료: 2</label>
+<!--                        <div class="poster2">-->
+<!--                            <label>방문한 곳: 2</label>-->
+<!--                            <label>탈출 완료: 2</label>-->
+<!--                        </div>-->
+                        <div>
+                            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                                <a th:if="${page != nowPage}" th:href="@{/library(page = ${page -1})}" th:text="${page}"></a>
+                                <strong th:if="${page == nowPage}" th:text="${page}" style="color :red"></strong>
+
+                            </th:block>
                         </div>
+
                     </div>
                 </div>
 
