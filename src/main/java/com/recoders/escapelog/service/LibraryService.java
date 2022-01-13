@@ -94,28 +94,10 @@ public class LibraryService {
     }
 
     @Transactional
-    public List<Recode> searchRecode(String libraryName, String keyword) {
-        List<Recode> searchEntities = libraryRepository.findByMember_LibraryNameAndTheme_ThemeNameContaining(libraryName, keyword);
-        List<Recode> searchRecodeList = new ArrayList<>();
-
-        if (searchEntities.isEmpty()) {
-            return searchRecodeList;
-        }
-
-        for (Recode searchRecode : searchEntities) {
-            Recode search = Recode.builder()
-                    .no(searchRecode.getNo())
-                    .title(searchRecode.getTitle())
-                    .regdate(searchRecode.getRegdate())
-                    .theme(searchRecode.getTheme())
-                    .secret(searchRecode.getSecret())
-                    .build();
-
-            searchRecodeList.add(search);
-        }
-
-        return searchRecodeList;
+    public Page<Recode> searchRecode(String libraryName, String keyword, Pageable pageable) {
+        return libraryRepository.findByMember_LibraryNameAndTheme_ThemeNameContaining(libraryName, keyword, pageable);
     }
+
 
     @Transactional
     public Recode updateRecode(Long no, Member member, EditDto editDto) {

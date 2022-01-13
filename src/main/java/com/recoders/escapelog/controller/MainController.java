@@ -291,22 +291,31 @@ public class MainController {
     //책장
     @GetMapping("/library")
     public String library(Model model, @CurrentMember Member member,
-                          @PageableDefault(page=0, size=9, sort="no", direction = Sort.Direction.DESC)Pageable pageable){
+                          @PageableDefault(page=0, size=9, sort="no", direction = Sort.Direction.DESC)Pageable pageable,
+                          String keyword){
 
         if(member.getLibraryName()==null){
             return "library/library_name";
         }
 
-        return memberLibrary(member.getLibraryName(), model, member, pageable);
+        return memberLibrary(member.getLibraryName(), model, member, pageable, keyword);
 
     }
 
 
     @GetMapping("/library/{libraryName}")
     public String memberLibrary(@PathVariable String libraryName, Model model, @CurrentMember Member member,
-                                @PageableDefault(page=0, size=9, sort="no", direction = Sort.Direction.DESC)Pageable pageable) {
+                                @PageableDefault(page=0, size=9, sort="no", direction = Sort.Direction.DESC)Pageable pageable,
+                                String keyword) {
 
-        Page<Recode> memberRecodeList = libraryService.getMemberRecodeList(libraryName,pageable);
+        Page<Recode> memberRecodeList = null;
+
+        if(keyword == null) {
+            memberRecodeList = libraryService.getMemberRecodeList(libraryName, pageable);
+        } else {
+            memberRecodeList = libraryService.searchRecode(libraryName, keyword, pageable);
+        }
+
 
         int nowPage = memberRecodeList.getPageable().getPageNumber() + 1;
         int startPage = Math.max(nowPage -4, 1);
@@ -390,19 +399,6 @@ public class MainController {
         model.addAttribute("deleteResult", true);
 
         return "redirect:/library";
-    }
-    
-
-    @GetMapping("/library_search/{libraryName}")
-    public String search(@PathVariable String libraryName, Model model, @CurrentMember Member member, @RequestParam(value = "keyword") String keyword){
-
-        List<Recode> searchRecodeList = libraryService.searchRecode(libraryName, keyword);
-
-        model.addAttribute("recodeList",searchRecodeList);
-        model.addAttribute("libraryMember", memberService.getLibraryMember(libraryName));
-        model.addAttribute("currentMember", memberService.getMember(member));
-
-        return "library/library_list";
     }
 
 

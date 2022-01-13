@@ -12,9 +12,9 @@
     <section>
         <div class="container">
             <div class="search">
-                <form method="get" id="search-recode" th:action="@{'/library_search/' + ${libraryMember.libraryName}}">
+                <form method="get" id="search-recode" th:action="@{/library}">
                     <input type="text" id="recode-search" name="keyword" placeholder="검색할 테마를 입력해주세요">
-                    <button>검색하기</button>
+                    <button type="submit">검색하기</button>
                 </form>
             </div>
 
@@ -37,9 +37,14 @@
 <!--                        </div>-->
                         <div>
                             <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                                <a th:if="${page != nowPage}" th:href="@{/library(page = ${page -1})}" th:text="${page}"></a>
-                                <strong th:if="${page == nowPage}" th:text="${page}" style="color :red"></strong>
-
+                                <div th:if="${param.keyword==null}">
+                                    <a th:if="${page != nowPage}" th:href="@{/library(page = ${page -1})}" th:text="${page}"></a>
+                                    <strong th:if="${page == nowPage}" th:text="${page}" style="color :red"></strong>
+                                </div>
+                                <div th:if="${param.keyword!=null}">
+                                    <a th:if="${page != nowPage}" th:href="@{/library(page = ${page -1}, keyword = ${param.keyword})}" th:text="${page}"></a>
+                                    <strong th:if="${page == nowPage}" th:text="${page}" style="color :red"></strong>
+                                </div>
                             </th:block>
                         </div>
 

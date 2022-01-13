@@ -19,7 +19,7 @@ public interface LibraryRepository extends JpaRepository<Recode, Long> {
 
     Optional<Recode> deleteByNo(Long no);
 
-    List<Recode> findByMember_LibraryNameAndTheme_ThemeNameContaining(String libraryName, String keyword);
+    Page<Recode> findByMember_LibraryNameAndTheme_ThemeNameContaining(String libraryName, String keyword, Pageable pageable);
 
     Optional<Recode> findByNo(Long no);
     
