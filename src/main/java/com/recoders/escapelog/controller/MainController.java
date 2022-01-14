@@ -7,6 +7,11 @@ import com.recoders.escapelog.security.CurrentMember;
 import com.recoders.escapelog.service.*;
 import lombok.RequiredArgsConstructor;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -283,24 +288,46 @@ public class MainController {
 
     //책장
     @GetMapping("/library")
-    public String library(Model model, @CurrentMember Member member){
+    public String library(Model model, @CurrentMember Member member,
+                          @PageableDefault(page=0, size=9, sort="no", direction = Sort.Direction.DESC)Pageable pageable,
+                          String keyword){
+
         if(member.getLibraryName()==null){
             return "library/library_name";
         }
 
-        return memberLibrary(member.getLibraryName(), model, member);
+        return memberLibrary(member.getLibraryName(), model, member, pageable, keyword);
 
     }
 
 
     @GetMapping("/library/{libraryName}")
-    public String memberLibrary(@PathVariable String libraryName, Model model, @CurrentMember Member member) {
+    public String memberLibrary(@PathVariable String libraryName, Model model, @CurrentMember Member member,
+                                @PageableDefault(page=0, size=9, sort="no", direction = Sort.Direction.DESC)Pageable pageable,
+                                String keyword) {
 
-        List<Recode> MemberRecodeList = libraryService.getMemberRecodeList(libraryName);
+        Page<Recode> memberRecodeList = null;
+
+        if(keyword == null) {
+            memberRecodeList = libraryService.getMemberRecodeList(libraryName, pageable);
+        } else {
+            memberRecodeList = libraryService.searchRecode(libraryName, keyword, pageable);
+        }
+
+
+        int nowPage = memberRecodeList.getPageable().getPageNumber() + 1;
+        int startPage = Math.max(nowPage -4, 1);
+        int endPage = Math.min(nowPage+5, memberRecodeList.getTotalPages());
+
 
         model.addAttribute("libraryMember", memberService.getLibraryMember(libraryName));
-        model.addAttribute("recodeList",MemberRecodeList);
+        model.addAttribute("recodeList",memberRecodeList);
         model.addAttribute("currentMember", memberService.getMember(member));
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+
         return "library/library_list";
     }
 
@@ -379,19 +406,6 @@ public class MainController {
         model.addAttribute("deleteResult", true);
 
         return "redirect:/library";
-    }
-    
-
-    @GetMapping("/library_search/{libraryName}")
-    public String search(@PathVariable String libraryName, Model model, @CurrentMember Member member, @RequestParam(value = "keyword") String keyword){
-
-        List<Recode> searchRecodeList = libraryService.searchRecode(libraryName, keyword);
-
-        model.addAttribute("recodeList",searchRecodeList);
-        model.addAttribute("libraryMember", memberService.getLibraryMember(libraryName));
-        model.addAttribute("currentMember", memberService.getMember(member));
-
-        return "library/library_list";
     }
 
 

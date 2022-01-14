@@ -1,6 +1,8 @@
 package com.recoders.escapelog.repository;
 
 import com.recoders.escapelog.domain.Recode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,11 +15,11 @@ import java.util.Optional;
 @Repository
 public interface LibraryRepository extends JpaRepository<Recode, Long> {
 
-    List<Recode> findByMember_LibraryNameOrderByRegdateDesc(String libraryName);
+    Page<Recode> findByMember_LibraryNameOrderByRegdateDesc(String libraryName, Pageable pageable);
 
     Optional<Recode> deleteByNo(Long no);
 
-    List<Recode> findByMember_LibraryNameAndTheme_ThemeNameContaining(String libraryName, String keyword);
+    Page<Recode> findByMember_LibraryNameAndTheme_ThemeNameContaining(String libraryName, String keyword, Pageable pageable);
 
     Optional<Recode> findByNo(Long no);
     
