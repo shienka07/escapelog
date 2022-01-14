@@ -13,7 +13,7 @@
         let currentUrl = window.location.protocol
             + "//" + window.location.host
             + window.location.pathname;
-
+        let basicThemeImg = '/img/theme/basic_theme.png';
         let themeList = [[${themeList}]];
         let checkU = [[${checkU}]];
         let totalCount = 0;
@@ -73,9 +73,10 @@
 
         function addThemeItem(index, theme) {
             var list = $("#theme-list");
+            let imageUrl = theme.imageUrl ==null ? basicThemeImg : theme.imageUrl;
             list.append('<div class="col-4"><div class="tape">'+'<div class="theme-item" id="theme-item'+index+'">'
                 +'<a class="polaroid" href="'+currentUrl+'/'+theme.no+'" id="polaroid'+index+'">'
-                + '<div class="img-box">'+'<img src="https://picsum.photos/200/400?random='+theme.no+'">' +'</div>'
+                + '<div class="img-box">'+'<img src="'+imageUrl+'">' +'</div>'
                 + '<div class="caption-box">'+'<p>'+theme.shopName+'</p>'+'<h4>'+theme.themeName+'</h4>'+'</div>'
                 +'</a></div></div></div>');
         }

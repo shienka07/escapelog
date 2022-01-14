@@ -75,7 +75,7 @@ public class MainController {
         try {
             if (!file.isEmpty()){
                 String filePath = amazonS3Service.getThemeImgFilePath(themeDto.getAreaType().name().toLowerCase(),file.getOriginalFilename());
-                themeDto.setFilePath(amazonS3Service.upload(file,filePath));
+                themeDto.setImagePath(amazonS3Service.upload(file,filePath));
             }
             themeService.saveThemeInfo(themeDto);
         }catch (IOException e){
@@ -355,7 +355,7 @@ public class MainController {
             if (!file.isEmpty()){
                 String saveFileName = amazonS3Service.changeFileName(file.getOriginalFilename());
                 String filePath = amazonS3Service.getRecodeImgFilePath(saveFileName);
-                recodeDto.setImageUrl(amazonS3Service.upload(file,filePath));
+                recodeDto.setImagePath(amazonS3Service.upload(file,filePath));
             }
             libraryService.saveRecode(member, recodeDto);
         }catch (IOException e){

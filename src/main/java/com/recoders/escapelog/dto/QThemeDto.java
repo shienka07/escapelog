@@ -14,7 +14,7 @@ public class QThemeDto {
     private long no;
     private String themeName;
     private String shopName;
-    private String filePath;
+    private String imagePath;
     private Boolean openStatus;
     private Boolean success;
 

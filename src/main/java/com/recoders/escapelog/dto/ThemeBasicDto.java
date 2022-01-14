@@ -19,7 +19,7 @@ public class ThemeBasicDto {
     @NotNull @Positive private int playTime;
     private String shopUrl;
     private String story;
-    private String filePath;
+    private String imagePath;
     @Min(0) @Max(10) private int level;
 
     public Theme toEntity(){
@@ -27,14 +27,14 @@ public class ThemeBasicDto {
         Theme build = Theme.builder()
                 .themeName(themeName)
                 .shopName(shopName)
-                .shopUrl(shopUrl == null ? "" : shopUrl)
+                .shopUrl(shopUrl)
                 .areaType(areaType)
                 .detailArea(detailArea)
                 .openStatus(openStatus)
                 .playTime(playTime)
                 .level(level)
-                .story(story == null ? "" : story.replaceAll("<br>",System.getProperty("line.separator")))
-                .filePath(filePath == null ? "" : filePath)
+                .story(story.replaceAll("<br>",System.getProperty("line.separator")))
+                .imagePath(imagePath)
                 .build();
         return build;
     }

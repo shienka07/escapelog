@@ -49,7 +49,7 @@ public class ThemeService {
                     .playTime(Integer.parseInt(arr[6]))
                     .openStatus(arr[7].equals("TRUE")?true:false)
                     .story(arr[8].replaceAll("<br>",System.getProperty("line.separator")))
-                    .filePath("") //TODO - 임시로 빈문자열 입력
+                    .imagePath(null)
                     .build();
 
             themeList.add(theme);
@@ -121,11 +121,12 @@ public class ThemeService {
         List<ThemeInfoDto> themeList = new ArrayList<>();
 
         for (Theme theme : entities){
+
             ThemeInfoDto themeInfoDto = ThemeInfoDto.builder()
                     .no(theme.getNo())
                     .themeName(theme.getThemeName())
                     .shopName(theme.getShopName())
-                    .imageUrl("https://"+ AmazonS3Service.domainName +"/"+theme.getFilePath())
+                    .imageUrl(getImageUrl(theme.getImagePath()))
                     .openStatus(theme.getOpenStatus())
                     .build();
 
@@ -142,7 +143,7 @@ public class ThemeService {
                     .no(theme.getNo())
                     .themeName(theme.getThemeName())
                     .shopName(theme.getShopName())
-                    .imageUrl("https://"+ AmazonS3Service.domainName +"/"+theme.getFilePath())
+                    .imageUrl(getImageUrl(theme.getImagePath()))
                     .openStatus(theme.getOpenStatus())
                     .success(theme.getSuccess())
                     .build();
@@ -160,13 +161,12 @@ public class ThemeService {
         }
         int totalRatingNum = libraryRepository.countRecodeByThemeNo(no);
         Theme theme = optionalTheme.get();
-        String imageUrl = "https://"+AmazonS3Service.domainName +"/"+theme.getFilePath();
 
         return ThemeInfoDto.builder()
                 .no(theme.getNo())
                 .themeName(theme.getThemeName())
                 .shopName(theme.getShopName())
-                .imageUrl(imageUrl)
+                .imageUrl(getImageUrl(theme.getImagePath()))
                 .openStatus(theme.getOpenStatus())
                 .playTime(theme.getPlayTime())
                 .level(theme.getLevel())
@@ -186,5 +186,10 @@ public class ThemeService {
         return map;
     }
 
-
+    public String getImageUrl(String imagePath){
+        if (imagePath != null){
+            imagePath = "https://"+ AmazonS3Service.domainName +"/"+imagePath;
+        }
+        return imagePath;
+    }
 }

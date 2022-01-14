@@ -38,7 +38,7 @@ public class AmazonS3Service {
     private String region;
 
     @Value("${cloud.aws.cloudFront.distributionDomain}")
-    public void setNameStatic(String domainName){
+    public void setDomainName(String domainName){
         AmazonS3Service.domainName = domainName;
     }
 

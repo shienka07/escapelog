@@ -24,7 +24,7 @@ public class Theme {
 
     private Integer playTime;
 
-    private String filePath;
+    private String imagePath;
 
     @Enumerated(EnumType.STRING)
     private AreaType areaType;
