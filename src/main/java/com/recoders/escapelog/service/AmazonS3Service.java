@@ -20,6 +20,9 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class AmazonS3Service {
+
+    public static String domainName;
+
     private AmazonS3 s3Client;
 
     @Value("${cloud.aws.credentials.accessKey}")
@@ -34,6 +37,11 @@ public class AmazonS3Service {
     @Value("${cloud.aws.region.static}")
     private String region;
 
+    @Value("${cloud.aws.cloudFront.distributionDomain}")
+    public void setNameStatic(String domainName){
+        AmazonS3Service.domainName = domainName;
+    }
+
     @PostConstruct
     public void setS3Client(){
         AWSCredentials awsCredentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
@@ -44,21 +52,30 @@ public class AmazonS3Service {
                 .build();
     }
 
-    public String upload(MultipartFile file, String fileName) throws IOException {
-        String fileType = file.getContentType();
+    public String upload(MultipartFile file, String filePath) throws IOException {
 
         ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentType(fileType);
+        metadata.setContentType(file.getContentType());
         metadata.setContentLength(file.getSize());
 
-        s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(),metadata)
+        s3Client.putObject(new PutObjectRequest(bucket, filePath, file.getInputStream(),metadata)
         .withCannedAcl(CannedAccessControlList.PublicRead));
-        return s3Client.getUrl(bucket,fileName).toString();
+
+        return filePath;
     }
 
     public String changeFileName(String originFileName){
         String ext = originFileName.substring(originFileName.lastIndexOf('.'));
         UUID uuid = UUID.randomUUID();
-        return uuid.toString() + ext;
+        long millis = System.currentTimeMillis();
+        return uuid.toString()+millis+ext;
+    }
+
+    public String getThemeImgFilePath(String areaName, String fileName){
+        return "theme/"+areaName+"/"+fileName;
+    }
+
+    public String getRecodeImgFilePath(String fileName){
+        return "recode/"+fileName;
     }
 }

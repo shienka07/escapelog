@@ -55,7 +55,7 @@ public class Recode {
 
     private Boolean secret;
 
-    private String imageUrl;
+    private String filePath;
 
 
     public void update(EditDto editDto) {

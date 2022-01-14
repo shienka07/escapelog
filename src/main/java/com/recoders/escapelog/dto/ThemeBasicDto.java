@@ -19,7 +19,7 @@ public class ThemeBasicDto {
     @NotNull @Positive private int playTime;
     private String shopUrl;
     private String story;
-    private String imageUrl;
+    private String filePath;
     @Min(0) @Max(10) private int level;
 
     public Theme toEntity(){
@@ -34,7 +34,7 @@ public class ThemeBasicDto {
                 .playTime(playTime)
                 .level(level)
                 .story(story == null ? "" : story.replaceAll("<br>",System.getProperty("line.separator")))
-                .imageUrl(imageUrl == null ? "" : imageUrl)
+                .filePath(filePath == null ? "" : filePath)
                 .build();
         return build;
     }

@@ -7,7 +7,6 @@ import com.recoders.escapelog.security.CurrentMember;
 import com.recoders.escapelog.service.*;
 import lombok.RequiredArgsConstructor;
 
-import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,13 +17,11 @@ import org.springframework.web.bind.annotation.*;
 import com.recoders.escapelog.domain.Recode;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Controller
@@ -72,7 +69,8 @@ public class MainController {
 
         try {
             if (!file.isEmpty()){
-                themeDto.setImageUrl(amazonS3Service.upload(file,file.getOriginalFilename()));
+                String filePath = amazonS3Service.getThemeImgFilePath(themeDto.getAreaType().name().toLowerCase(),file.getOriginalFilename());
+                themeDto.setFilePath(amazonS3Service.upload(file,filePath));
             }
             themeService.saveThemeInfo(themeDto);
         }catch (IOException e){
@@ -313,8 +311,6 @@ public class MainController {
     }
 
 
-
-
     //글쓰기 페이지
     @GetMapping("/recode")
     public String recode(Model model, @CurrentMember Member member){
@@ -328,11 +324,11 @@ public class MainController {
     @PostMapping("/recode")
     public String write(RecodeDto recodeDto, Model model, MultipartFile file, @CurrentMember Member member){
 
-
         try {
             if (!file.isEmpty()){
                 String saveFileName = amazonS3Service.changeFileName(file.getOriginalFilename());
-                recodeDto.setImageUrl(amazonS3Service.upload(file,saveFileName));
+                String filePath = amazonS3Service.getRecodeImgFilePath(saveFileName);
+                recodeDto.setImageUrl(amazonS3Service.upload(file,filePath));
             }
             libraryService.saveRecode(member, recodeDto);
         }catch (IOException e){
@@ -403,10 +399,11 @@ public class MainController {
     public String themeList(@CurrentMember Member member, Model model){
 
         if (member!=null){
+            List<ThemeInfoDto> themeList = themeService.getQThemeList(themeService.getAllThemeEntities(member));
+            model.addAttribute("themeList", themeList);
             model.addAttribute("checkU",true);
-            model.addAttribute("themeList", themeService.getAllThemeList(member));
         }else {
-            List<ThemeDto> themeList = themeService.getThemeList(themeService.getAllThemeEntities());
+            List<ThemeInfoDto> themeList = themeService.getThemeList(themeService.getAllThemeEntities());
             model.addAttribute("themeList",themeList);
             model.addAttribute("checkU",false);
         }
@@ -441,12 +438,12 @@ public class MainController {
 
     @ResponseBody
     @GetMapping("/theme_search")
-    public List<ThemeDto> themeSearch(@CurrentMember Member member, @RequestParam Map<String, Object> searchForm, Model model){
+    public List<ThemeInfoDto> themeSearch(@CurrentMember Member member, @RequestParam Map<String, Object> searchForm){
 
         if (member!=null){
-            return themeService.searchTheme(member,searchForm);
+            return themeService.getQThemeList(themeService.searchThemeEntities(member,searchForm));
         }else{
-            return themeService.getThemeList(themeService.searchTheme(searchForm));
+            return themeService.getThemeList(themeService.searchThemeEntities(searchForm));
         }
     }
 

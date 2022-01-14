@@ -3,8 +3,9 @@ package com.recoders.escapelog.service;
 import com.recoders.escapelog.domain.AreaType;
 import com.recoders.escapelog.domain.Member;
 import com.recoders.escapelog.domain.Theme;
+import com.recoders.escapelog.dto.QThemeDto;
 import com.recoders.escapelog.dto.ThemeBasicDto;
-import com.recoders.escapelog.dto.ThemeDto;
+import com.recoders.escapelog.dto.ThemeInfoDto;
 import com.recoders.escapelog.repository.LibraryRepository;
 import com.recoders.escapelog.repository.ThemeRepository;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,7 @@ public class ThemeService {
                     .playTime(Integer.parseInt(arr[6]))
                     .openStatus(arr[7].equals("TRUE")?true:false)
                     .story(arr[8].replaceAll("<br>",System.getProperty("line.separator")))
-                    .imageUrl("") //TODO - 임시로 빈문자열 입력
+                    .filePath("") //TODO - 임시로 빈문자열 입력
                     .build();
 
             themeList.add(theme);
@@ -65,12 +66,16 @@ public class ThemeService {
         return themeRepository.findAll();
     }
 
-    public List<Theme> searchThemeKeyword(String keyword){
-        List<Theme> themeList = themeRepository.searchThemeKeyword(keyword);
-        return themeList;
+    public List<QThemeDto> getAllThemeEntities(Member member){
+        return themeRepository.findAllTheme(member);
     }
 
-    public List<Theme> searchTheme(Map<String, Object> searchForm){
+    public List<Theme> searchThemeKeyword(String keyword){
+        List<Theme> entities = themeRepository.searchThemeKeyword(keyword);
+        return entities;
+    }
+
+    public List<Theme> searchThemeEntities(Map<String, Object> searchForm){
         String keyword = searchForm.get("keyword").toString();
         String areaName = searchForm.get("area").toString();
         AreaType areaType = null;
@@ -83,17 +88,17 @@ public class ThemeService {
             detailArea = areaName;
         }
 
-        List<Theme> themeList = themeRepository.searchTheme(keyword, areaType, detailArea, closeExclude);
+        List<Theme> entities = themeRepository.searchTheme(keyword, areaType, detailArea, closeExclude);
 
-        return themeList;
+        return entities;
     }
 
-    public List<ThemeDto> searchTheme(Member member, Map<String, Object> searchForm){
+    public List<QThemeDto> searchThemeEntities(Member member, Map<String, Object> searchForm){
         String keyword = searchForm.get("keyword").toString();
         String areaName = searchForm.get("area").toString();
         AreaType areaType = null;
         String detailArea = "";
-        List<ThemeDto> themeList;
+        List<QThemeDto> entities;
         Boolean closeExclude = searchForm.get("closeExclude").equals("true");
         Boolean stampExclude = searchForm.get("stampExclude").equals("true");
 
@@ -104,46 +109,73 @@ public class ThemeService {
         }
 
         if (stampExclude){
-            themeList = themeRepository.searchThemeStampExclude(member, keyword, areaType, detailArea, closeExclude);
+            entities = themeRepository.searchThemeStampExclude(member, keyword, areaType, detailArea, closeExclude);
 
         }else{
-            themeList = themeRepository.searchTheme(member, keyword, areaType, detailArea, closeExclude);
+            entities = themeRepository.searchTheme(member, keyword, areaType, detailArea, closeExclude);
         }
-        Collections.shuffle(themeList);
-        return themeList;
+        return entities;
     }
 
-    public List<ThemeDto> getAllThemeList(Member member){
-        List<ThemeDto> themeList = themeRepository.findAllTheme(member);
-        Collections.shuffle(themeList);
-        return themeList;
-    }
+    public List<ThemeInfoDto> getThemeList(List<Theme> entities) {
+        List<ThemeInfoDto> themeList = new ArrayList<>();
 
-    public List<ThemeDto> getThemeList(List<Theme> entities) {
-        List<ThemeDto> themeList = new ArrayList<>();
-
-        for (Theme themes : entities){
-            Theme theme = Theme.builder()
-                    .no(themes.getNo())
-                    .themeName(themes.getThemeName())
-                    .shopName(themes.getShopName())
-                    .imageUrl(themes.getImageUrl())
-                    .openStatus(themes.getOpenStatus())
+        for (Theme theme : entities){
+            ThemeInfoDto themeInfoDto = ThemeInfoDto.builder()
+                    .no(theme.getNo())
+                    .themeName(theme.getThemeName())
+                    .shopName(theme.getShopName())
+                    .imageUrl("https://"+ AmazonS3Service.domainName +"/"+theme.getFilePath())
+                    .openStatus(theme.getOpenStatus())
                     .build();
-            themeList.add(ThemeDto.simpleForm(theme));
+
+            themeList.add(themeInfoDto);
         }
         Collections.shuffle(themeList);
         return themeList;
     }
 
-    public ThemeDto getThemeInfo(Long no){
+    public List<ThemeInfoDto> getQThemeList(List<QThemeDto> entities) {
+        List<ThemeInfoDto> themeList = new ArrayList<>();
+        for (QThemeDto theme : entities){
+            ThemeInfoDto themeInfoDto = ThemeInfoDto.builder()
+                    .no(theme.getNo())
+                    .themeName(theme.getThemeName())
+                    .shopName(theme.getShopName())
+                    .imageUrl("https://"+ AmazonS3Service.domainName +"/"+theme.getFilePath())
+                    .openStatus(theme.getOpenStatus())
+                    .success(theme.getSuccess())
+                    .build();
+
+            themeList.add(themeInfoDto);
+        }
+        Collections.shuffle(themeList);
+        return themeList;
+    }
+
+    public ThemeInfoDto getThemeInfo(Long no){
         Optional<Theme> optionalTheme = themeRepository.findById(no);
         if (optionalTheme.isEmpty()){
             throw new IllegalArgumentException("wrong theme no");
         }
         int totalRatingNum = libraryRepository.countRecodeByThemeNo(no);
+        Theme theme = optionalTheme.get();
+        String imageUrl = "https://"+AmazonS3Service.domainName +"/"+theme.getFilePath();
 
-        return ThemeDto.detailForm(optionalTheme.get(),totalRatingNum,getThemeRatingCnt(no));
+        return ThemeInfoDto.builder()
+                .no(theme.getNo())
+                .themeName(theme.getThemeName())
+                .shopName(theme.getShopName())
+                .imageUrl(imageUrl)
+                .openStatus(theme.getOpenStatus())
+                .playTime(theme.getPlayTime())
+                .level(theme.getLevel())
+                .shopUrl(theme.getShopUrl())
+                .story(theme.getStory())
+                .totalRatingNum(totalRatingNum)
+                .ratingMap(getThemeRatingCnt(no))
+                .build();
+
     }
 
     public Map<Integer, Integer> getThemeRatingCnt(Long themeNo){
