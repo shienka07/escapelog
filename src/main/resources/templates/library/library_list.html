@@ -37,7 +37,7 @@
 <!--                        </div>-->
                         <div>
                             <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                                <div th:if="${param.keyword==null}">
+                                <div th:if="${param.keyword==null or param.keyword==''}">
                                     <a th:if="${page != nowPage}" th:href="@{/library(page = ${page -1})}" th:text="${page}"></a>
                                     <strong th:if="${page == nowPage}" th:text="${page}" style="color :red"></strong>
                                 </div>
