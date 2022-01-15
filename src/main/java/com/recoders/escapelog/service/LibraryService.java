@@ -125,14 +125,44 @@ public class LibraryService {
         for (Recode recode : entities) {
             recodeList.add(getReviewRecodeInfoDto(recode));
         }
-
         return recodeList;
+    }
 
+    public RecodeInfoDto getReadInfoDto(Recode recode){
+        Theme theme = recode.getTheme();
+        Member member = recode.getMember();
+        String themeName=null, themeShopName=null, themeImgUrl=null;
+
+        if (theme!=null){
+            themeName = theme.getThemeName();
+            themeShopName = theme.getShopName();
+            themeImgUrl = AmazonS3Service.getImageUrl(theme.getImagePath());
+        }
+
+        return RecodeInfoDto.builder()
+                .no(recode.getNo())
+                .memberNo(member.getNo())
+                .nickname(member.getNickname())
+                .libraryName(member.getLibraryName())
+                .title(recode.getTitle())
+                .contents(recode.getContents())
+                .secret(recode.getSecret())
+                .regdate(recode.getRegdate().toLocalDate())
+                .success(recode.getSuccess())
+                .rating(recode.getRating())
+                .hint(recode.getHint())
+                .playerNum(recode.getPlayerNum())
+                .breakTime(recode.getBreakTime())
+                .nlString(recode.getNlString())
+                .themeName(themeName)
+                .themeShopName(themeShopName)
+                .themeImageUrl(themeImgUrl)
+                .recodeImageUrl(AmazonS3Service.getImageUrl(recode.getImagePath()))
+                .build();
     }
 
 
 
-    
     public RecodeInfoDto getReviewRecodeInfoDto(Recode recode){
        return RecodeInfoDto.builder()
                 .no(recode.getNo())

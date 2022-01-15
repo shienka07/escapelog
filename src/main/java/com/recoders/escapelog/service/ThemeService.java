@@ -126,7 +126,7 @@ public class ThemeService {
                     .no(theme.getNo())
                     .themeName(theme.getThemeName())
                     .shopName(theme.getShopName())
-                    .imageUrl(getImageUrl(theme.getImagePath()))
+                    .imageUrl(AmazonS3Service.getImageUrl(theme.getImagePath()))
                     .openStatus(theme.getOpenStatus())
                     .build();
 
@@ -143,7 +143,7 @@ public class ThemeService {
                     .no(theme.getNo())
                     .themeName(theme.getThemeName())
                     .shopName(theme.getShopName())
-                    .imageUrl(getImageUrl(theme.getImagePath()))
+                    .imageUrl(AmazonS3Service.getImageUrl(theme.getImagePath()))
                     .openStatus(theme.getOpenStatus())
                     .success(theme.getSuccess())
                     .build();
@@ -166,7 +166,7 @@ public class ThemeService {
                 .no(theme.getNo())
                 .themeName(theme.getThemeName())
                 .shopName(theme.getShopName())
-                .imageUrl(getImageUrl(theme.getImagePath()))
+                .imageUrl(AmazonS3Service.getImageUrl(theme.getImagePath()))
                 .openStatus(theme.getOpenStatus())
                 .playTime(theme.getPlayTime())
                 .level(theme.getLevel())
@@ -186,10 +186,5 @@ public class ThemeService {
         return map;
     }
 
-    public String getImageUrl(String imagePath){
-        if (imagePath != null){
-            imagePath = "https://"+ AmazonS3Service.domainName +"/"+imagePath;
-        }
-        return imagePath;
-    }
+
 }

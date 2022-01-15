@@ -78,4 +78,11 @@ public class AmazonS3Service {
     public String getRecodeImgFilePath(String fileName){
         return "recode/"+fileName;
     }
+
+    public static String getImageUrl(String imagePath){
+        if (imagePath != null){
+            imagePath = "https://"+ domainName +"/"+imagePath;
+        }
+        return imagePath;
+    }
 }

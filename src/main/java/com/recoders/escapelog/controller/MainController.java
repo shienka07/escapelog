@@ -371,9 +371,8 @@ public class MainController {
     @GetMapping("/read/{no}")
     public String read(@PathVariable Long no, Model model, @CurrentMember Member member){
 
-        model.addAttribute("recode", libraryService.getRecode(no));
+        model.addAttribute("recode", libraryService.getReadInfoDto(libraryService.getRecode(no)));
         model.addAttribute("currentMember", memberService.getMember(member));
-
 
         return "library/library_detail";
     }

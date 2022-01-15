@@ -10,7 +10,7 @@
 <body>
 <th:block layout:fragment="content">
     <section>
-        <div class="container" th:if="${currentMember.no == recode.member.no} or ${recode.secret}==false">
+        <div class="container" th:if="${currentMember.no == recode.memberNo} or ${recode.secret}==false">
             <div class="folder-box">
                 <div class="row">
                     <div class="col-6" style="border-right:1px solid white;">
@@ -27,16 +27,15 @@
                             <div class="col-6">
                                 <div class="img-box">
                                     <div class="polaroid">
-                                        <img src="https://picsum.photos/200/300">
+                                        <img th:src="${recode.themeImageUrl==null} ? @{/img/theme/basic_theme.png} : ${recode.themeImageUrl}">
                                     </div>
                                     <!--                                    지점명 -->
-                                    <p id="recode-shop-name" th:if="${recode.theme != null}"
-                                       th:text="${recode.theme.shopName}"></p>
-                                    <p id="recode-shop-name-null" th:if="${recode.theme == null}">-</p>
+                                    <p id="recode-shop-name"
+                                       th:text="${recode.themeShopName==null}?'-': ${recode.themeShopName}"></p>
+<!--                                    <p id="recode-shop-name-null" th:if="${recode.theme == null}">-</p>-->
                                     <!--                                    테마명 -->
-                                    <h6 id="recode-theme" th:if="${recode.theme != null}"
-                                        th:text="${recode.theme.themeName}"></h6>
-                                    <h6 id="recode-theme-null" th:if="${recode.theme == null}">-</h6>
+                                    <h6 id="recode-theme" th:text="${recode.themeName==null}?'-': ${recode.themeName}"></h6>
+<!--                                    <h6 id="recode-theme-null" th:if="${recode.theme == null}">-</h6>-->
                                 </div>
                             </div>
                             <div class="col-6">
@@ -72,6 +71,12 @@
                                   d="M9.389,0,1.139,4.782c-1.518.88-1.518,2.308,0,3.188l8.25,4.782h127V0Z"
                                   transform="translate(345.389 12.752) rotate(180)" fill="#9c9c9c"/>
                         </svg>
+                        <th:block th:if="${recode.recodeImageUrl}!=null" >
+                            <div>
+                                <img th:src="${recode.recodeImageUrl}">
+                            </div>
+                        </th:block>
+
                         <div class="text-box m-4 p-2">
                             <!--후기내용-->
                             <p th:utext="${#strings.replace(recode.contents, recode.nlString,'&lt;br /&gt;')}"></p>
@@ -87,7 +92,7 @@
         </div>
 
         <div class="btn-box">
-            <div th:if="${currentMember.no == recode.member.no}">
+            <div th:if="${currentMember.no == recode.memberNo}">
                 <form id="recode-delete-form" th:action="@{'/delete/'+${recode.no}}" method="post">
                     <input type="hidden" name="delete-recode" value="delete">
                     <button id="recode-delete">삭제</button>
@@ -96,12 +101,12 @@
                     <button>수정</button>
                 </a>
             </div>
-            <div th:if="${currentMember.no != recode.member.no} and ${recode.secret}==true">
+            <div th:if="${currentMember.no != recode.memberNo} and ${recode.secret}==true">
                 <p> 비공개 글입니다 </p>
             </div>
 
             <br/>
-            <a th:href="@{'/library/' + ${recode.member.libraryName}}" class="btn btn-primary my-3">책장으로 돌아가기</a>
+            <a th:href="@{'/library/' + ${recode.libraryName}}" class="btn btn-primary my-3">책장으로 돌아가기</a>
         </div>
         </div>
 
