@@ -16,16 +16,13 @@
                     <a class="nav-link" th:href="@{/}" th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}">홈</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/library}" th:classappend="${#httpServletRequest.getRequestURI() == '/library' ? 'active':''}">책장</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" th:href="@{/themes}" th:classappend="${#httpServletRequest.getRequestURI() == '/themes' ? 'active':''}">테마</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/map}" th:classappend="${#httpServletRequest.getRequestURI() == '/map' ? 'active':''}">지도</a>
+                    <a class="nav-link" th:href="@{/library}" th:classappend="${#httpServletRequest.getRequestURI() == '/library' ? 'active':''}">책장</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/#info}" th:classappend="${#httpServletRequest.getRequestURI() == '/#info' ? 'active':''}">소개</a>
+                    <a class="nav-link" th:href="@{/map}" th:classappend="${#httpServletRequest.getRequestURI() == '/map' ? 'active':''}">지도</a>
                 </li>
             </ul>
         </div>
