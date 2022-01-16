@@ -367,7 +367,6 @@
                     selectedThemeNo = $(this).val();
                     selectedThemeName = $(this).text();
 
-
                 });
 
                 $('#theme-select-btn').click(function () {
@@ -419,6 +418,12 @@
                     })
                 });
             });
+
+            function fileUploadCheck(file) {
+                if (fileFormatCheck(file)){
+                    fileSizeCheck(file);
+                }
+            }
 
             function changeStep(changeStepNum){
 

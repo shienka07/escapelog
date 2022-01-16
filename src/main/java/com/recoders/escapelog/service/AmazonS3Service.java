@@ -64,6 +64,19 @@ public class AmazonS3Service {
         return filePath;
     }
 
+    public String uploadRecodeImg(MultipartFile file) throws IOException {
+        String saveFileName = changeFileName(file.getOriginalFilename());
+        String filePath = getRecodeImgFilePath(saveFileName);
+        return upload(file,filePath);
+    }
+
+    public void delete(String currentFilePath){
+        boolean isExistObject = s3Client.doesObjectExist(bucket, currentFilePath);
+        if (isExistObject){
+            s3Client.deleteObject(bucket, currentFilePath);
+        }
+    }
+
     public String changeFileName(String originFileName){
         String ext = originFileName.substring(originFileName.lastIndexOf('.'));
         UUID uuid = UUID.randomUUID();

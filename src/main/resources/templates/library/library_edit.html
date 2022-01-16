@@ -5,6 +5,7 @@
       layout:decorate="~{layout/common_layout.html}" th:with="activeTab='library', title='Welcome!'">
 <head>
     <link rel="stylesheet" th:href="@{/css/library_write.css}">
+    <script type="text/javascript" th:src="@{/js/file/file_upload.js}"></script>
 </head>
 
 <body data-spy="scroll" data-target="#myScrollspy" data-offset="1">
@@ -31,7 +32,7 @@
 
                 <!-- 우측 정보 입력 부분 시작 -->
                 <div class="col-sm-9 col-8">
-                    <form name="recode-dto" th:action="@{'/modify/' +${no}}" th:object="${editDto}" method="post" id="recodeForm">
+                    <form name="recode-dto" th:action="@{'/modify/' +${no}}" th:object="${editDto}" method="post" id="recodeForm"  enctype="multipart/form-data">
                         <!-- page1. 정보 입력 -->
                         <div id="section1" class="bg-light">
                             <div class="container p-5">
@@ -47,7 +48,7 @@
                                     <label>테마 검색 : </label>
                                     <div class="form-inline">
                                         <input id="theme-no" name="theme.no" class="form-control mr-sm-2" type="hidden">
-                                        <input id="theme-name" class="form-control mr-sm-3" type="text" th:value="${editRecode.theme != null ? editRecode.theme.themeName+'/'+editRecode.theme.shopName : null}" name="theme.themeName" readonly>
+                                        <input id="theme-name" class="form-control mr-sm-3" type="text" th:value="${editRecode.themeName != null ? editRecode.themeName+'/'+editRecode.themeShopName : null}" name="theme.themeName" readonly>
                                         <button id="theme-info-remove-btn" type="button" class="btn btn-primary">지우기</button>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectModal">
                                             테마 검색
@@ -225,12 +226,21 @@
                                     <h2>후기 작성</h2>
                                     <textarea class="form-control" name="contents" th:text="${editRecode.contents}" id="contents"
                                               rows="20"></textarea>
-                                    <form>
                                         <div class="form-group mt-5">
-                                            <label for="image-file">이미지 업로드</label>
-                                            <input type="file" class="form-control-file" id="image-file">
+                                            <div class="upload-box" id="step-3">
+                                                <h2>이미지 업로드</h2>
+                                                <p>추억하고 싶은 이미지를 추가해보세요</p>
+                                                <div class="p-5" style="border:2px dashed #474249">
+                                                    <div class="img" style="width: 200px; height: 200px; border: 1px solid #555; margin: 0;padding: 0;">
+                                                        <img id="upload-img" th:src="${editRecode.recodeImageUrl==null} ? @{/img/no_upload.png} : ${editRecode.recodeImageUrl}" style="width: 100%; height: 100%; object-fit: cover;">
+                                                    </div>
+                                                    <div id="upload-img-remove-btn" class="btn btn-sm btn-danger">삭제하기
+                                                    </div>
+                                                    <input id="image-file" name="file" class="form-control-file" type="file" onchange="fileUploadCheck(this)">
+                                                    <input th:field="*{imageChanges}" id="image-changes" type="hidden">
+                                                </div>
+                                            </div>
                                         </div>
-                                    </form>
                                 </div>
                             </div>
                             <!-- page2. 후기 작성 끝! -->
@@ -267,15 +277,47 @@
         </div>
 
         <script>
+            function fileUploadCheck(file){
+
+                if (fileFormatCheck(file)&&fileSizeCheck(file)){
+                    let reader = new FileReader()
+                    reader.onload = function (e){
+                        $('#upload-img').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(file.files[0]);
+
+                    imageChangesCheck();
+
+                }
+            }
+
+            function imageChangesCheck(){
+                $('#image-changes').val(true);
+            }
+
             $(document).ready(function () {
 
                 let selectedThemeName="";
                 let selectedThemeNo=0;
+                let basicUploadImg = '/img/no_upload.png';
+
 
                 function themeValueInit(){
                     selectedThemeNo = 0;
                     selectedThemeName = "";
                 }
+
+                $('#image-changes').val(false);
+
+                $('#upload-img-remove-btn').click(function () {
+                    $('#upload-img').attr('src', basicUploadImg);
+
+                    if ($('#image-file').val().length > 0){
+                        $('#image-file').val(null);
+                    }
+                    imageChangesCheck();
+
+                });
 
                 $('#save-recode').click(function () {
 

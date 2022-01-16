@@ -123,7 +123,7 @@ public class LibraryService {
         List<RecodeInfoDto> recodeList = new ArrayList<>();
 
         for (Recode recode : entities) {
-            recodeList.add(getReviewRecodeInfoDto(recode));
+            recodeList.add(getReviewInfoDto(recode));
         }
         return recodeList;
     }
@@ -163,7 +163,7 @@ public class LibraryService {
 
 
 
-    public RecodeInfoDto getReviewRecodeInfoDto(Recode recode){
+    public RecodeInfoDto getReviewInfoDto(Recode recode){
        return RecodeInfoDto.builder()
                 .no(recode.getNo())
                 .nickname(recode.getMember().getNickname())
@@ -173,6 +173,37 @@ public class LibraryService {
                 .regdate(recode.getRegdate().toLocalDate())
                 .success(recode.getSuccess())
                 .rating(recode.getRating())
+                .build();
+    }
+
+    public RecodeInfoDto getEditInfoDto(Recode recode){
+
+        Theme theme = recode.getTheme();
+        Member member = recode.getMember();
+        String themeName=null, themeShopName=null;
+
+        if (theme!=null){
+            themeName = theme.getThemeName();
+            themeShopName = theme.getShopName();
+        }
+
+        return RecodeInfoDto.builder()
+                .no(recode.getNo())
+                .memberNo(member.getNo())
+                .nickname(member.getNickname())
+                .libraryName(member.getLibraryName())
+                .title(recode.getTitle())
+                .contents(recode.getContents())
+                .secret(recode.getSecret())
+                .success(recode.getSuccess())
+                .rating(recode.getRating())
+                .hint(recode.getHint())
+                .playerNum(recode.getPlayerNum())
+                .breakTime(recode.getBreakTime())
+                .nlString(recode.getNlString())
+                .themeName(themeName)
+                .themeShopName(themeShopName)
+                .recodeImageUrl(AmazonS3Service.getImageUrl(recode.getImagePath()))
                 .build();
     }
 

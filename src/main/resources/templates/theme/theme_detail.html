@@ -26,7 +26,7 @@
                         <!---------------------- 폴리스라인 위치 : class="image-box" 에서 'closed' 추가 ==> [class="col-6 image-box closed"] --------->
                         <div class="col-6 image-box">
                             <div class="img-box" id="theme-img" th:classappend="${themeInfo.openStatus}==false ? 'closed' : ''">
-                                <img th:src="${themeInfo.imageUrl==null} ? @{/img/no_upload.png} : ${themeInfo.imageUrl}">
+                                <img th:src="${themeInfo.imageUrl==null} ? @{/img/theme/basic_theme.png} : ${themeInfo.imageUrl}">
                             </div>
                             <!-- 테마 세부 정보 영역!! -->
                         </div>

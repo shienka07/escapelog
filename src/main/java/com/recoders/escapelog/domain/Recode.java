@@ -72,6 +72,7 @@ public class Recode {
         this.success = editDto.getSuccess();
         this.playerNum = editDto.getPlayerNum();
         this.secret = editDto.getSecret();
+        this.imagePath = editDto.getImagePath();
 
     }
 
