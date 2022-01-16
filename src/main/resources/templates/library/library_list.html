@@ -57,14 +57,14 @@
                             <a th:href="@{'/read/' + ${recode.no}}"
                                th:if="${currentMember.no == libraryMember.no} or ${recode.secret}==false">
                                 <div>
-                                    <img src="https://picsum.photos/200/300">
+                                    <img th:src="${recode.themeImageUrl==null} ? @{/img/theme/basic_theme.png} : ${recode.themeImageUrl}" style="width: 200px; height: 300px">
 
                                     <div id="board" class="board-text">
                                         <div class="board-img"></div>
                                         <h4 th:text="${recode.title}"></h4>
                                         <p th:if="${recode.regdate != null}"
                                            th:text="${#temporals.format(recode.regdate,'yyyy.MM.dd HH:mm')}"></p>
-                                        <h6 th:if="${recode.theme != null}" th:text="${recode.theme.themeName}"></h6>
+                                        <h6 th:if="${recode.themeName != null}" th:text="${recode.themeName}"></h6>
                                     </div>
 
 <!--                                   todo: 아래 지워질 부분 // 공개, 비공개 설정 후 지우기-->

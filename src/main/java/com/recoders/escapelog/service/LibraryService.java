@@ -207,5 +207,33 @@ public class LibraryService {
                 .build();
     }
 
+
+    public List<RecodeInfoDto> getRecodeInfoDtoList(Page<Recode> recodeList){
+        List<RecodeInfoDto> recodeInfoDtoList = new ArrayList<>();
+
+        for (Recode recode : recodeList){
+
+            Theme theme = recode.getTheme();
+            String themeName=null, themeImgUrl=null;
+
+            if (theme!=null){
+                themeName = theme.getThemeName();
+                themeImgUrl = AmazonS3Service.getImageUrl(theme.getImagePath());
+            }
+
+            RecodeInfoDto infoDto = RecodeInfoDto.builder()
+                    .no(recode.getNo())
+                    .title(recode.getTitle())
+                    .secret(recode.getSecret())
+                    .regdate(recode.getRegdate().toLocalDate())
+                    .themeName(themeName)
+                    .themeImageUrl(themeImgUrl)
+                    .build();
+
+            recodeInfoDtoList.add(infoDto);
+        }
+
+        return recodeInfoDtoList;
+    }
 }
 

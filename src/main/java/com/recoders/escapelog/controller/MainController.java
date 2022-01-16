@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -314,19 +315,17 @@ public class MainController {
             memberRecodeList = libraryService.searchRecode(libraryName, keyword, pageable);
         }
 
-
         int nowPage = memberRecodeList.getPageable().getPageNumber() + 1;
         int startPage = Math.max(nowPage -2, 1);
         int endPage = Math.min(nowPage+2, memberRecodeList.getTotalPages());
 
 
         model.addAttribute("libraryMember", memberService.getLibraryMember(libraryName));
-        model.addAttribute("recodeList",memberRecodeList);
+        model.addAttribute("recodeList",libraryService.getRecodeInfoDtoList(memberRecodeList));
         model.addAttribute("currentMember", memberService.getMember(member));
         model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        model.addAttribute("themeImageUrl");
 
         return "library/library_list";
     }
