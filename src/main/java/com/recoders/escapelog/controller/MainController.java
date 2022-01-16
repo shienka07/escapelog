@@ -316,8 +316,8 @@ public class MainController {
 
 
         int nowPage = memberRecodeList.getPageable().getPageNumber() + 1;
-        int startPage = Math.max(nowPage -4, 1);
-        int endPage = Math.min(nowPage+5, memberRecodeList.getTotalPages());
+        int startPage = Math.max(nowPage -2, 1);
+        int endPage = Math.min(nowPage+2, memberRecodeList.getTotalPages());
 
 
         model.addAttribute("libraryMember", memberService.getLibraryMember(libraryName));
