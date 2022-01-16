@@ -23,6 +23,7 @@ section *{
 }
 .logo{
     height: 70px;
+    pointer-events: none;
 
 }
 .logo img{

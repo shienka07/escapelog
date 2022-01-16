@@ -1,0 +1,263 @@
+.area {
+    fill: #CCCCCC;
+    fill-opacity: 1;
+    stroke: rgb(255, 255, 255);
+    stroke-opacity: 1;
+    stroke-width: 10;
+}
+
+.area:hover {
+    fill: #937b69;
+}
+
+.seoul {
+    fill: #f7ca18
+}
+
+.incheon {
+    fill: #f1d693;
+}
+
+.gyeonggi {
+    fill: #f7d67d;
+}
+
+.gangwon {
+    fill: #fcce6e;
+}
+
+.chungcheong {
+    fill: #ffec8b;
+}
+
+.gyeongsang {
+    fill: #f5e653;
+}
+
+.jeju {
+    fill: #fde05d;
+}
+
+.daegu {
+    fill: #f0e2bd;
+}
+
+.daejeon {
+    fill: #f3c957;
+}
+
+.jeolla {
+    fill: #ffe573;
+}
+
+.busan {
+    fill: #f7ca18;
+}
+
+.sejong {
+    fill: #f0e2bd;
+}
+
+.ulsan {
+    fill: #e6bb59;
+}
+
+.gwangju {
+    fill: #f3c957;
+}
+
+.stamp_st0 {
+    fill: #FFFFFF;
+    stroke: #FE8045;
+    stroke-width: 30;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.stamp_st1 {
+    fill: none;
+    stroke: #FE8045;
+    stroke-width: 30;
+    stroke-linecap: round;
+    stroke-miterlimit: 10;
+}
+
+.stamp_st2 {
+    fill: none;
+    stroke: #FE8045;
+    stroke-width: 30;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.stamp_st3 {
+    fill: #FE8045;
+}
+
+.progress {
+    position: relative;
+}
+
+.progress-bar {
+    background-color: #FE8045;
+}
+
+.progress-value {
+    position: absolute;
+    right: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 2;
+    color: #000000;
+    top: 6px;
+}
+
+.tooltip-inner {
+    max-width: 240px;
+}
+
+.area-circle text {
+    font-weight: bold;
+    fill: white;
+    display: none;
+}
+
+.area-circle:hover text {
+    display: block;
+}
+
+
+
+ul{
+    list-style-position: inside;
+    list-style-type: unset;
+}
+
+.map{
+    display: flex;
+}
+.map-left{
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
+.target-box{
+    background-color: #F0EDE6;
+    width: 80%;
+    height: 30%;
+    padding: 20px;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+.target span {
+    font-size: 23px;
+    font-family: 'Jua';
+    color: #FE8045;
+}
+.progress {
+    display: flex;
+    height: 1rem;
+    overflow: hidden;
+    line-height: 0;
+    font-size: .75rem;
+    background-color: #fff;
+    border-radius: 0.25rem;
+    padding: 3px;
+}
+.map-center{
+    background-color: #E1DBCD;
+    width: 47%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+}
+.title-box{
+    margin-bottom: 20px;
+    display: flex;
+    background-color: #FDCE6E;
+    padding: 0 20px;
+    color: #fff;
+    align-items: baseline;
+    justify-content: center;
+    border-radius: 5px;
+}
+.title-box h3{
+    font-family: 'Jua';
+    font-size: 30px;
+    margin:0;
+    padding:0;
+}
+.title-box i{
+    cursor: pointer;
+}
+.title-box i:hover{
+    color: #FE8045;
+}
+.percent-box {
+    display: flex;
+    flex-direction: column;
+    border: 3px solid #FDCE6E;
+    padding: 5px 15px 10px 15px;
+    border-radius: 10px;
+    align-items: center;
+    background-color: #eee;
+}
+.percent {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+.total-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.total-box h4{
+    font-size: 25px;
+    color: #FE8045;
+    font-family: 'Jua';
+}
+.total-box p {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.area-circle text {
+    font-weight: bold;
+    fill: #FE8045;
+    display: none;
+    font-size: 1.5rem;
+}
+
+
+use {
+    pointer-events: none;
+}
+.area:hover {
+    fill: #eee;
+    cursor: pointer;
+}
+.svgBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 0;
+    color: #FE8045;
+}
+.svgBox label{
+    transform: translate(0px, 40px);
+}
+
+.map-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
