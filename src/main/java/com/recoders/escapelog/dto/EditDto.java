@@ -26,4 +26,8 @@ public class EditDto {
     private Integer playerNum;
 
     private Boolean secret;
+
+    private String imagePath;
+
+    private Boolean imageChanges;
 }

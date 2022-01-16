@@ -1,9 +1,3 @@
-function fileUploadCheck(file) {
-    if (fileFormatCheck(file)){
-        fileSizeCheck(file);
-    }
-}
-
 function fileFormatCheck(file) {
     let fileValue = file.value;
     let fileLength = fileValue.length;
@@ -27,5 +21,5 @@ function fileSizeCheck(file) {
         file.value = "";
         return false;
     }
+    return true;
 }
-

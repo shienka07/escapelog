@@ -73,9 +73,9 @@ public class MainController {
         }
 
         try {
-            if (!file.isEmpty()){
+            if (file != null && !file.isEmpty()){
                 String filePath = amazonS3Service.getThemeImgFilePath(themeDto.getAreaType().name().toLowerCase(),file.getOriginalFilename());
-                themeDto.setFilePath(amazonS3Service.upload(file,filePath));
+                themeDto.setImagePath(amazonS3Service.upload(file,filePath));
             }
             themeService.saveThemeInfo(themeDto);
         }catch (IOException e){
@@ -326,7 +326,7 @@ public class MainController {
         model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-
+        model.addAttribute("themeImageUrl");
 
         return "library/library_list";
     }
@@ -352,10 +352,8 @@ public class MainController {
     public String write(RecodeDto recodeDto, Model model, MultipartFile file, @CurrentMember Member member){
 
         try {
-            if (!file.isEmpty()){
-                String saveFileName = amazonS3Service.changeFileName(file.getOriginalFilename());
-                String filePath = amazonS3Service.getRecodeImgFilePath(saveFileName);
-                recodeDto.setImageUrl(amazonS3Service.upload(file,filePath));
+            if (file != null && !file.isEmpty()){
+                recodeDto.setImagePath(amazonS3Service.uploadRecodeImg(file));
             }
             libraryService.saveRecode(member, recodeDto);
         }catch (IOException e){
@@ -371,9 +369,8 @@ public class MainController {
     @GetMapping("/read/{no}")
     public String read(@PathVariable Long no, Model model, @CurrentMember Member member){
 
-        model.addAttribute("recode", libraryService.getRecode(no));
+        model.addAttribute("recode", libraryService.getReadInfoDto(libraryService.getRecode(no)));
         model.addAttribute("currentMember", memberService.getMember(member));
-
 
         return "library/library_detail";
     }
@@ -381,8 +378,7 @@ public class MainController {
     //글 수정
     @GetMapping("/edit/{no}")
     public String edit(@PathVariable Long no, Model model, @CurrentMember Member member){
-
-        model.addAttribute("editRecode", libraryService.getRecode(no));
+        model.addAttribute("editRecode", libraryService.getEditInfoDto(libraryService.getRecode(no)));
         model.addAttribute("member", memberService.getMember(member));
         model.addAttribute("editDto", new EditDto());
         model.addAttribute("feedbackForm", new FeedbackDto());
@@ -390,9 +386,26 @@ public class MainController {
     }
 
     @PostMapping("/modify/{no}")
-    public String modify(@PathVariable Long no, EditDto editDto, @CurrentMember Member member){
+    public String modify(@PathVariable Long no, EditDto editDto,MultipartFile file, @CurrentMember Member member){
 
-        libraryService.updateRecode(no, member, editDto);
+        String imagePath = libraryService.getRecode(no).getImagePath();
+        boolean imageChanges = editDto.getImageChanges();
+
+        try {
+
+            if (imagePath != null && imageChanges){
+                if (file != null && !file.isEmpty()){
+                    editDto.setImagePath(amazonS3Service.uploadRecodeImg(file));
+                }
+                amazonS3Service.delete(imagePath);
+            }else if (imageChanges && file != null && !file.isEmpty()){
+                editDto.setImagePath(amazonS3Service.uploadRecodeImg(file));
+            }
+            libraryService.updateRecode(no, member, editDto);
+        }catch (IOException e){
+            return "library/library_edit";
+        }
+
 
         return "redirect:/library";
     }

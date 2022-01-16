@@ -55,7 +55,7 @@ public class Recode {
 
     private Boolean secret;
 
-    private String filePath;
+    private String imagePath;
 
 
     public void update(EditDto editDto) {
@@ -72,6 +72,7 @@ public class Recode {
         this.success = editDto.getSuccess();
         this.playerNum = editDto.getPlayerNum();
         this.secret = editDto.getSecret();
+        this.imagePath = editDto.getImagePath();
 
     }
 

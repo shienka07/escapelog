@@ -5,8 +5,10 @@ import com.recoders.escapelog.domain.Recode;
 import com.recoders.escapelog.domain.Theme;
 import com.recoders.escapelog.dto.EditDto;
 import com.recoders.escapelog.dto.RecodeDto;
+import com.recoders.escapelog.dto.RecodeInfoDto;
 import com.recoders.escapelog.repository.LibraryRepository;
 import com.recoders.escapelog.repository.ThemeRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,7 +47,7 @@ public class LibraryService {
                 .success(recodeDto.getSuccess())
                 .playerNum(recodeDto.getPlayerNum())
                 .regdate(LocalDateTime.now().withNano(0))
-                .filePath(recodeDto.getImageUrl())
+                .imagePath(recodeDto.getImagePath())
                 .build();
 
         libraryRepository.save(recode);
@@ -116,26 +118,93 @@ public class LibraryService {
         return libraryRepository.findByThemeNoAndRatingOrderByRegdateDesc(themeNo, rating);
     }
 
-    public List<RecodeDto> getReviewList(List<Recode> entities) {
+    public List<RecodeInfoDto> getReviewList(List<Recode> entities) {
 
-        List<RecodeDto> recodeList = new ArrayList<>();
+        List<RecodeInfoDto> recodeList = new ArrayList<>();
 
-        for (Recode recodes : entities) {
-            Recode recode = Recode.builder()
-                    .member(recodes.getMember())
-                    .no(recodes.getNo())
-                    .secret(recodes.getSecret())
-                    .title(recodes.getTitle())
-                    .contents(recodes.getContents())
-                    .regdate(recodes.getRegdate())
-                    .success(recodes.getSuccess())
-                    .rating(recodes.getRating())
-                    .build();
-            recodeList.add(RecodeDto.reviewForm(recode));
+        for (Recode recode : entities) {
+            recodeList.add(getReviewInfoDto(recode));
+        }
+        return recodeList;
+    }
+
+    public RecodeInfoDto getReadInfoDto(Recode recode){
+        Theme theme = recode.getTheme();
+        Member member = recode.getMember();
+        String themeName=null, themeShopName=null, themeImgUrl=null;
+
+        if (theme!=null){
+            themeName = theme.getThemeName();
+            themeShopName = theme.getShopName();
+            themeImgUrl = AmazonS3Service.getImageUrl(theme.getImagePath());
         }
 
-        return recodeList;
+        return RecodeInfoDto.builder()
+                .no(recode.getNo())
+                .memberNo(member.getNo())
+                .nickname(member.getNickname())
+                .libraryName(member.getLibraryName())
+                .title(recode.getTitle())
+                .contents(recode.getContents())
+                .secret(recode.getSecret())
+                .regdate(recode.getRegdate().toLocalDate())
+                .success(recode.getSuccess())
+                .rating(recode.getRating())
+                .hint(recode.getHint())
+                .playerNum(recode.getPlayerNum())
+                .breakTime(recode.getBreakTime())
+                .nlString(recode.getNlString())
+                .themeName(themeName)
+                .themeShopName(themeShopName)
+                .themeImageUrl(themeImgUrl)
+                .recodeImageUrl(AmazonS3Service.getImageUrl(recode.getImagePath()))
+                .build();
+    }
 
+
+
+    public RecodeInfoDto getReviewInfoDto(Recode recode){
+       return RecodeInfoDto.builder()
+                .no(recode.getNo())
+                .nickname(recode.getMember().getNickname())
+                .secret(recode.getSecret())
+                .title(recode.getTitle())
+                .contents(recode.getContents())
+                .regdate(recode.getRegdate().toLocalDate())
+                .success(recode.getSuccess())
+                .rating(recode.getRating())
+                .build();
+    }
+
+    public RecodeInfoDto getEditInfoDto(Recode recode){
+
+        Theme theme = recode.getTheme();
+        Member member = recode.getMember();
+        String themeName=null, themeShopName=null;
+
+        if (theme!=null){
+            themeName = theme.getThemeName();
+            themeShopName = theme.getShopName();
+        }
+
+        return RecodeInfoDto.builder()
+                .no(recode.getNo())
+                .memberNo(member.getNo())
+                .nickname(member.getNickname())
+                .libraryName(member.getLibraryName())
+                .title(recode.getTitle())
+                .contents(recode.getContents())
+                .secret(recode.getSecret())
+                .success(recode.getSuccess())
+                .rating(recode.getRating())
+                .hint(recode.getHint())
+                .playerNum(recode.getPlayerNum())
+                .breakTime(recode.getBreakTime())
+                .nlString(recode.getNlString())
+                .themeName(themeName)
+                .themeShopName(themeShopName)
+                .recodeImageUrl(AmazonS3Service.getImageUrl(recode.getImagePath()))
+                .build();
     }
 
 }

@@ -26,8 +26,7 @@
                         <!---------------------- 폴리스라인 위치 : class="image-box" 에서 'closed' 추가 ==> [class="col-6 image-box closed"] --------->
                         <div class="col-6 image-box">
                             <div class="img-box" id="theme-img" th:classappend="${themeInfo.openStatus}==false ? 'closed' : ''">
-                                <img src="https://picsum.photos/400/300">
-<!--                                <img th:src="${themeInfo.imageUrl}">-->
+                                <img th:src="${themeInfo.imageUrl==null} ? @{/img/theme/basic_theme.png} : ${themeInfo.imageUrl}">
                             </div>
                             <!-- 테마 세부 정보 영역!! -->
                         </div>
@@ -35,7 +34,7 @@
                         <div class="col-6 info-box p-3">
                             <label>
                             <span id="shop-name" th:text="${themeInfo.shopName}">비트포비아 강남 던전</span>
-                                <a th:if="${themeInfo.openStatus} and ${themeInfo.shopUrl}!=''" type="button" id="shop-url-btn"
+                                <a th:if="${themeInfo.openStatus} and ${themeInfo.shopUrl}!=null" type="button" id="shop-url-btn"
                                         th:onclick="'window.open(\''+ @{${themeInfo.shopUrl}} + '\')'"
                                         class="btn btn-icon btn-sm">
                                     <i class="fas fa-external-link-alt"></i>
@@ -79,7 +78,7 @@
 <!--                                          th:styleappend="'top:' + (60 - (${rating.value}/${themeInfo.totalRatingNum} * 60)) + 'px'"></span>-->
                                 </div>
                             </div>
-                            <th:block th:if="${themeInfo.story!=null}">
+                            <th:block th:if="${themeInfo.story!=''}">
                             <label>줄거리</label>
                             <div class="story-box">
                             <p th:utext="${#strings.replace(themeInfo.story,nlString, '&lt;br /&gt;')}">"전설 속의 왕국,

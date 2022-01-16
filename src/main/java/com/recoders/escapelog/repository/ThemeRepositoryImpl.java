@@ -22,7 +22,7 @@ public class ThemeRepositoryImpl implements ThemeRepositoryCustom {
     public List<QThemeDto> findAllTheme(Member member){
 
         List<QThemeDto> list = queryFactory
-                .selectDistinct(Projections.bean(QThemeDto.class,theme.no, theme.themeName, theme.shopName, theme.filePath,
+                .selectDistinct(Projections.bean(QThemeDto.class,theme.no, theme.themeName, theme.shopName, theme.imagePath,
                         theme.openStatus, recode.success))
                 .from(theme)
                 .leftJoin(recode).on(recode.member.no.eq(member.getNo()).and(theme.no.eq(recode.theme.no))).fetchJoin()
@@ -39,7 +39,7 @@ public class ThemeRepositoryImpl implements ThemeRepositoryCustom {
         String searchKeyword = "%"+keyword+"%";
 
         List<QThemeDto> list = queryFactory
-                .selectDistinct(Projections.bean(QThemeDto.class,theme.no, theme.themeName, theme.shopName, theme.filePath,
+                .selectDistinct(Projections.bean(QThemeDto.class,theme.no, theme.themeName, theme.shopName, theme.imagePath,
                         theme.openStatus, recode.success))
                 .from(theme)
                 .where(theme.themeName.like(searchKeyword)
@@ -61,7 +61,7 @@ public class ThemeRepositoryImpl implements ThemeRepositoryCustom {
         String searchKeyword = "%"+keyword+"%";
 
         List<QThemeDto> list = queryFactory
-                .selectDistinct(Projections.bean(QThemeDto.class,theme.no, theme.themeName, theme.shopName, theme.filePath,
+                .selectDistinct(Projections.bean(QThemeDto.class,theme.no, theme.themeName, theme.shopName, theme.imagePath,
                         theme.openStatus, recode.success))
                 .from(theme)
                 .where(theme.themeName.like(searchKeyword)
