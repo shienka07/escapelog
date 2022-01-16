@@ -45,7 +45,7 @@ h2, h4, h6, p, span, label{
     width: 170px;
     height: 200px;
     margin: 10px;
-    box-shadow: 3px 5px 5px rgb(0 0 0 / 20%);
+    box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.2);
 }
 .img-box p{
     margin:0;
@@ -87,14 +87,6 @@ h2, h4, h6, p, span, label{
     background-color: gainsboro;
     transform: rotate(-4deg);
 }
-/* .paper::before{
-    content:"";
-    position: absolute;
-    width: 80%;
-    min-height: 58vh;
-    background-color: gainsboro;
-    transform: rotate(-4deg);
-} */
 .paper {
     width: 90%;
     min-height: 60vh;

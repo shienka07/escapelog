@@ -334,7 +334,7 @@ public class MainController {
     @PostMapping("/setLibrary")
     public String saveLibraryName(@RequestParam(value = "libraryName") String libraryName, @CurrentMember Member member){
         memberService.saveLibraryName(member, libraryName);
-        return "redirect:/";
+        return "redirect:/library";
     }
 
 

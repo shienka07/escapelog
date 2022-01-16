@@ -237,6 +237,9 @@
                                                     <div id="upload-img-remove-btn" class="btn btn-sm btn-danger">삭제하기
                                                     </div>
                                                     <input id="image-file" name="file" class="form-control-file" type="file" onchange="fileUploadCheck(this)">
+                                                    <div th:if="${fileUploadError}!=null" style="color: #dc3545">
+                                                        [ 파일 크기 오류 ] 업로드할 수 있는 파일의 최대 크기는 300KB입니다.
+                                                    </div>
                                                     <input th:field="*{imageChanges}" id="image-changes" type="hidden">
                                                 </div>
                                             </div>

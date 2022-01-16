@@ -1,6 +1,5 @@
-
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
-body        { font: 24px/30px 'Noto Sans CJK KR', Noto Sans KR, sans-serif }
+body        { font: 15px/30px 'Noto Sans CJK KR', Noto Sans KR, sans-serif }
 .thin       { font-weight: 100 }
 .light      { font-weight: 300 }
 .regular    { font-weight: 400 }
@@ -101,14 +100,12 @@ section {
     list-style-type: none;
     font-size: 15px;
     width: 120px;
-    /* float: left; */
-    /* position: relative; */
     font-weight: 900;
+    cursor: pointer;
 }
 
 #progressbar #info:before {
     font-family: "Font Awesome 5 Free";
-    /* font-weight: 900; */
     content: "\f15c";
 }
 
@@ -254,4 +251,14 @@ fieldset:not(:first-of-type) {
 .success-box input[type=radio]:checked+label{
     text-shadow: 0 0 0 #555;
     background-color: #EEC86F;
+}
+
+
+
+.modal .list-group {
+    max-height: 250px;
+    overflow: auto;
+}
+.modal .list-group-item{
+    min-height: 50px;
 }
