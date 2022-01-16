@@ -10,26 +10,77 @@
         input:invalid {
             border: 3px solid red;
         }
+        section{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-box{
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            background-color: #0F4D92;
+            padding: 0 30px;
+            border-radius: 1px 20px 20px 0px;
+            min-height: 65vh;
+            box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.2);
+        }
+        .line {
+            border-right: 1px solid #E1DBCD;
+            height: 65vh;
+            position: relative;
+            margin: 0px 20px 0 15px;
+        }
+        .form-box form{
+            padding-bottom: 10%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+        }
+        input#library-name{
+            text-align: center;
+            height: 60px;
+        }
+        input#library-name::placeholder {
+            font-size: 13px;
+            text-align: center;
+         }
+        #name-alert{
+            color:#dc3545;
+            display: none;
+        }
+
     </style>
 </head>
 
 <body>
 <th:block layout:fragment="content">
     <section>
-<div>
-    <form th:action="@{/setLibrary}" method="post" name="libraryName-form">
-        <h3>책장이름을 입력해주세요</h3>
-        <span>책장이름은 변경할 수 없으니 신중하게 입력해주세요</span>
-        <input type="text" name="libraryName" id="library-name" oninput="handleOnInput(this)" placeholder="영어와 숫자만 입력가능합니다.">
-    </form>
-
-</div>
+        <div class="form-box">
+            <div class="line"></div>
+            <form th:action="@{/setLibrary}" method="post" name="libraryName-form" id="name-form">
+                <h3>책장이름을 입력해주세요</h3>
+                <p>책장이름은 변경할 수 없으니 신중하게 입력해주세요</p>
+                <input type="text" name="libraryName" class="form-control" id="library-name" oninput="handleOnInput(this)" placeholder="영어와 숫자만 입력가능합니다.">
+                <p id='name-alert'>이름을 올바르게 입력해주세요(영어, 숫자 조합)</p>
+                <button type="submit" class="btn btn-outline-light mt-3" form="name-form">완료</button>
+            </form>
+        </div>
 <script>
+
+    $('form').on('submit', function(e) {
+        if ($('#library-name').val() == '') { // 빈칸일 때
+            e.preventDefault(); // 제출을 막아주는 코드
+            $('#name-alert').show(); // 바로 밑에 입력하라고 알림을 띄워주는 코드
+        }
+    })
 
     function handleOnInput(e)  {
         e.value = e.value.replace(/[^A-Za-z0-9]/ig, '')
     }
 </script>
-
+    </section>
+</th:block>
 </body>
 </html>
