@@ -47,12 +47,15 @@
                     <img th:src="@{/img/logo/logo_footer_dark.png}" style="height: 40px; width: auto;" th:unless="${currentMember != null and currentMember != ''}" >
                 </li>
                 <th:block th:if="${currentMember != null and currentMember != ''}">
-                    <li sec:authorize="isAuthenticated()" class="nav-item nickname">
-                        <a th:text="${currentMember.nickname}" th:href="@{/user/mypage}"
-                        style="font-family: 'East Sea Dokdo', cursive;">닉네임</a>
-                    </li>
-                    <li sec:authorize="isAuthenticated()" class="nav-item level mx-2">
-                        <b style="font-size: 15px" th:text="${currentMember.gradeType.getTitle()}">&emsp;회원등급</b><span>님</span>
+                    <li sec:authorize="isAuthenticated()" class="nav-item pb-1">
+                        <a th:href="@{/user/mypage}">
+                            <span th:text="${currentMember.nickname}"
+                                style="border-bottom: 3px solid #777;
+                                    font-family: 'East Sea Dokdo', cursive;
+                                    font-size: 35px;">닉네임</span>
+                            <b style="font-family: 'Noto Sans KR'; font-size: 15px;"
+                               th:text="${currentMember.gradeType.getTitle()} + '님'">&emsp;회원등급</b>
+                        </a>
                     </li>
                 </th:block>
                 <li sec:authorize="isAuthenticated()" class="nav-item">

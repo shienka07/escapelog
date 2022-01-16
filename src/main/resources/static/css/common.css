@@ -69,6 +69,7 @@ header li.nav-item {
 header .member-nav{
     display: flex;
     align-items: center;
+    margin:0;
 }
 header .member-nav .login-item {
     font-size: 20px;
@@ -86,10 +87,15 @@ header .member-nav .login-item:hover {
 a {
     cursor: pointer;
 }
-.nickname a{
-    border-bottom: 3px solid #777;
-    font-family: 'East Sea Dokdo', cursive;
-}
+/*.nickname span{*/
+/*    border-bottom: 3px solid #777;*/
+/*    font-family: 'East Sea Dokdo', cursive;*/
+/*    font-size: 35px;*/
+/*}*/
+/*.nickname b {*/
+/*    font-family: 'Noto Sans KR';*/
+/*    font-size: 15px;*/
+/*}*/
 
 @media screen and (max-width: 1048px){
     header .nav-item a{
