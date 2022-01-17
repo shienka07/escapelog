@@ -19,26 +19,15 @@
 
 
         <div class="library-container">
-            <!----------- 포스터 (회원 정보 창) -------------->
             <div class="poster-box">
                 <div class="poster1">
                     <h2><span th:text="${libraryMember.nickname}"></span>
                         <p>의 책장</p></h2>
                     <hr>
                     <span>책장 이름: <span th:text="${libraryMember.libraryName}"></span></span>
-                    <!--                            <span>집필한 책: 1 </span>-->
-                    <!--                            <span>출간한 책: 1 </span>-->
                 </div>
-                <!-- 2. 탈출 정보 표시 포스터 -->
-                <!--                        <div class="poster2">-->
-                <!--                            <label>방문한 곳: 2</label>-->
-                <!--                            <label>탈출 완료: 2</label>-->
-                <!--                        </div>-->
-
-
             </div>
 
-            <!----------- 책장 (메인 리스트) -------------->
             <div class="bottom">
                 <div class="shelf-box">
                     <div class="shelf">
@@ -53,19 +42,11 @@
                                        th:text="${#temporals.format(recode.regdate,'yyyy.MM.dd HH:mm')}"></p>
                                     <h6 th:if="${recode.themeName != null}" th:text="${recode.themeName}"></h6>
                                 </div>
-
-                                <!--                                   todo: 아래 지워질 부분 // 공개, 비공개 설정 후 지우기-->
-                                <!--                                    <h4 th:text="${recode.title}"></h4>-->
-                                <!--                                    <p th:if="${recode.regdate != null}"-->
-                                <!--                                       th:text="${#temporals.format(recode.regdate,'yyyy.MM.dd HH:mm')}"></p>-->
-                                <!--                                    <h6 th:if="${recode.theme != null}" th:text="${recode.theme.themeName}"></h6>-->
-                                <!--                                    <p th:text="${recode.secret} == false ? '공개' : '비공개'"></p>-->
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
-            <!----------- 보드 (책 호버시 정보) -------------->
             <div class="board-box">
                 <div class="board"></div>
                 <div class="btn-box" th:if="${currentMember.no == libraryMember.no}">
