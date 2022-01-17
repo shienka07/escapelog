@@ -13,6 +13,8 @@ public class EditDto {
 
     private Theme theme;
 
+    private Long themeNo;
+
     private String contents;
 
     private Integer rating;

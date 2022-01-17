@@ -104,6 +104,11 @@ public class LibraryService {
 
     @Transactional
     public Recode updateRecode(Long no, Member member, EditDto editDto) {
+
+        if (editDto.getThemeNo() != null) {
+            editDto.setTheme(themeRepository.findById(editDto.getThemeNo()).get());
+        }
+
         Recode recode = libraryRepository.findByNo(no).get();
         recode.update(editDto);
         return recode;
@@ -181,8 +186,10 @@ public class LibraryService {
         Theme theme = recode.getTheme();
         Member member = recode.getMember();
         String themeName=null, themeShopName=null;
+        Long themeNo = null;
 
         if (theme!=null){
+            themeNo = theme.getNo();
             themeName = theme.getThemeName();
             themeShopName = theme.getShopName();
         }
@@ -201,6 +208,7 @@ public class LibraryService {
                 .playerNum(recode.getPlayerNum())
                 .breakTime(recode.getBreakTime())
                 .nlString(recode.getNlString())
+                .themeNo(themeNo)
                 .themeName(themeName)
                 .themeShopName(themeShopName)
                 .recodeImageUrl(AmazonS3Service.getImageUrl(recode.getImagePath()))

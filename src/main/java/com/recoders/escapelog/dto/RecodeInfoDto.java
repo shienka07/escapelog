@@ -30,6 +30,7 @@ public class RecodeInfoDto {
     private BreakTime breakTime;
     private String nlString;
 
+    private Long themeNo;
     private String themeName;
     private String themeShopName;
     private String themeImageUrl;
