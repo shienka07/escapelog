@@ -20,40 +20,36 @@
                     <a href="#info">더 알아보기</a>
                 </div>
                 <div class="imgBox">
-                    <img src="https://picsum.photos/200/300" class="escape">
+                    <img th:src="@{/img/main01.png}" class="escape">
                 </div>
             </div>
         </div>
     </section>
-    <section id="letter">
-        <div class="container letter">
-            <div class="letter-box">
-                <img th:src="@{/img/paper.png}" class="letter-img">
-                <div class="text-box">
-                    <p>날카로우나 얼음과 평화스러운 있는가? 길지 갑 인생의 그들을 뜨고, 보라. 대중을 만물은 살았으며, 힘차게 않는 작고 품에 끓는 대고, 사막이다.</p>
-                </div>
 
-            </div>
-        </div>
-    </section>
     <section id="info">
         <div class="container info">
             <h1>SERVICES</h1>
             <div class="row">
-                <a class="col-4">
+                <a class="col-4" th:href="@{/themes}">
+                    <div class="icon">
+                        <i class="fas fa-door-open fa-5x"></i>
+                    </div>
                     <h4>themes</h4>
-                    <i class="fas fa-door-open fa-5x"></i>
                     <p>전국에 있는 방탈출 테마를 한번에 모아보자</p>
                 </a>
-                <a class="col-4">
+                <a class="col-4" th:href="@{/library}">
+                    <div class="icon">
+                        <i class="fas fa-book fa-5x"></i>
+                    </div>
                     <h4>books</h4>
-                    <i class="fas fa-book fa-5x"></i>
                     <p>나만의 방탈출 기록 일지를 가지고 싶다면?
                         내가 다녀온 곳과 성공한 곳, 그 날의 기억을 책에 담아 추억하기</p>
                 </a>
-                <a class="col-4">
+                <a class="col-4" th:href="@{/map}">
+                    <div class="icon">
+                        <i class="fas fa-map-marked-alt fa-5x"></i>
+                    </div>
                     <h4>map</h4>
-                    <i class="fas fa-map-marked-alt fa-5x"></i>
                     <p>내가 다녀온 곳은?
                         전국 지도를 통해 한눈에 볼 수 있는 방탈출 기록의 장! 전국 방탈출 도장깨기!</p>
                 </a>
