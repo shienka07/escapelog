@@ -1,111 +1,160 @@
-h2, h4, h6, p, span, label{
-    font-family:'Noto Sans KR', sans-serif ;
+section{
+    padding-top: 100px;
 }
-
-.folder-box {
-    max-width: 100%;
-    height: auto;
-    background-color: #937B69;
-    padding: 2em;
-    border-radius: 10px;
-}
-.title-box {
-    margin: 20px;
+.detail-container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.title-box h2{
-    font-family:'Noto Sans KR', sans-serif ;
-    font-size: 35px;
-    font-weight: 700;
+.book {
+    width: 60vw;
+    background-image: url(/img/book.png);
+    background-repeat: no-repeat;
+    background-size: 60vw 100%;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    min-height: 70vh;
 }
-.title-box p{
-    font-family:'Noto Sans KR', sans-serif ;
-    font-size: 18px;
+.book-left {
+    width: 25vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
-.col-6{
+.book-left .title {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-bottom: 9px;
 }
-.img-box {
-    background-color: #fff;
-    height: 300px;
-    width: 200px;
+.title h2 {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 35px;
+    font-weight: 700;
+    margin: 0;
+}
+.title p {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 17px;
+    margin: 0;
+
+}
+.book-left .sticker {
+    display: flex;
+    justify-content: center;
+}
+.book-left .sticker .img-box{
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #eee;
+    height: 200px;
+    width: 135px;
     border-radius: 5px;
     box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.2);
     margin: 10px;
 }
-.polaroid img {
-    width: 170px;
-    height: 200px;
-    margin: 10px;
-    box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.2);
-}
-.img-box p{
-    margin:0;
-}
-.img-box h6{
-    font-size: 20px;
-    font-weight: 700;
-}
 .img-box::after{
     content: "";
     position: absolute;
-    height: 25px;
-    width: 38px;
-    background-color: rgba(255, 255, 255, 0.3);
+    height: 20px;
+    width: 28px;
+    margin-top: -12px;
+    background-color: #ffc1072e;
     transform: rotate(-80deg);
 }
-.row{
-    width: 100%;
+.polaroid img {
+    width: 100px;
+    height: 110px;
+    margin: 5px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
 }
-.info-box {
-    background-color: #FCE188;
-    width: 95%;
-    padding: 25px;
+.book-left .sticker .info-box {
+    min-width: 130px;
     display: flex;
+    font-family: 'Noto Sans KR';
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     transform: rotate(-4deg);
     box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+    background-color: #FCE188;
 }
-.info-box label{
-    font-size: 13px;
-    margin: 10px 0 0 0;
+.img-box p {
+    margin: 0;
 }
-.paper-box {
-    width: 90%;
-    min-height: 60vh;
-    background-color: #fff;
-    padding: 20px;
-    background-color: gainsboro;
-    transform: rotate(-4deg);
+.info-box label {
+     font-size: 12px;
+     margin: 0;
+ }
+.info-box p {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
 }
-.paper {
-    width: 90%;
-    min-height: 60vh;
-    background-color: #fff;
+.book-right{
+    width: 25vw;
     display: flex;
     flex-direction: column;
-    align-content: center;
+    justify-content: center;
     align-items: center;
 }
-.text-box.m-4 {
-    /*border: 1px solid;*/
-    width: 100%;
-    height: 45vh;
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
+.book-right .text{
+    height: 60%;
 }
-.text-box p{
+.text-box {
+    padding: 10px;
+    max-height: 400px;
     overflow-y: auto;
-    font-size: 14px;
 }
+.book-right .escape{
+    display: flex;
+    margin-bottom: 10px;
+}
+.btn-box{
+    width: 60%;
+    margin: 20px;
+}
+.btn-box form,
+.btn-box .edit{
+    float:right;
+}
+.btn-box a{
+    float: left;
+}
+.btn-box .btn {
+    padding: 3px 10px;
+}
+
+.upload img{
+    width: 200px;
+    max-height: 200px;
+    object-fit: contain;
+}
+
+#recode-success svg {
+    overflow: hidden;
+    vertical-align: middle;
+    height: 50px;
+    width: 150px;
+}
+/*#recode-success.success {*/
+/*    height: 50px;*/
+/*    width: 100px;*/
+/*    background-image: url(/img/stamp/successed.png);*/
+/*    background-repeat: no-repeat;*/
+/*    background-size: auto;*/
+/*    border: 1px solid;*/
+/*}*/
+/*#recode-success .visit{*/
+/*    height: 50px;*/
+/*    width: 100px;*/
+/*    background-image: url("/img/stamp/visited.png");*/
+/*    background-repeat: no-repeat;*/
+/*    background-size: auto;*/
+/*    border: 1px solid;*/
+/*}*/

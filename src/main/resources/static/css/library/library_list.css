@@ -12,42 +12,33 @@ section{
     align-items: flex-end;
     justify-content: center;
 }
-
 .library-container {
     height: 70vh;
     width: 100%;
     display: flex;
     justify-content: center;
 }
-
 .library-footer {
     background-color: #C3594A;
     height: 10vh;
     width: 100%;
 }
-
 .poster-box {
-    /*border: 2px solid #a0a0a0;*/
     width: 20%;
     height: 100%;
 }
-
 .bottom {
     display: flex;
     align-items: flex-end;
 }
-
 .shelf-box {
-    /*background-color: #cebca8;*/
     width: 400px;
     height: 500px;
     display: flex;
     justify-content: center;
     padding: 20px 20px 0 20px;
 }
-
 .shelf {
-    /*background-color: #D39F77;*/
     border-radius: 10px 10px 0 0;
     display: flex;
     flex-wrap: wrap;
@@ -57,8 +48,8 @@ section{
     background-image: url(/img/shelf.png);
     background-repeat : no-repeat;
     background-size : cover;
+    width: 400px;
 }
-
 .book {
     background-color: #e9ff89;
     width: 75px;
@@ -71,10 +62,7 @@ section{
     height: 95px;
     object-fit: cover;
 }
-
-
 .board-box {
-    /*border: 2px solid #a0a0a0;*/
     width: 20%;
     height: 100%;
     display: flex;
@@ -98,8 +86,6 @@ section{
     top: 30vh;
     box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
 }
-
-
 .board-text{
     height: 25vh;
     width: 35vh;
@@ -113,12 +99,9 @@ section{
     z-index: 1;
     padding: 10px;
 }
-
-
 #board h4{
     color:#fff;
     font-size: 35px;
-    /* font-weight: 900; */
     font-family: 'East Sea Dokdo', cursive;
     margin:0;
 }
@@ -139,7 +122,6 @@ section{
 }
 .paging{
     display: flex;
-    /*justify-content: space-between;*/
     font-size: 15px;
     justify-content: center;
 }
@@ -159,11 +141,11 @@ section{
     width: 20vw;
     border-radius: 20px;
     border: none;
+    text-align: center;
 }
 #recode-search::placeholder {
     text-align: center;
 }
-
 .poster1 {
     background: #FFBC65;
     padding: 20px;
