@@ -41,5 +41,8 @@ public class Member {
 
     private String libraryName;
 
+    private int countRecode;
+
+    private int countSuccessRecode;
 
 }
