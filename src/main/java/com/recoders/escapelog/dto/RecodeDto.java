@@ -5,6 +5,7 @@ import com.recoders.escapelog.domain.Recode;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -32,7 +33,7 @@ public class RecodeDto {
 
     private Long memberNo;
 
-    private LocalDate regdate;
+    private LocalDateTime regdate;
 
     private Long no;
 

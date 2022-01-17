@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -20,7 +21,7 @@ public class RecodeInfoDto {
     private String title;
     private String contents;
     private boolean secret;
-    private LocalDate regdate;
+    private LocalDateTime regdate;
     private Boolean success;
     private int rating;
 

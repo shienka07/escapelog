@@ -147,7 +147,7 @@ public class LibraryService {
                 .title(recode.getTitle())
                 .contents(recode.getContents())
                 .secret(recode.getSecret())
-                .regdate(recode.getRegdate().toLocalDate())
+                .regdate(recode.getRegdate())
                 .success(recode.getSuccess())
                 .rating(recode.getRating())
                 .hint(recode.getHint())
@@ -170,7 +170,7 @@ public class LibraryService {
                 .secret(recode.getSecret())
                 .title(recode.getTitle())
                 .contents(recode.getContents())
-                .regdate(recode.getRegdate().toLocalDate())
+                .regdate(recode.getRegdate())
                 .success(recode.getSuccess())
                 .rating(recode.getRating())
                 .build();
@@ -225,7 +225,7 @@ public class LibraryService {
                     .no(recode.getNo())
                     .title(recode.getTitle())
                     .secret(recode.getSecret())
-                    .regdate(recode.getRegdate().toLocalDate())
+                    .regdate(recode.getRegdate())
                     .themeName(themeName)
                     .themeImageUrl(themeImgUrl)
                     .build();
