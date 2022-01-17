@@ -32,8 +32,8 @@
                 <li sec:authorize="!isAuthenticated()" class="nav-item">
                     <a class="login-item" th:href="@{/login}">로그인</a>
                 </li>
-                <li sec:authorize="!isAuthenticated()" class="nav-item">
-                    <a class="login-item" th:href="@{/admin}">관리자</a>
+                <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                    <a class="login-item" th:href="@{/admin/theme/add}">관리자</a>
                 </li>
                 <li sec:authorize="!isAuthenticated()" class="nav-item">
                     <a class="login-item" th:href="@{/signup}">회원가입</a>
@@ -62,7 +62,6 @@
                     <a class="login-item" onclick="document.getElementById('logout').submit();">로그아웃</a>
                 </li>
             </ul>
-
 
             <form id="logout" action="/doLogout" method="post">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />

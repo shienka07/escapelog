@@ -359,6 +359,11 @@ public class MainController {
             return "library/library_write";
         }
 
+        memberService.updateCount(member);
+        memberService.updateGrade(member);
+        memberService.updateSuccess(member);
+
+
         model.addAttribute("recodeResult", true);
         return "redirect:/library";
     }
@@ -412,10 +417,14 @@ public class MainController {
 
     //글 삭제하기
     @PostMapping("/delete/{no}")
-    public String delete(@PathVariable Long no, Model model){
+    public String delete(@PathVariable Long no, Model model, @CurrentMember Member member){
 
         libraryService.delete(no);
         model.addAttribute("deleteResult", true);
+
+        memberService.updateCount(member);
+        memberService.updateGrade(member);
+        memberService.updateSuccess(member);
 
         return "redirect:/library";
     }

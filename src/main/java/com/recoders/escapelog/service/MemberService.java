@@ -6,6 +6,7 @@ import com.recoders.escapelog.domain.MemberType;
 import com.recoders.escapelog.dto.ChangePwDto;
 import com.recoders.escapelog.dto.FindPwDto;
 import com.recoders.escapelog.dto.SignupDto;
+import com.recoders.escapelog.repository.LibraryRepository;
 import com.recoders.escapelog.repository.MemberRepository;
 import com.recoders.escapelog.security.CustomUser;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import java.util.Optional;
 public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
+    private final LibraryRepository libraryRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -141,6 +143,35 @@ public class MemberService implements UserDetailsService {
         }
 
         return optionalMember.get();
+    }
+
+    @Transactional
+    public void updateCount(Member member){
+       int countRecode = libraryRepository.countRecode(member.getNo());
+       member.setCountRecode(countRecode);
+       memberRepository.save(member);
+    }
+
+    @Transactional
+    public void updateGrade(Member member){
+
+        if(member.getCountRecode() <= 10){
+            member.setGradeType(GradeType.LEVEL1);
+        } else if(member.getCountRecode() <= 20){
+            member.setGradeType(GradeType.LEVEL2);
+        } else if(member.getCountRecode() <= 30){
+            member.setGradeType(GradeType.LEVEL3);
+        } else if(member.getCountRecode() <= 40){
+            member.setGradeType(GradeType.LEVEL4);
+        }
+        memberRepository.save(member);
+    }
+
+    @Transactional
+    public void updateSuccess(Member member){
+        int countSuccess = libraryRepository.countSuccessRecode(member.getNo());
+        member.setCountSuccessRecode(countSuccess);
+        memberRepository.save(member);
     }
 
 }

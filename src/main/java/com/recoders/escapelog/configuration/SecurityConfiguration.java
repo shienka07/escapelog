@@ -30,13 +30,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //TODO - "/insert_theme" : 테마정보 삽입
         
         http.authorizeRequests()
-
+                .mvcMatchers("/admin/**","/add_theme").hasRole("ADMIN")
                 .mvcMatchers("/user/**","/send_check_token_email","/change_nickname","/change_pw","/map",
-                        "/library","/library/{no}","/recode/**","/recode/theme_search").authenticated()
+                        "/library","/library/{no}","/recode/**","/recode/theme_search",
+                        "/feedback/add","/feedback/info").authenticated()
+
                 .mvcMatchers("/","/signup","/login","/doLogin","/doLogout",
                         "/check_nickname","/find_pw","/check_email","/send_code_email","/check_code","/find_change_pw","/email_check_token",
-                        "/themes","/themes/{no}","/theme_search","/feedback/add","/feedback/info","/insert_theme","/review_filter",
-                        "/admin/**","/add_theme").permitAll()
+                        "/themes","/themes/{no}","/theme_search","/insert_theme","/review_filter").permitAll()
 
                 .antMatchers("/css/**", "/img/**", "/js/**", "**/favicon.ico").permitAll()
 

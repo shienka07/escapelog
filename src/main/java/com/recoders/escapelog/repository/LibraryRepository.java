@@ -44,4 +44,10 @@ public interface LibraryRepository extends JpaRepository<Recode, Long> {
     @Query(value = "SELECT COUNT(R.no) FROM (SELECT r.no,t.area_type FROM recode r, theme t WHERE member_no = :memberNo AND r.theme_no = t.no GROUP BY theme_no) AS R WHERE R.area_type=:areaName", nativeQuery = true)
     int countVisitNum(Long memberNo,String areaName);
 
+    @Query(value = "SELECT COUNT(r.member_no) FROM Recode r WHERE r.member_no = :memberNo", nativeQuery = true)
+    int countRecode(@Param("memberNo")Long no);
+
+    @Query(value = "SELECT COUNT(T.no) FROM (SELECT no,theme_no,success FROM recode WHERE member_no = :memberNo AND success = true) AS T", nativeQuery = true)
+    int countSuccessRecode(@Param("memberNo")Long no);
+
 }
