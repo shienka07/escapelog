@@ -262,3 +262,12 @@ fieldset:not(:first-of-type) {
 .modal .list-group-item{
     min-height: 50px;
 }
+
+input#image-file {
+    width: 70%;
+    display: inline-block;
+}
+#upload-img-remove-btn {
+    float: right;
+    display: inline-block;
+}
