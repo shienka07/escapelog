@@ -1,5 +1,5 @@
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
-body        { font: 24px/30px 'Noto Sans CJK KR', Noto Sans KR, sans-serif }
+body        { font: 15px/30px 'Noto Sans CJK KR', Noto Sans KR, sans-serif }
 .thin       { font-weight: 100 }
 .light      { font-weight: 300 }
 .regular    { font-weight: 400 }
@@ -70,18 +70,21 @@ form{
 
 .col-8 label{
     font-family: 'Noto Sans KR', sans-serif;
-    margin:0;
-    padding:0;
+    margin: 10px 0 5px 0;
+    padding: 0;
     font-size: 12px;
     font-weight: 500;
 }
 .col-8 .form-group{
     margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
 }
 .col-8 .form-control{
     font-size: 12px;
     background-color: #eee;
-    width: 300px;
+    max-width: 300px;
 }
 
 
