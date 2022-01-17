@@ -2,6 +2,7 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/common_layout.html}" th:with="activeTab='signup'">
 <head>
     <link rel="stylesheet" th:href="@{/css/common.css}">
@@ -13,11 +14,12 @@
         <div class="container row mx-auto">
             <div class="col-4">
                 <div class="char-box">
-                    <img th:src="@{'/img/level/' + ${currentMember.gradeType} + '.png'}">
+                    <img sec:authorize="hasRole('USER')" th:src="@{'/img/level/' + ${currentMember.gradeType} + '.png'}">
+                    <img  sec:authorize="hasRole('ADMIN')" th:src="@{'/img/level/admin.png'}">
                 </div>
                 <h2 th:text="${currentMember.nickname}">닉네임</h2>
-                <h4 th:text="${currentMember.gradeType}+'. '+${currentMember.gradeType.getTitle()}">LEVEL.1 문하생</h4>
-                <!--                        <p th:text="${currentMember.gradeType.getTitle()}">회원등급</p>-->
+                <h4 sec:authorize="hasRole('USER')" th:text="${currentMember.gradeType}+'. '+${currentMember.gradeType.getTitle()}">LEVEL.1 문하생</h4>
+                <h4 sec:authorize="hasRole('ADMIN')" th:text="관리자"></h4>
             </div>
             <div class="col-8">
                 <h2>마이페이지</h2>
@@ -28,20 +30,25 @@
                 <div class="email-box">
                     <span><b>이메일</b> : </span> <span th:text="${currentMember.email}">escapelog@test.com</span>
                     </p>
-                    <div th:if="${currentMember.emailVerified}">
-                        <span><b>이메일 인증 여부 : </b></span>
-                        <span>인증 완료</span>
-                    </div>
-                    <div th:if="!${currentMember.emailVerified}">
-                        <span><b>이메일 인증 여부 : </b></span>
-                        <span>인증이 필요합니다.</span>
-                        <p class="email-msg"><small>*비밀번호 찾기 서비스를 이용하기 위해서는 이메일 인증이 필요합니다.</small></p>
-                        <div class="btn-center">
-                            <button class="btn btn-dark" type="button" data-toggle="modal" data-target="#exampleModal">
-                                이메일 인증하기
-                            </button>
+                    <th:block sec:authorize="hasRole('USER')">
+                        <div th:if="${currentMember.emailVerified}">
+                            <span><b>이메일 인증 여부 : </b></span>
+                            <span>인증 완료</span>
                         </div>
-                    </div>
+                        <div th:if="!${currentMember.emailVerified}">
+                            <span><b>이메일 인증 여부 : </b></span>
+                            <span>인증이 필요합니다.</span>
+                            <p class="email-msg"><small>*비밀번호 찾기 서비스를 이용하기 위해서는 이메일 인증이 필요합니다.</small></p>
+                            <div class="btn-center">
+                                <button class="btn btn-dark" type="button" data-toggle="modal" data-target="#exampleModal">
+                                    이메일 인증하기
+                                </button>
+                            </div>
+                        </div>
+                    </th:block>
+                    <th:block sec:authorize="hasRole('ADMIN')">
+                    <button class="btn btn-dark" type="button" onclick="location.href='/admin/theme/add'">테마 추가</button>
+                    </th:block>
                 </div>
                 <!-- ------------닉네임 변경--------------- -->
                 <div class="btn-left">

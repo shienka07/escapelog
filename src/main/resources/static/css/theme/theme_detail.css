@@ -61,6 +61,7 @@
 }
 .col-6.image-box {
     display: flex;
+    min-width: 400px;
     max-width: 500px;
     min-height: 600px;
     justify-content: center;
