@@ -50,7 +50,7 @@
                                         </div>
                                         <label>테마 검색 : </label>
                                         <div class="form-box">
-                                            <input id="theme-no" name="theme.no" type="hidden">
+                                            <input id="theme-no" th:field="*{themeNo}" type="hidden">
                                             <input id="theme-name" type="text"
                                                    th:value="${editRecode.themeName != null ? editRecode.themeName+'/'+editRecode.themeShopName : null}"
                                                    name="theme.themeName" readonly>
@@ -344,7 +344,7 @@
             $(document).ready(function () {
 
                 let selectedThemeName = "";
-                let selectedThemeNo = 0;
+                let selectedThemeNo = [[${editRecode.themeNo}]];
                 let basicUploadImg = '/img/no_upload.png';
 
                 setProgressBar(current);
@@ -354,6 +354,12 @@
                     selectedThemeName = "";
                 }
 
+                $('#image-changes').val(false);
+
+                if (selectedThemeNo!=null){
+                    document.getElementById("theme-no").value = selectedThemeNo;
+                }
+
                 $(".next").click(function () {
                     nextStep();
                 });
@@ -361,9 +367,6 @@
                 $(".previous").click(function () {
                     previousStep();
                 });
-
-
-                $('#image-changes').val(false);
 
                 $('#upload-img-remove-btn').click(function () {
                     $('#upload-img').attr('src', basicUploadImg);

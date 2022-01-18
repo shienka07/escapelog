@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +26,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +45,10 @@ public class MainController {
 
     @GetMapping("/")
     public String index(@CurrentMember Member member, Model model){
-        model.addAttribute("currentMember", member);
+        if (member != null){
+            model.addAttribute("currentMember", MemberDto.memberBasicInfo(member));
+        }
+
         return "index";
     }
     
@@ -61,8 +64,9 @@ public class MainController {
     }
 
     @GetMapping("/admin/theme/add")
-    public String addThemeForm(Model model){
+    public String addThemeForm(@CurrentMember Member member, Model model){
         model.addAttribute("themeForm",new ThemeBasicDto());
+        model.addAttribute("currentMember", member);
         return "admin/theme_add";
     }
 
@@ -322,7 +326,7 @@ public class MainController {
 
         model.addAttribute("libraryMember", memberService.getLibraryMember(libraryName));
         model.addAttribute("recodeList",libraryService.getRecodeInfoDtoList(memberRecodeList));
-        model.addAttribute("currentMember", memberService.getMember(member));
+        model.addAttribute("currentMember", MemberDto.memberBasicInfo(memberService.getMember(member)));
         model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
@@ -374,7 +378,7 @@ public class MainController {
     public String read(@PathVariable Long no, Model model, @CurrentMember Member member){
 
         model.addAttribute("recode", libraryService.getReadInfoDto(libraryService.getRecode(no)));
-        model.addAttribute("currentMember", memberService.getMember(member));
+        model.addAttribute("currentMember", MemberDto.memberBasicInfo(memberService.getMember(member)));
 
         return "library/library_detail";
     }
@@ -383,7 +387,7 @@ public class MainController {
     @GetMapping("/edit/{no}")
     public String edit(@PathVariable Long no, Model model, @CurrentMember Member member){
         model.addAttribute("editRecode", libraryService.getEditInfoDto(libraryService.getRecode(no)));
-        model.addAttribute("member", memberService.getMember(member));
+        model.addAttribute("currentMember", MemberDto.memberBasicInfo(memberService.getMember(member)));
         model.addAttribute("editDto", new EditDto());
         model.addAttribute("feedbackForm", new FeedbackDto());
         return "library/library_edit";
@@ -405,6 +409,7 @@ public class MainController {
             }else if (imageChanges && file != null && !file.isEmpty()){
                 editDto.setImagePath(amazonS3Service.uploadRecodeImg(file));
             }
+
             libraryService.updateRecode(no, member, editDto);
         }catch (IOException e){
             return "library/library_edit";
@@ -447,13 +452,14 @@ public class MainController {
     }
 
     @GetMapping("/themes/{no}")
-    public String themeDetail(@PathVariable Long no, Model model){
+    public String themeDetail(@PathVariable Long no, @CurrentMember Member member, Model model){
 
         try{
             model.addAttribute("themeInfo", themeService.getThemeInfo(no));
             model.addAttribute("nlString",System.getProperty("line.separator"));
             model.addAttribute("feedbackForm", new FeedbackDto());
             model.addAttribute("themeReviewList", libraryService.getReviewList(libraryService.getAllReviewEntities(no)));
+            model.addAttribute("currentMember",MemberDto.memberBasicInfo(member));
         }catch (IllegalArgumentException e){
             return "redirect:/themes";
         }
@@ -511,6 +517,7 @@ public class MainController {
     public String escapeMap(@CurrentMember Member member,Model model){
         model.addAttribute("stamp","1");
         model.addAttribute("mapInfo",mapService.getMapInfo(member));
+        model.addAttribute("currentMember", MemberDto.memberBasicInfo(member));
         return "map/escape_map";
     }
 
