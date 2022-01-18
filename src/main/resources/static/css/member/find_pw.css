@@ -51,7 +51,6 @@ html {
 #progressbar li:before {
     width: 40px;
     height: 40px;
-    /* line-height: 45px; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -63,13 +62,10 @@ html {
     padding: 2px
 }
 
-
 #progressbar li.active:before,
 #progressbar li.active:after {
     background: #474249
 }
-
-
 
 .form-card{
     border: 1px solid #E1DBCD;

@@ -92,8 +92,6 @@ section {
     color:#fff;
 }
 
-
-
 .col-8 .character-box {
     height: 250px;
     width: 250px;
@@ -107,7 +105,6 @@ section {
     width: 200px;
     display: flex;
 }
-
 
 form{
     line-height: 1.2;
@@ -181,7 +178,6 @@ form{
 }
 
 
-/* 캐릭터 눈 따라가기 */
 .eyes {
     transform-origin: 50% 50% -10px;
 }

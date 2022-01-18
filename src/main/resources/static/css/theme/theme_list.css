@@ -17,7 +17,6 @@
     margin-top: -360px;
     margin-left: -10px;
     height: 25px;
-    /* top: 10px; */
     width: 75px;
     background-color: rgba(208, 255, 36, 0.219);
     transform: rotate(-40deg);
@@ -38,12 +37,10 @@
 }
 .polaroid.success::after{
     content:"";
-    /*z-index: 999;*/
     top: 0;
     height: 350px;
     width: 250px;
     border-radius: 10px;
-    /*background-color: rgba(100, 100, 100, 0.2);*/
     background-image:url('/img/stamp/successed.png');
     background-repeat : no-repeat;
     background-size : cover;
@@ -52,12 +49,10 @@
 }
 .polaroid.visit::after{
     content:"";
-    /*z-index: 999;*/
     top: 0;
     height: 350px;
     width: 250px;
     border-radius: 10px;
-    /*background-color: rgba(100, 100, 100, 0.2);*/
     background-image:url('/img/stamp/visited.png');
     background-repeat : no-repeat;
     background-size : cover;
@@ -136,7 +131,6 @@ a.polaroid {
     font-size: 15pt;
     color: #474249;
     text-decoration: none;
-    /*font-family: 'Jua', sans-serif;*/
     font-family:'Noto Sans KR', sans-serif ;
 }
 

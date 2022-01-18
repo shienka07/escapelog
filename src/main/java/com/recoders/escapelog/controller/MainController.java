@@ -459,7 +459,9 @@ public class MainController {
             model.addAttribute("nlString",System.getProperty("line.separator"));
             model.addAttribute("feedbackForm", new FeedbackDto());
             model.addAttribute("themeReviewList", libraryService.getReviewList(libraryService.getAllReviewEntities(no)));
-            model.addAttribute("currentMember",MemberDto.memberBasicInfo(member));
+            if(member != null){
+                model.addAttribute("currentMember",MemberDto.memberBasicInfo(member));
+            }
         }catch (IllegalArgumentException e){
             return "redirect:/themes";
         }

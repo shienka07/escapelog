@@ -29,7 +29,6 @@ input{
     color:#888;
     background-color: #eee;
     height: 30px;
-    /* padding: 0 10px; */
 }
 .form-box input{
     padding: 0;
@@ -58,8 +57,7 @@ input{
 
 
 section {
-    min-height: 100vh; /* 추가 작성할 부분*/
-    /* width: 100%; */
+    min-height: 100vh;
     padding-top: 100px;
     background-color: #E1DBCD;
     display: flex;
@@ -71,7 +69,6 @@ section {
 }
 .col-2,
 .col-10{
-    /* min-height: 500px; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -79,11 +76,9 @@ section {
 }
 .col-2{
     border-radius: 25px 0px 0px 25px;
-    /* background-color: #474249; */
 }
 .col-10{
     border-radius: 0px 25px 25px 0px;
-    /* background-color: #fff; */
 }
 
 #progressbar{
@@ -111,32 +106,21 @@ section {
 
 #progressbar #write:before {
     font-family: "Font Awesome 5 Free";
-    /* font-weight: 900; */
     content: "\f56b";
 }
 
 #progressbar #upload:before {
     font-family: "Font Awesome 5 Free";
-    /* font-weight: 900; */
     content: "\f382";
 }
-
-/* #progressbar #finish:before {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    content: "\f46c";
-}*/
-
 #progressbar li:before {
     width: 80px;
     height: 80px;
-    /* line-height: 45px; */
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 40px;
     color: #bbb;
-    /* background: #E1DBCD; */
     background-color: #fff;
     border-radius: 50%;
     margin: 0 auto 0 auto;
@@ -153,12 +137,6 @@ fieldset:not(:first-of-type) {
     color:#fff;
     border:0;
 }
-
-
-
-
-
-
 
 
 .info-box,
@@ -185,9 +163,6 @@ fieldset:not(:first-of-type) {
     color:#474249;
     border:1px solid #474249;
 }
-/* .write-box{
-    height: 500px;
-} */
 .write-box textarea{
     height: 250px;
     overflow-y: auto;
@@ -205,8 +180,6 @@ fieldset:not(:first-of-type) {
     color:#474249;
 }
 
-
-/* 별점 css */
 .rating-box,
 .success-box{
     display: inline-block;
