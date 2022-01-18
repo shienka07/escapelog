@@ -26,6 +26,11 @@
                     <hr>
                     <span>책장 이름: <span th:text="${libraryMember.libraryName}"></span></span>
                 </div>
+                <div class="poster2">
+                    <p>총 집필한 책 : <span th:text="${libraryMember.countRecode}"></span></p>
+                    <p>탈출 완료 : <span th:text="${libraryMember.countSuccessRecode}"></span> </p>
+                </div>
+
             </div>
 
             <div class="bottom">
