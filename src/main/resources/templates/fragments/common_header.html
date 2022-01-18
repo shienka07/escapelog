@@ -25,9 +25,7 @@
                     <a class="nav-link" th:href="@{/map}" th:classappend="${#httpServletRequest.getRequestURI() == '/map' ? 'active':''}">지도</a>
                 </li>
             </ul>
-        </div>
 
-        <div>
             <ul class="member-nav">
                 <li sec:authorize="!isAuthenticated()" class="nav-item">
                     <a class="login-item" th:href="@{/login}">로그인</a>

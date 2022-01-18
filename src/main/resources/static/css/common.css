@@ -24,6 +24,7 @@ section *{
 .logo{
     height: 70px;
     pointer-events: none;
+    min-width: 200px;
 
 }
 .logo img{
@@ -66,10 +67,15 @@ header li.nav-item {
     color: #fff;
 }
 
+header .navbar-nav{
+    width: 100%;
+}
 header .member-nav{
     display: flex;
     align-items: center;
-    margin:0;
+    margin: 0;
+    width: 100%;
+    justify-content: flex-end;
 }
 header .member-nav .login-item {
     font-size: 20px;
@@ -87,9 +93,28 @@ header .member-nav .login-item:hover {
 a {
     cursor: pointer;
 }
-
 @media screen and (max-width: 1048px){
     header .nav-item a{
         font-size: 23px;
+        margin: 0;
+    }
+    header .member-nav {
+        width: 800px;
+    }
+}
+@media screen and (max-width: 768px){
+    header .member-nav{
+        padding: 15px 0;
+        margin-top: 20px;
+        border-top: 1px solid #eee;
+    }
+    a.nav-link:hover {
+        background-color: #E1DBCD;
+        border-radius: 5px;
+        color: #474249;
+    }
+    .navbar-nav .nav-link {
+        margin: 0;
+        padding: 5px 3em;
     }
 }
