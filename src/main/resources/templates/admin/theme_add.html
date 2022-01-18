@@ -10,6 +10,21 @@
     <script type="text/javascript" th:src="@{/js/file/file_upload.js}"></script>
 
     <style>
+        body        { font: 14px/2rem 'Noto Sans CJK KR', Noto Sans KR, sans-serif }
+        section {
+            min-height: 100vh;
+            padding: 100px 0;
+            background-color: #333;
+        }
+        .container.p-5.mt-4 {
+            border-radius: 15px;
+            color: white;
+            border: 3px solid white;
+        }
+        label{
+            margin-bottom: 0;
+            margin-top: 1.5rem;
+        }
         .validationError{
             color: #dc3545
         }
@@ -23,7 +38,7 @@
 <th:block layout:fragment="content">
     <section>
         <form th:action="@{/add_theme}" name="theme-form" th:object="${themeForm}" method="post" enctype="multipart/form-data">
-            <div class="container bg-light p-5 mt-4">
+            <div class="container p-5 mt-4">
                 <h2>테마 추가</h2>
                 <p class="required"> * 는 필수 입력란 입니다.</p>
                 <div class="row">
@@ -46,17 +61,26 @@
                         </div>
                         <label class="required">*</label>
                         <label>폐업한 지점인가요?</label>
-                        <div>
-                            <input type="radio" th:field="*{openStatus}" class="form-check-input"
+                        <div style="display: flex; align-items: center;">
+                            <input type="radio" th:field="*{openStatus}" class="m-3"
                                    name="openStatus" id="open-statusT" th:value="false" checked>
-                            <label for="open-statusT">예</label>
-                            <input type="radio" th:field="*{openStatus}" class="form-check-input"
+                            <label for="open-statusT" style="margin: 0;">예</label>
+                            <input type="radio" th:field="*{openStatus}" class="m-3"
                                    name="openStatus" id="open-statusF" th:value="true">
-                            <label for="open-statusF">아니오</label>
+                            <label for="open-statusF" style="margin: 0;">아니오</label>
                         </div>
 
                         <label>지점 url :</label>
                         <input type="text" id="shop-url" th:field="*{shopUrl}" class="form-control"/>
+
+
+                        <div class="mt-4">
+                            <p>이미지 업로드 :</p>
+                            <input type="file" name="file" accept=".jpg,.jpeg,.png" onchange="fileUploadCheck(this)"/>
+                            <div th:if="${fileUploadError}!=null" style="color: #dc3545">
+                                [ 파일 크기 오류 ] 업로드할 수 있는 파일의 최대 크기는 300KB입니다.
+                            </div>
+                        </div>
                     </div>
                     <div class="col-6">
                         <label class="required">*</label>
@@ -84,7 +108,7 @@
                         </div>
                         <label>난이도 :<span id="level-value">0</span></label>
                         <input type="range" id="level" th:value="level" class="form-control" min="0" max="10" oninput="document.getElementById('level-value').innerHTML=this.value;"/>
-                        <span>※ 난이도를 모르면 0으로 표시하세요.</span>
+                        <p>※ 난이도를 모르면 0으로 표시하세요.</p>
                         <div class="validationError" th:if="${#fields.hasErrors('level')}">
                             <label>※ 난이도는 </label>
                             <label th:errors="*{level}"></label>
@@ -93,15 +117,8 @@
                         <label>줄거리 :</label>
                         <textarea id="story" th:field="*{story}" class="form-control"></textarea>
                     </div>
-                    <div class="col-12 my-3">
-                        <label>이미지 업로드 :</label>
-                        <input type="file" name="file" accept=".jpg,.jpeg,.png" onchange="fileUploadCheck(this)"/>
-                        <div th:if="${fileUploadError}!=null" style="color: #dc3545">
-                            [ 파일 크기 오류 ] 업로드할 수 있는 파일의 최대 크기는 300KB입니다.
-                        </div>
-                    </div>
                 </div>
-                <button type="button" id="theme-add-btn" class="btn btn-dark float-right">등록하기</button>
+                <button type="button" id="theme-add-btn" class="btn btn-light float-right mt-4">등록하기</button>
             </div>
         </form>
 

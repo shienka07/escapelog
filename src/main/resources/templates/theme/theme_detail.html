@@ -14,23 +14,17 @@
 <body>
 <th:block layout:fragment="content">
     <section>
-
         <div class="container-fluit mt-3">
             <div class="row">
 
-
-                <!-- 테마 상세 본문 영역!!!! -->
                 <div class="detail-box">
                     <div class="form-row">
 
-                        <!---------------------- 폴리스라인 위치 : class="image-box" 에서 'closed' 추가 ==> [class="col-6 image-box closed"] --------->
                         <div class="col-6 image-box">
                             <div class="img-box" id="theme-img" th:classappend="${themeInfo.openStatus}==false ? 'closed' : ''">
                                 <img th:src="${themeInfo.imageUrl==null} ? @{/img/theme/basic_theme.png} : ${themeInfo.imageUrl}">
                             </div>
-                            <!-- 테마 세부 정보 영역!! -->
                         </div>
-                        <!---------------------- 성공 도장 위치 : class="info-box" 에서 'success' 추가 ==> [class="col-6 info-box p-3 success"] --------->
                         <div class="col-6 info-box p-3">
                             <label>
                             <span id="shop-name" th:text="${themeInfo.shopName}">비트포비아 강남 던전</span>
@@ -71,11 +65,6 @@
                                     </th:block>
                                     <span id="rating-val" th:text="${rating.value}"
                                           th:styleappend="'top:' + (60 - (${rating.value}/(${themeInfo.totalRatingNum} + 1) * 60)) + 'px'"></span>
-<!--                                    <span th:text="${themeInfo.totalRatingNum}"></span>-->
-
-                                    <!-------------  rating : 60 - (후기 수 / 전체 후기 수 * 60) ------------->
-<!--                                    <span id="rating-val" th:text="${rating.value}"-->
-<!--                                          th:styleappend="'top:' + (60 - (${rating.value}/${themeInfo.totalRatingNum} * 60)) + 'px'"></span>-->
                                 </div>
                             </div>
                             <th:block th:if="${themeInfo.story!=''}">
@@ -96,8 +85,6 @@
                         </div>
                     </div>
 
-
-                    <!-- 부트스트랩 모달!!!! -->
 
                     <div class="right-box" sec:authorize="isAuthenticated()">
                         <button type="button" class="btn report-btn" data-toggle="modal" data-target="#exampleModal">
@@ -141,7 +128,6 @@
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">돌아가기</button> -->
                                 <button type="button" class="btn btn-primary" id="feedback-submit-btn">제출하기</button>
                             </div>
                         </div>
@@ -160,13 +146,15 @@
             </div>
             <div class="review-list container row" id="theme-review-list">
                 <div class="col-6" th:each="review:${themeReviewList}" th:classappend="${review.secret}==true ? 'secret' : ''">
-<!--                        <span th:text="${review.rating}">꽃길</span>-->
                         <a class="container" th:if="${review.secret}==false"
                              th:href="@{'/read/'+${review.no}}">
                             <div>
                                 <span th:text="${review.nickname}">닉네임</span>
                                 <span th:if="${review.regdate != null}" th:text="${#temporals.format(review.regdate,'yyyy.MM.dd HH:mm')}">등록날짜</span>
                                 <span th:text="${review.success}=='true' ? '탈출 성공': '탈출 실패'">탈출여부</span>
+                            </div>
+                            <div class="rate">
+                                <img th:src="'/img/rating/rating' + ${review.rating} + '.png'">
                             </div>
                             <h4 th:text="'[ '+ ${review.title} + ' ]'">후기 제목</h4>
                             <p th:text="${review.contents}">후기 내용이 이곳에 들어갑니다! 한 줄이나 두 줄 정도로 자르면 될까?</p>
