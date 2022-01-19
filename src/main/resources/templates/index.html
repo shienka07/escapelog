@@ -8,54 +8,87 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <section id="main">
+
+    <section style="background-color: #333;" id="main">
         <div class="container banner">
             <div class="circle"></div>
             <div class="content">
                 <div class="textBox">
                     <h2><span>탈출</span>의 순간을<br>
                         &ensp;<span>기록</span>하고 싶다면?</h2>
-                    <p>돋고, 어디 청춘을 있는 착목한는 바로 인도하겠다는 것이다. 이상, 피고, 무엇을 우리 눈이 원질이 돋고, 얼마나 우리의 봄바람이다. 구하기 아니더면, 위하여 청춘이 천지는
-                        이것이다. 피고, 같으며, 인간에 내는 그리하였는가?</p>
+                    <p>
+                        방탈출을 하고오셨나요? <br>
+                        탈출의 경험을 기록해보세요!<br>
+                        다녀온 사람들의 생생한 후기를 둘러볼수 있는 공간,<br>
+                        ESCAPE LOG 입니다.</p>
                     <a href="#info">더 알아보기</a>
                 </div>
                 <div class="imgBox">
-                    <img th:src="@{/img/main01.png}" class="escape">
+                     <img th:src="@{/img/index/main01.png}" class="escape">
                 </div>
+            </div>
+        </div>
+
+    </section>
+    <section style="background-color: #eee;" id="library">
+        <div class="container row">
+            <div class="col-6 img">
+                <img th:src="@{/img/index/library02.png}">
+            </div>
+            <div class="col-6 p-5 text slideanim">
+                <h2><span>방탈출 카페</span>의<br> 생생한 경험을 <span>기록</span>하세요</h2>
+                <p>다녀오신 방탈출은 어떠셨나요?<br>
+                    재밌고 긴박했던 순간을 더 오래 기억할 수 있도록<br> 탈출 경험을 기록으로 남겨주세요!<br>
+                    기록으로 남기신 경험들은 저희가 책장에 보관해드리겠습니다!</p>
+                <a href="#">책장 바로가기</a>
+            </div>
+        </div>
+    </section>
+    <section style="background-color: #fff;" id="theme">
+        <div class="container row">
+            <div class="col-6 p-5 text slideanim">
+                <h2>다양한 <span>방탈출 카페</span>의<br> <span>테마</span>들을 둘러보세요</h2>
+                <p>전국에 있는 방탈출 카페를 찾아보세요!<br>
+                    이스케이프로그는 각 테마의 소개와 <br>다른 사람들이 남긴 생생한 후기를 한번에 찾아볼 수 있습니다.</p>
+                <a href="#">테마 바로가기</a>
+            </div>
+            <div class="col-6 img">
+                <img th:src="@{/img/index/theme.png}">
+            </div>
+        </div>
+    </section>
+    <section style="background-color: #eee;" id="map">
+        <div class="container row">
+            <div class="col-6 img">
+                <img th:src="@{/img/index/map02.png}">
+
+            </div>
+            <div class="col-6 p-5 text slideanim">
+                <h2>단 하나뿐인<br> <span>나만의 탈출 지도</span>를 <br>만들어보세요</h2>
+                <p>탈출을 기록하셨나요?<br>
+
+                    다녀오신 기록을 토대로 하나뿐인 지도를 만들어드리겠습니다!<br>
+                    방탈출의 전국 제패를 노려보세요!<br>
+
+                    도장이 찍혀있는것을 보며 탈출의 순간을 추억하고<br>
+                    도장이 비어있는 지역은 채워보세요</p>
+                <a href="#">지도 바로가기</a>
             </div>
         </div>
     </section>
 
-    <section id="info">
-        <div class="container info">
-            <h1>SERVICES</h1>
-            <div class="row">
-                <a class="col-4" th:href="@{/themes}">
-                    <div class="icon">
-                        <i class="fas fa-door-open fa-5x"></i>
-                    </div>
-                    <h4>themes</h4>
-                    <p>전국에 있는 방탈출 테마를 한번에 모아보자</p>
-                </a>
-                <a class="col-4" th:href="@{/library}">
-                    <div class="icon">
-                        <i class="fas fa-book fa-5x"></i>
-                    </div>
-                    <h4>books</h4>
-                    <p>나만의 방탈출 기록 일지를 가지고 싶다면?
-                        내가 다녀온 곳과 성공한 곳, 그 날의 기억을 책에 담아 추억하기</p>
-                </a>
-                <a class="col-4" th:href="@{/map}">
-                    <div class="icon">
-                        <i class="fas fa-map-marked-alt fa-5x"></i>
-                    </div>
-                    <h4>map</h4>
-                    <p>내가 다녀온 곳은?
-                        전국 지도를 통해 한눈에 볼 수 있는 방탈출 기록의 장! 전국 방탈출 도장깨기!</p>
-                </a>
-            </div>
-        </div>
-    </section>
+    <script>
+        $(window).scroll(function() {
+            $(".slideanim").each(function(){
+                var pos = $(this).offset().top;
+
+                var winTop = $(window).scrollTop();
+                if (pos < winTop + 600) {
+                    $(this).addClass("slide");
+                }
+            });
+        });
+    </script>
 </th:block>
 </body>
 </html>
