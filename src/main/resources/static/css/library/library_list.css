@@ -26,6 +26,7 @@ section{
 .poster-box {
     width: 20%;
     height: 100%;
+    display: flex;
 }
 .bottom {
     display: flex;
@@ -162,4 +163,31 @@ section{
     font-size: 18px;
     display: flex;
     justify-content: flex-end;
+}
+.poster1 span {
+    font-size: 1.1em;
+}
+.poster2{
+    color: #fff;
+    font-size: 1.2em;
+    background: #7caae6;
+    padding: 15px;
+    display: flex;
+    min-height: 20vh;
+    width: 130px;
+    height: 180px;
+    word-break: break-word;
+    transform: translateY(40px);
+    margin: 10px;
+    box-shadow: 3px 3px 3px rgb(0 0 0 / 20%);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.poster2 span {
+    font-size: 1.3em;
+    float: right;
+    padding: 0 20px;
+    font-weight: 700;
+    font-family: 'Jua';
 }
