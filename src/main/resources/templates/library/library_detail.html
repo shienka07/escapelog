@@ -40,8 +40,10 @@
                             <p id="recode-num-null" th:if="${recode.playerNum == null}">-</p>
 
                             <label>탈출 시간</label>
-                            <p id="time-min" th:if="${recode.breakTime != null}"
+                            <p id="time-full" th:if="${recode.breakTime != null}"
                                th:text="${recode.breakTime.min} +' 분 ' + ${recode.breakTime.sec} +' 초'"></p>
+                            <p id="time-min" th:if="${recode.breakTime != null and recode.breakTime.sec == null}"
+                               th:text="${recode.breakTime.min} +' 분 ' + '00 초'"></p>
                             <p id="time-null" th:if="${recode.breakTime == null}"> - </p>
                         </div>
                     </div>
@@ -59,7 +61,7 @@
                     </div>
                     <div class="escape">
                         <label class="mr-3">탈출 여부 : </label>
-                        <p id="recode-success" th:if="${recode.success} == true">
+                        <p class="recode-success" th:if="${recode.success} == true">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="215.262" height="94.301" viewBox="0 0 215.262 94.301">
                                 <defs>
                                     <clipPath id="clip-path">
@@ -72,7 +74,7 @@
                             </svg>
 
                         </p>
-                        <p id="recode-success" th:if="${recode.success} == false">
+                        <p class="recode-success" th:if="${recode.success} == false">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="156.406" height="90.185" viewBox="0 0 156.406 90.185">
                                 <defs>
                                     <clipPath id="clip-path">
