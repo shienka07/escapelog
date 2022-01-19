@@ -305,6 +305,25 @@ public class MainController {
 
     }
 
+    @ResponseBody
+    @PostMapping("/check_libraryName")
+    public String checkLibraryName(String libraryName) {
+
+        JsonObject object = new JsonObject();
+
+        try {
+            memberService.checkLibraryName(libraryName);
+            object.addProperty("result", true);
+        } catch (IllegalArgumentException e) {
+            object.addProperty("result", false);
+        }
+
+        return object.toString();
+
+    }
+
+
+
 
     @GetMapping("/library/{libraryName}")
     public String memberLibrary(@PathVariable String libraryName, Model model, @CurrentMember Member member,

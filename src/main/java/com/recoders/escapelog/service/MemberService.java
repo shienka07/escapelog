@@ -174,4 +174,13 @@ public class MemberService implements UserDetailsService {
         memberRepository.save(member);
     }
 
+    @Transactional
+    public void checkLibraryName(String libraryName) {
+        Optional<Member> member = memberRepository.findByLibraryName(libraryName);
+        if(!member.isEmpty()){
+            throw new IllegalArgumentException("library already exists");
+        }
+    }
+
+
 }
