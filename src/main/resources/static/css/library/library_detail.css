@@ -136,7 +136,7 @@ section{
     object-fit: contain;
 }
 
-#recode-success svg {
+.recode-success svg {
     overflow: hidden;
     vertical-align: middle;
     height: 50px;

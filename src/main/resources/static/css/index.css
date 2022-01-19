@@ -30,6 +30,7 @@ section{
 .content .textBox{
     position:relative;
     max-width: 600px;
+    animation: slideLeft 0.5s ease-in-out forwards;
 }
 .content .textBox h2 {
     color: #fff;
@@ -68,6 +69,8 @@ section{
     justify-content: flex-end;
     padding-right: 50px;
     margin-top: 50px;
+    animation: slideRight 0.5s ease-in-out forwards;
+    animation-delay: 0.8s;
 }
 .content .imgBox img{
     max-width: 600px;
@@ -165,6 +168,28 @@ a.col-4 p {
 
 
 
+@keyframes slideRight {
+    0%{
+        transform: translateX(150px);
+        opacity: 0;
+    }
+    100%{
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+@keyframes slideLeft {
+    0%{
+        transform: translateX(-150px);
+        opacity: 0;
+    }
+    100%{
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+
 
 @media (max-width: 991px) {
     #main{
@@ -213,5 +238,112 @@ a.col-4 p {
     }
     a.col-4 p {
         padding: 10px;
+    }
+}
+
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+body        { font: 14px/2rem 'Noto Sans CJK KR', Noto Sans KR, sans-serif }
+.thin       { font-weight: 100 }
+.light      { font-weight: 300 }
+.regular    { font-weight: 400 }
+.medium     { font-weight: 500 }
+.bold       { font-weight: 700 }
+.bolder     { font-weight: 900 }
+
+*{
+    font-size: 14px;
+}
+header{
+    position:absolute;
+}
+.member-nav .nav-item {
+    padding: 5px;
+}
+#main{
+    padding-top: 150px;
+}
+.textBox h2{
+    animation: slideLeft 0.5s ease-in-out forwards;
+}
+section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.text{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.text h2{
+    font-family: 'jua';
+    font-size: 3em;
+}
+.text h2 span{
+    font-size: 1.1em;
+    color: #C95D4C;
+}
+.text a{
+    background-color: #C95D4C;
+    text-decoration: none;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 10px;
+}
+.img{
+    border: 3px solid #C95D4C;
+    border-radius: 20px;
+    max-width: 500px;
+    height: 500px;
+    padding: 0;
+    margin: 0;
+}
+.img img{
+    max-width: 510px;
+    margin: 0;
+    padding: 0;
+}
+
+.slideLeft{
+    animation: slideLeft 0.5s ease-in-out forwards;
+}
+
+@keyframes slideLeft {
+    0%{
+        transform: translateX(-150px);
+        opacity: 0;
+    }
+    100%{
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.slideanim {visibility:hidden;}.slide {
+                                   animation-name: slide;
+                                   -webkit-animation-name: slide;
+                                   animation-duration: 1s;
+                                   -webkit-animation-duration: 1s;
+                                   visibility: visible;
+                               }
+@keyframes slide {
+    0% {
+        opacity: 0;
+        transform: translateY(70%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}
+@-webkit-keyframes slide {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(70%);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: translateY(0%);
     }
 }
