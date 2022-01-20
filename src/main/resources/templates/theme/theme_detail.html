@@ -20,8 +20,8 @@
                 <div class="detail-box">
                     <div class="form-row">
 
-                        <div class="col-6 image-box">
-                            <div class="img-box" id="theme-img" th:classappend="${themeInfo.openStatus}==false ? 'closed' : ''">
+                        <div class="col-6 image-box" th:classappend="${themeInfo.openStatus}==false ? 'closed' : ''">
+                            <div class="img-box" id="theme-img">
                                 <img th:src="${themeInfo.imageUrl==null} ? @{/img/theme/basic_theme.png} : ${themeInfo.imageUrl}">
                             </div>
                         </div>
