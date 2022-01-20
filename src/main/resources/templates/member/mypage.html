@@ -193,7 +193,7 @@
 
                     if (!regNickname.test($("#nickname").val())) {
                         $("#nickname").removeClass("is-valid").addClass("is-invalid");
-                        $("#nickname-fail-feedback").text("닉네임은 영어 또는 한글이 1자 이상 포함되어야 합니다.(2-12자)")
+                        $("#nickname-fail-feedback").text("닉네임은 영어 또는 한글이 1자 이상 포함되어야 합니다.(2-12자)");
                         nicknameFormatCheck = false;
 
                     } else {
@@ -286,7 +286,7 @@
                                 alert("닉네임이 변경되었습니다.");
                                 location.reload();
                             } else {
-                                $("#nickname").removeClass("is-valid").addClass("is-valid");
+                                $("#nickname").removeClass("is-valid").addClass("is-invalid");
                                 $("#nickname-fail-feedback").text("사용 불가능한 닉네임입니다.");
                             }
                         },
