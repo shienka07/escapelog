@@ -190,9 +190,11 @@ div.modal-btn {
 
 .review-box .col-6 .container p{
     max-height: 43px;
+    line-height: 15px;
 }
 .review-box .col-6 .container h4{
     margin:5px;
+    z-index: 1;
 }
 
 
@@ -230,4 +232,7 @@ div.modal-btn {
     float: right;
     margin: 15px;
     border-radius: 100%;
+}
+.img-box{
+    display: flex;
 }

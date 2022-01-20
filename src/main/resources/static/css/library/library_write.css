@@ -244,3 +244,7 @@ input#image-file {
     float: right;
     display: inline-block;
 }
+.progress-box{
+    position: fixed;
+    top: 15vh;
+}
