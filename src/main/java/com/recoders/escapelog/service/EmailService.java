@@ -1,15 +1,24 @@
 package com.recoders.escapelog.service;
 
+import com.recoders.escapelog.domain.Feedback;
+import com.recoders.escapelog.domain.FeedbackType;
 import com.recoders.escapelog.domain.Member;
+import com.recoders.escapelog.domain.Theme;
+import com.recoders.escapelog.repository.FeedbackRepository;
 import com.recoders.escapelog.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -125,4 +134,120 @@ public class EmailService {
         }
     }
 
+}
+
+@EnableScheduling
+@Component
+@RequiredArgsConstructor
+class EmailScheduler {
+
+    private final JavaMailSender mailSender;
+    private final FeedbackRepository feedbackRepository;
+
+    @Value("${spring.mail.username}")
+    private String adminEmail;
+
+    @Transactional
+    @Scheduled(cron = "0 0 1 * * *")
+    public void sendFeedbackMail() {
+        LocalDate yesterdayDate = LocalDate.now().minusDays(1);
+        List<Feedback> feedbackList = feedbackRepository.findByRegdate(yesterdayDate);
+        int newThemeNo = 1, themeInfoNo = 1;
+        FeedbackType feedbackType;
+        String content = "";
+
+
+        String newThemeFeedbackContent = "<table style=\"border-collapse: separate;border-spacing: 1.5px;text-align: center;line-height: 1.5;margin: 5px 5px;\">\n" +
+                "    <caption style=\"border-color: #474249;border-width: 0 0 0 6px;border-style: solid;padding: 1px 0 0 12px;line-height: 1.7;text-align: left; margin: 1.5px;font-weight: bold;font-size:large;\">테마 추가 문의</caption>\n" +
+                "    <thead>\n" +
+                "    <tr>\n" +
+                "        <th scope=\"cols\" style=\"width: 45px;padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background: #474249;\">번호</th>\n" +
+                "        <th scope=\"cols\" style=\"width: 80px;padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background: #474249;\">작성자</th>\n" +
+                "        <th scope=\"cols\" style=\"width: 100px;padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background: #474249;\">작성날짜</th>\n" +
+                "        <th scope=\"cols\" style=\"width: 100px;padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background: #474249;\">문의타입</th>\n" +
+                "        <th scope=\"cols\" style=\"width: 100px;padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background: #474249;\">지역이름</th>\n" +
+                "        <th scope=\"cols\" style=\"width: 100px;padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background: #474249;\">테마이름</th>\n" +
+                "        <th scope=\"cols\" style=\"width: 80px;padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background: #474249;\">문의내용</th>\n" +
+                "    </tr>\n" +
+                "    </thead>";
+
+        String themeInfoFeedbackContent = "<table style=\"border-collapse: separate;border-spacing: 1.5px;text-align: center;line-height: 1.5;margin: 5px 5px;\">\n" +
+                "    <caption style=\"border-color: #474249;border-width: 0 0 0 6px;border-style: solid;padding: 1px 0 0 12px;line-height: 1.7;text-align: left; margin: 1.5px;font-weight: bold;font-size:large;\">잘못된 테마정보 문의</caption>\n" +
+                "    <thead>\n" +
+                "    <tr>\n" +
+                "        <th scope=\"cols\" style=\"width: 45px;padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background: #474249;\">번호</th>\n" +
+                "        <th scope=\"cols\" style=\"width: 80px;padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background: #474249;\">작성자</th>\n" +
+                "        <th scope=\"cols\" style=\"width: 100px;padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background: #474249;\">작성날짜</th>\n" +
+                "        <th scope=\"cols\" style=\"width: 100px;padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background: #474249;\">문의타입</th>\n" +
+                "        <th scope=\"cols\" style=\"width: 100px;padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background: #474249;\">테마번호</th>\n" +
+                "        <th scope=\"cols\" style=\"width: 100px;padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background: #474249;\">테마이름</th>\n" +
+                "        <th scope=\"cols\" style=\"width: 80px;padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background: #474249;\">문의내용</th>\n" +
+                "    </tr>\n" +
+                "    </thead>";
+
+
+        for (Feedback feedback : feedbackList) {
+
+            feedbackType = feedback.getFeedbackType();
+
+            if (feedbackType == FeedbackType.OPEN) {
+                newThemeFeedbackContent += getNewThemeFeedbackTd((newThemeNo++), feedback);
+            } else {
+                themeInfoFeedbackContent += getThemeInfoFeedbackTd((themeInfoNo++), feedback);
+            }
+
+        }
+        content = newThemeFeedbackContent + "</table><br/>" + themeInfoFeedbackContent + "</table>";
+
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+
+            message.setTo(adminEmail);
+            message.setSubject("Escape Log " + yesterdayDate + " 문의");
+            message.setText(content, true);
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getNewThemeFeedbackTd(int no, Feedback feedback) {
+        String writer = feedback.getMember().getEmail();
+        LocalDate date = feedback.getRegdate();
+        FeedbackType feedbackType = feedback.getFeedbackType();
+        String areaName = feedback.getAreaType().getKrName();
+        String newThemeName = feedback.getNewThemeName();
+        String content = feedback.getContents();
+        return "<tr>\n" +
+                "        <td style=\"width: 45px;padding: 10px;vertical-align: top;background: #f5efe5;\">" + no + "\n" +
+                "        </td><td style=\"width: 180px;padding: 10px;vertical-align: top;background: #f5efe5;\">" + writer + "\n" +
+                "        </td><td style=\"width: 100px;padding: 10px;vertical-align: top;background: #f5efe5;\">" + date + "\n" +
+                "        </td><td style=\"width: 80px;padding: 10px;vertical-align: top;background: #f5efe5;\">"+ feedbackType +"\n" +
+                "        </td><td style=\"width: 80px;padding: 10px;vertical-align: top;background: #f5efe5;\">" + areaName + "\n" +
+                "        </td><td style=\"width: 180px;padding: 10px;vertical-align: top;background: #f5efe5;\">" + newThemeName + "\n" +
+                "        </td><td style=\"width: 300px;padding: 10px;vertical-align: top;background: #f5efe5;\">" + content + "\n" +
+                "    </td></tr>";
+
+    }
+
+    public String getThemeInfoFeedbackTd(int no, Feedback feedback) {
+        String writer = feedback.getMember().getEmail();
+        LocalDate date = feedback.getRegdate();
+        FeedbackType feedbackType = feedback.getFeedbackType();
+        Theme theme = feedback.getTheme();
+        long themeNo = theme.getNo();
+        String themeName = theme.getThemeName();
+        String content = feedback.getContents();
+        return "<tr>\n" +
+                "        <td style=\"width: 45px;padding: 10px;vertical-align: top;background: #f5efe5;\">" + no + "\n" +
+                "        </td><td style=\"width: 180px;padding: 10px;vertical-align: top;background: #f5efe5;\">" + writer + "\n" +
+                "        </td><td style=\"width: 100px;padding: 10px;vertical-align: top;background: #f5efe5;\">" + date + "\n" +
+                "        </td><td style=\"width: 80px;padding: 10px;vertical-align: top;background: #f5efe5;\">" + feedbackType + "\n" +
+                "        </td><td style=\"width: 80px;padding: 10px;vertical-align: top;background: #f5efe5;\">" + themeNo + "\n" +
+                "        </td><td style=\"width: 180px;padding: 10px;vertical-align: top;background: #f5efe5;\">" + themeName + "\n" +
+                "        </td><td style=\"width: 300px;padding: 10px;vertical-align: top;background: #f5efe5;\">" + content + "\n" +
+                "    </td></tr>";
+
+    }
 }
