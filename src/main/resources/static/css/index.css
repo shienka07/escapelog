@@ -237,6 +237,16 @@ a.col-4 p {
     a.col-4 p {
         padding: 10px;
     }
+
+    .container.row {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .col-6.p-5.text {
+        max-width: 100%;
+    }
+
 }
 
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
