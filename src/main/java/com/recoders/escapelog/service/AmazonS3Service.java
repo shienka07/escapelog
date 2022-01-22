@@ -70,10 +70,10 @@ public class AmazonS3Service {
         return upload(file,filePath);
     }
 
-    public void delete(String currentFilePath){
-        boolean isExistObject = s3Client.doesObjectExist(bucket, currentFilePath);
+    public void delete(String filePath){
+        boolean isExistObject = s3Client.doesObjectExist(bucket, filePath);
         if (isExistObject){
-            s3Client.deleteObject(bucket, currentFilePath);
+            s3Client.deleteObject(bucket, filePath);
         }
     }
 

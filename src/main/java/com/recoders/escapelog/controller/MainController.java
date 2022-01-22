@@ -443,6 +443,7 @@ public class MainController {
     @PostMapping("/delete/{no}")
     public String delete(@PathVariable Long no, Model model, @CurrentMember Member member){
 
+        amazonS3Service.delete(libraryService.getRecode(no).getImagePath());
         libraryService.delete(no);
         model.addAttribute("deleteResult", true);
 
