@@ -444,8 +444,11 @@ public class MainController {
     //글 삭제하기
     @PostMapping("/delete/{no}")
     public String delete(@PathVariable Long no, Model model, @CurrentMember Member member){
+        String imagePath = libraryService.getRecode(no).getImagePath();
 
-        amazonS3Service.delete(libraryService.getRecode(no).getImagePath());
+        if (imagePath !=null){
+            amazonS3Service.delete(libraryService.getRecode(no).getImagePath());
+        }
         libraryService.delete(no);
         model.addAttribute("deleteResult", true);
 
