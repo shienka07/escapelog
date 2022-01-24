@@ -295,7 +295,7 @@ public class MainController {
     public String library(Model model, @CurrentMember Member member,
                           @PageableDefault(page=0, size=9, sort="no", direction = Sort.Direction.DESC)Pageable pageable,
                           String keyword){
-
+        model.addAttribute("currentMember", memberService.getMember(member));
         if(member.getLibraryName()==null){
             return "library/library_name";
         }
@@ -363,7 +363,7 @@ public class MainController {
     @GetMapping("/recode")
     public String recode(Model model, @CurrentMember Member member){
         model.addAttribute("recodeDto", new RecodeDto());
-        model.addAttribute("member", memberService.getMember(member));
+        model.addAttribute("currentMember", memberService.getMember(member));
         model.addAttribute("feedbackForm", new FeedbackDto());
         return "library/library_write";
     }
@@ -433,8 +433,11 @@ public class MainController {
             return "library/library_edit";
         }
 
+        memberService.updateCount(member);
+        memberService.updateGrade(member);
+        memberService.updateSuccess(member);
 
-        return "redirect:/library";
+        return "redirect:/read/{no}";
     }
 
 
@@ -461,6 +464,7 @@ public class MainController {
             List<ThemeInfoDto> themeList = themeService.getQThemeList(themeService.getAllThemeEntities(member));
             model.addAttribute("themeList", themeList);
             model.addAttribute("checkU",true);
+            model.addAttribute("currentMember", memberService.getMember(member));
         }else {
             List<ThemeInfoDto> themeList = themeService.getThemeList(themeService.getAllThemeEntities());
             model.addAttribute("themeList",themeList);

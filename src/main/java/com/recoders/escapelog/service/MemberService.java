@@ -161,7 +161,7 @@ public class MemberService implements UserDetailsService {
             member.setGradeType(GradeType.LEVEL2);
         } else if(member.getCountRecode() <= 30){
             member.setGradeType(GradeType.LEVEL3);
-        } else if(member.getCountRecode() <= 40){
+        } else {
             member.setGradeType(GradeType.LEVEL4);
         }
         memberRepository.save(member);
