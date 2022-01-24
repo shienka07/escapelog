@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -268,7 +267,7 @@ public class MainController {
         if (duplicateResult){
             memberService.changeUserNickname(member, nickname);
         }
-        object.addProperty("duplicateResult", duplicateResult);
+        object.addProperty("changeResult", duplicateResult);
         return object.toString();
     }
 
@@ -443,6 +442,7 @@ public class MainController {
     @PostMapping("/delete/{no}")
     public String delete(@PathVariable Long no, Model model, @CurrentMember Member member){
 
+        amazonS3Service.delete(libraryService.getRecode(no).getImagePath());
         libraryService.delete(no);
         model.addAttribute("deleteResult", true);
 
@@ -518,20 +518,21 @@ public class MainController {
 
     @ResponseBody
     @PostMapping("/feedback/add")
-    public String feedBackNewTheme(@CurrentMember Member member, FeedbackDto feedbackForm){
+    public void feedBackNewTheme(@CurrentMember Member member, FeedbackDto feedbackForm){
         feedbackService.saveNewThemeFeedback(member,feedbackForm);
-        return "theme/theme_list";
     }
 
     @ResponseBody
     @PostMapping("/feedback/info")
     public String feedBackThemeInfo(@CurrentMember Member member, FeedbackDto feedbackForm){
+        JsonObject object = new JsonObject();
         try{
             feedbackService.saveThemeInfoFeedback(member,feedbackForm);
+            object.addProperty("result",true);
         }catch (IllegalArgumentException e){
-            return "redirect:/themes";
+            object.addProperty("result",false);
         }
-        return "theme/theme_detail";
+        return object.toString();
     }
 
     @GetMapping("/map")

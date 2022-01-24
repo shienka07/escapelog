@@ -80,7 +80,7 @@
                                 </div>
                             </div>
                             </p>
-                            <button type="button" id="nickname-change-btn" class="btn btn-primary">완료</button>
+                            <button type="button" id="nickname-change-btn" class="btn btn-dark">완료</button>
                         </form>
                     </div>
                 </div>
@@ -141,7 +141,7 @@
                                 </div>
                             </div>
                             </p>
-                            <button type="button" id="pw-change-btn" class="btn btn-primary">완료</button>
+                            <button type="button" id="pw-change-btn" class="btn btn-dark">완료</button>
                         </form>
                     </div>
                 </div>
@@ -165,7 +165,7 @@
                             <p>계정으로 메일을 보내시겠습니까?</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="email-send-btn">보내기</button>
+                            <button type="button" class="btn btn-dark" id="email-send-btn">보내기</button>
                         </div>
                     </div>
                 </div>
@@ -193,7 +193,7 @@
 
                     if (!regNickname.test($("#nickname").val())) {
                         $("#nickname").removeClass("is-valid").addClass("is-invalid");
-                        $("#nickname-fail-feedback").text("닉네임은 영어 또는 한글이 1자 이상 포함되어야 합니다.(2-12자)")
+                        $("#nickname-fail-feedback").text("닉네임은 영어 또는 한글이 1자 이상 포함되어야 합니다.(2-12자)");
                         nicknameFormatCheck = false;
 
                     } else {
@@ -282,11 +282,11 @@
                             xhr.setRequestHeader(header, token);
                         },
                         success: function (data) {
-                            if (data.duplicateResult) {
+                            if (data.changeResult) {
                                 alert("닉네임이 변경되었습니다.");
                                 location.reload();
                             } else {
-                                $("#nickname").removeClass("is-valid").addClass("is-valid");
+                                $("#nickname").removeClass("is-valid").addClass("is-invalid");
                                 $("#nickname-fail-feedback").text("사용 불가능한 닉네임입니다.");
                             }
                         },

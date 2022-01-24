@@ -69,8 +69,6 @@ section{
     justify-content: flex-end;
     padding-right: 50px;
     margin-top: 50px;
-    animation: slideRight 0.5s ease-in-out forwards;
-    animation-delay: 0.8s;
 }
 .content .imgBox img{
     max-width: 600px;
@@ -239,6 +237,16 @@ a.col-4 p {
     a.col-4 p {
         padding: 10px;
     }
+
+    .container.row {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .col-6.p-5.text {
+        max-width: 100%;
+    }
+
 }
 
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);

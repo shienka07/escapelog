@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -28,6 +29,7 @@ public class FeedbackService {
                 .areaType(feedbackForm.getAreaType())
                 .newThemeName(feedbackForm.getNewThemeName())
                 .contents(feedbackForm.getContents())
+                .regdate(LocalDate.now())
                 .build();
         feedbackRepository.save(feedback);
     }
@@ -45,6 +47,7 @@ public class FeedbackService {
                 .feedbackType(feedbackForm.getFeedbackType())
                 .theme(optionalTheme.get())
                 .contents(feedbackForm.getContents())
+                .regdate(LocalDate.now())
                 .build();
         feedbackRepository.save(feedback);
     }
