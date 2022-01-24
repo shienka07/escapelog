@@ -282,7 +282,7 @@
                             xhr.setRequestHeader(header, token);
                         },
                         success: function (data) {
-                            if (data.duplicateResult) {
+                            if (data.changeResult) {
                                 alert("닉네임이 변경되었습니다.");
                                 location.reload();
                             } else {

@@ -208,14 +208,20 @@
                         url: '/feedback/info',
                         type: 'POST',
                         data: $('#feedback-form').serialize(),
+                        dataType: 'json',
                         beforeSend: function (xhr) {
                             xhr.setRequestHeader(header, token);
                         },
                         success: function (data) {
-                            $('#exampleModal').modal("hide");
-                            alert("의견을 주셔서 감사합니다.");
-                            $("#sel1 option:eq(0)").prop("selected", true);
-                            document.getElementById("ask").value = null;
+                            if (data.result){
+                                $('#exampleModal').modal("hide");
+                                alert("의견을 주셔서 감사합니다.");
+                                $("#sel1 option:eq(0)").prop("selected", true);
+                                document.getElementById("ask").value = null;
+                            }else{
+                                alert("문의 보내기 실패\n관리자 메일로 문의를 남겨주세요.");
+                            }
+
                         },
                         error: function (request, status, error) {
                             console.log("code = " + request.status + " error = " + error);

@@ -100,7 +100,7 @@ public class ThemeService {
         String detailArea = "";
         List<QThemeDto> entities;
         Boolean closeExclude = searchForm.get("closeExclude").equals("true");
-        Boolean stampExclude = searchForm.get("stampExclude").equals("true");
+        Boolean stampExclude = searchForm.get("successExclude").equals("true");
 
         if (AreaType.nameOf(areaName) != null){
             areaType = AreaType.nameOf(areaName);
