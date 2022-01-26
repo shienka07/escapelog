@@ -78,7 +78,7 @@
     background-size: 30px;
     background-repeat: no-repeat;
 
-    text-indent: 60px;
+    text-indent: 40px;
 }
 input::placeholder{
     font-size: 10pt;
