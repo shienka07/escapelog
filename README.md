@@ -14,7 +14,12 @@
 <br><br>
 
 # 📎YouTube
+소개영상
+https://youtu.be/asa-Al4cgaQ
 
+<br>
+시연영상
+https://youtu.be/Omn98t85TYE
 <br><br>
 
 
