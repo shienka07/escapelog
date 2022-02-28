@@ -14,17 +14,13 @@
 <br><br>
 
 # 📎YouTube
-소개영상
-https://youtu.be/asa-Al4cgaQ
+클릭시 해당 링크로 이동합니다
 
-<br>
-시연영상
-https://youtu.be/Omn98t85TYE
+|  [소개영상](https://youtu.be/asa-Al4cgaQ)  |  [시연영상](https://youtu.be/Omn98t85TYE)  |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
+| [![소개영상1](https://user-images.githubusercontent.com/81146632/155956684-fe81de28-dcb9-4389-a61b-811cd85460c0.jpg)](https://youtu.be/asa-Al4cgaQ) | [![시연영상1](https://user-images.githubusercontent.com/81146632/155956983-84610440-c07c-496c-bc9f-cd105c155b9f.jpg)](https://youtu.be/Omn98t85TYE) |
+
 <br><br>
-
-
-
-
 
 # 🗒 Wiki
 
